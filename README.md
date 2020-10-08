@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/allnes/pp_2020_autumn_informatics.svg?branch=main)](https://travis-ci.com/allnes/pp_2020_autumn_informatics)
+[![Build Status](https://travis-ci.com/allnes/pp_2020_autumn_informatics.svg?branch=master)](https://travis-ci.com/allnes/pp_2020_autumn_informatics)
 ![Build application](https://github.com/allnes/pp_2020_autumn_informatics/workflows/Build%20application/badge.svg?branch=master)
 
 ## Upd. Репозиторий до 18 октября находится в тестовом режиме - могут быть внесены новые изменения и проверки!!!
