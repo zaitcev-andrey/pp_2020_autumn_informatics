@@ -6,18 +6,18 @@
 TEST(Parallel_MPI, Test_Sentences) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::vector<char> global_vec;
-    const int count_size_vector = 100;
+    std::vector<char> global_sentence;
+    const int count_size_sentence = 100;
 	
     if (rank == 0) {
-        global_vec = getRandomLine(count_size_vector);
+        global_sentence = getRandomLine(count_size_sentence);
     }
 
-    int global_sum = getParallelOperations(global_vec, count_size_vector);
+    int global_sum_sentences = getParallelOperations(global_sentence, count_size_sentence);
 
     if (rank == 0) {
-        int reference_sum = getSequentialOperations(global_vec);
-        ASSERT_EQ(reference_sum, global_sum);
+        int reference_sum_sentences = getSequentialOperations(global_sentence);
+        ASSERT_EQ(reference_sum_sentences, global_sum_sentences);
     }
 }
 

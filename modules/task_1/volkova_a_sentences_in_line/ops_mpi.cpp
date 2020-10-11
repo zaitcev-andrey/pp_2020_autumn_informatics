@@ -6,48 +6,47 @@
 #include <algorithm>
 #include "../../../modules/test_tasks/test_mpi/ops_mpi.h"
 
-
 std::vector<char> getRandomLine(int size) {
-    std::vector<char> vec(size);
+    std::vector<char> sentence(size);
     for (int  i = 0; i < size; i++) {
-		int a = rand()%255;
-        vec[i] = (char)a; 
+		int symbol = rand()%255;
+        sentence[i] = (char)symbol;
 		}
-    return vec;
+    return sentence;
 }
 
-int getSequentialOperations(std::vector<char> vec) {
-    const int  size = vec.size();
+int getSequentialOperations(std::vector<char> sentence) {
+    const int  size = sentence.size();
     int ans = 0;
     for (int i = 0; i < size; i++) {
-        if (vec[i] == '!' || vec[i] == '?' || vec[i] == '.') ans++;
+        if (sentence[i] == '!' || sentence[i] == '?' || sentence[i] == '.') ans++;
     }
     return ans;
 }
 
-int getParallelOperations(std::vector<char> global_vec, int count_size_vector) {
+int getParallelOperations(std::vector<char> global_sentence, int count_size_sentence) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int delta = count_size_vector / size;
+    const int delta = count_size_sentence / size;
 
     if (rank == 0) {
         for (int process = 1; process < size; process++) {
-            MPI_Send(&global_vec[0] + process * delta, delta, MPI_CHAR, process, 0, MPI_COMM_WORLD);
+            MPI_Send(&global_sentence[0] + process * delta, delta, MPI_CHAR, process, 0, MPI_COMM_WORLD);
         }
     }
 
-    std::vector<char> local_vec(delta);
+    std::vector<char> local_sentence(delta);
     if (rank == 0) {
-        local_vec = std::vector<char>(global_vec.begin(), global_vec.begin() + delta);
+        local_sentence = std::vector<char>(global_sentence.begin(), global_sentence.begin() + delta);
     } 
 	else {
         MPI_Status status;
-        MPI_Recv(&local_vec[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(&local_sentence[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
 
-    int global_sum = 0;
-    int local_sum = getSequentialOperations(local_vec);
-    MPI_Reduce(&local_sum, &global_sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    return global_sum;
+    int global_sum_sentences = 0;
+    int local_sum_sentences = getSequentialOperations(local_sentence);
+    MPI_Reduce(&local_sum_sentences, &global_sum_sentences, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    return global_sum_sentences;
 }
