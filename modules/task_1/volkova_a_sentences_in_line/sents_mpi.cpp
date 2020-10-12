@@ -1,3 +1,4 @@
+// Copyright 2020 Volkova Anastasia
 #include <mpi.h>
 #include <random>
 #include <ctime>
@@ -6,10 +7,13 @@
 
 std::vector<char> getRandomLine(int size) {
     std::vector<char> sentence(size);
-    for (int  i = 0; i < size; i++) {
-		int symbol = rand()%255;
-        sentence[i] = (char)symbol;
-	}
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+    int symbol;
+    for (int i = 0; i < size; i++) {
+        symbol = gen() % 255;
+        sentence[i] = static_cast<char>(symbol);
+    }
     return sentence;
 }
 
@@ -36,8 +40,7 @@ int getParallelOperations(std::vector<char> global_sentence, int count_size_sent
     std::vector<char> local_sentence(delta);
     if (rank == 0) {
         local_sentence = std::vector<char>(global_sentence.begin(), global_sentence.begin() + delta);
-    } 
-	else {
+    } else {
         MPI_Status status;
         MPI_Recv(&local_sentence[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
