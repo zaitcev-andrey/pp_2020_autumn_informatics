@@ -37,5 +37,3 @@ long long getParallelSum(const std::vector<int> &a, int n){
 long long getSequentialSum(const std::vector<int> &vec){
 	return std::accumulate(vec.begin(), vec.end(), 0ll);
 }
-
-
