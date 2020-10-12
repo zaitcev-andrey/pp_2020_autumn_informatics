@@ -22,12 +22,12 @@ TEST(Parallel_MPI, Test_Sum_100_100) {
     }
 }
 
-TEST(Parallel_MPI, Test_Sum_5000_5000) {
+TEST(Parallel_MPI, Test_Sum_128_512) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> globalMas;
-    const int N = 5000;
-    const int M = 5000;
+    const int N = 128;
+    const int M = 512;
     const int globalSize = N * M;
     if (rank == 0) {
         globalMas = randomVector(globalSize);
