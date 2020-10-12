@@ -32,6 +32,7 @@ int getParallelOperations(std::vector<char> global_sentence, int count_size_sent
             MPI_Send(&global_sentence[0] + process * delta, delta, MPI_CHAR, process, 0, MPI_COMM_WORLD);
         }
     }
+
     std::vector<char> local_sentence(delta);
     if (rank == 0) {
         local_sentence = std::vector<char>(global_sentence.begin(), global_sentence.begin() + delta);
