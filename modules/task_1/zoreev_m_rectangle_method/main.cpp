@@ -1,70 +1,61 @@
-#include <cmath>
-
+//Copyright 2020 Zoreev Mikhail
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <mpi.h>
+#include <cmath>
+#include <limits>
 
-#include "rectangle_method.h"
+#include "./rectangle_method.h"
 
-TEST(Parallel_Operations_MPI, SIN_FROM_0_TO_1)
-{
+TEST(Parallel_Operations_MPI, INTEGRAL_FROM_0_TO_1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    double parallel_result = integralParallel(&sin, 0, 1, 10000);
-    if (rank == 0)
-    {
+    double parallel_result = integralParallel(0, 1, 10000);
+    if (rank == 0) {
         double sequential_result = integralSeqential(&sin, 0, 1, 10000);
         ASSERT_LT(std::fabs(parallel_result - sequential_result), std::numeric_limits<double>::epsilon() * 100);
     }
 }
 
-TEST(Parallel_Operations_MPI, SIN_FROM_5_TO_0)
-{
+TEST(Parallel_Operations_MPI, INTEGRAL_FROM_5_TO_0) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    double parallel_result = integralParallel(&sin, 5, 0, 10000);
-    if (rank == 0)
-    {
+    double parallel_result = integralParallel(5, 0, 10000);
+    if (rank == 0) {
         double sequential_result = integralSeqential(&sin, 5, 0, 10000);
         ASSERT_LT(std::fabs(parallel_result - sequential_result), std::numeric_limits<double>::epsilon() * 100);
     }
 }
 
-TEST(Parallel_Operations_MPI, COS_FROM_0_TO_100)
-{
+TEST(Parallel_Operations_MPI, INTEGRAL_FROM_0_TO_100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    double parallel_result = integralParallel(&cos, 0, 100, 10000);
-    if (rank == 0)
-    {
+    double parallel_result = integralParallel(0, 100, 10000);
+    if (rank == 0) {
         double sequential_result = integralSeqential(&cos, 0, 100, 10000);
         ASSERT_LT(std::fabs(parallel_result - sequential_result), std::numeric_limits<double>::epsilon() * 100);
     }
 }
 
-TEST(Parallel_Operations_MPI, LN_WITH_LOW_RANGE)
-{
+TEST(Parallel_Operations_MPI, INTEGRAL_WITH_LOW_RANGE) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    double parallel_result = integralParallel(&log, 1, 1.1, 10000);
-    if (rank == 0)
-    {
-        double sequential_result = integralSeqential(&log, 1, 1.1, 10000);
+    double parallel_result = integralParallel(1, 1.1, 10000);
+    if (rank == 0) {
+        double sequential_result = integralSeqential(1, 1.1, 10000);
         ASSERT_LT(std::fabs(parallel_result - sequential_result), std::numeric_limits<double>::epsilon() * 100);
     }
 }
 
-TEST(Parallel_Operations_MPI, EXCETION_ON_ZERO_COUNT)
-{
-    EXPECT_THROW(integralParallel(&sin, 5, 0, 0), std::runtime_error);
+TEST(Parallel_Operations_MPI, EXCETION_ON_ZERO_COUNT) {
+    EXPECT_THROW(integralParallel(5, 0, 0), std::runtime_error);
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
