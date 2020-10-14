@@ -1,5 +1,5 @@
 // Copyright 2020 Zoreev Mikhail
-#include "../../../modules/test_tasks/test_mpi/ops_mpi.h"
+#include "../../../modules/task_1/zoreev_m_rectangle_method/rectangle_method.h"
 
 double integralSeqential(double a, double b, size_t count) {
     if (count == 0) {
