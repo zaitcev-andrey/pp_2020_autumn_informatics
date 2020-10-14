@@ -10,7 +10,7 @@
 TEST(Parallel_Operations_MPI, INTEGRAL_FROM_0_TO_1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    
+
     double parallel_result = integralParallel(static_cast<double(*)(double)>(&cos), 0, 1, 10000);
     if (rank == 0) {
         double sequential_result = integralSeqential(static_cast<double(*)(double)>(&cos), 0, 1, 10000);
