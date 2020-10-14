@@ -40,6 +40,17 @@ TEST(Parallel_Operations_MPI, INTEGRAL_FROM_0_TO_100) {
     }
 }
 
+TEST(Parallel_Operations_MPI, INTEGRAL_FROM_0_TO_709) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    double parallel_result = integralParallel(0, 709, 10000);
+    if (rank == 0) {
+        double sequential_result = integralSeqential(0, 709, 10000);
+        ASSERT_LT(std::fabs(parallel_result - sequential_result), std::numeric_limits<double>::epsilon() * 100);
+    }
+}
+
 TEST(Parallel_Operations_MPI, INTEGRAL_WITH_LOW_RANGE) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);

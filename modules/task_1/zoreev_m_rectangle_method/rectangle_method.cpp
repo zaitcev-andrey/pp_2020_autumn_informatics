@@ -1,5 +1,5 @@
 // Copyright 2020 Zoreev Mikhail
-#include "./rectangle_method.h"
+#include "../../../modules/test_tasks/test_mpi/ops_mpi.h"
 
 double integralSeqential(double a, double b, size_t count) {
     if (count == 0) {
