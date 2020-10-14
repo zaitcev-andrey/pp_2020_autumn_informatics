@@ -1,4 +1,4 @@
-// Copyright 2018 Vlasov Maksim
+// Copyright 2020 Vlasov Maksim
 #include <mpi.h>
 #include <vector>
 #include <random>

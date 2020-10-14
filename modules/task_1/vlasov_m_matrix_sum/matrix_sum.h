@@ -1,4 +1,4 @@
-// Copyright 2018 Vlasov Maksim
+// Copyright 2020 Vlasov Maksim
 #ifndef MODULES_TASK_1_VLASOV_M_MATRIX_SUM_MATRIX_SUM_H_
 #define MODULES_TASK_1_VLASOV_M_MATRIX_SUM_MATRIX_SUM_H_
 
