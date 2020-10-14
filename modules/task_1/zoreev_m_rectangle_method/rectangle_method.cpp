@@ -8,7 +8,7 @@ double integralSeqential(double a, double b, size_t count)
     }
     double result = 0, delta = (b - a) / count;
     for (size_t i = 0; i < count; i++) {
-        result += log(a + delta * i);
+        result += cos(a + delta * i);
     }
     result *= delta;
     return result;
