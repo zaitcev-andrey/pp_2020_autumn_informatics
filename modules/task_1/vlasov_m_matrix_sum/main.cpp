@@ -1,3 +1,4 @@
+// Copyright 2018 Vlasov Maksim
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>

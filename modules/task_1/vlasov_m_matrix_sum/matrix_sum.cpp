@@ -1,15 +1,16 @@
+// Copyright 2018 Vlasov Maksim
 #include <mpi.h>
 #include <vector>
 #include <random>
 #include <numeric>
-#include "./matrix_sum.h"
+#include "../../../modules/task_1/vlasov_m_matrix_sum/matrix_sum.h"
 
 std::vector<int> createRandomVector(int elements_count) {
     std::random_device rd;
     std::mt19937 generator(rd());
     std::vector<int> result(elements_count);
     for (int& elem : result)
-        elem = int(generator() % 100u);
+        elem = static_cast<int>(generator() % 100u);
     return result;
 }
 
