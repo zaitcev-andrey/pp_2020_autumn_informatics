@@ -1,4 +1,4 @@
-//Copyright 2020 Zoreev Mikhail
+// Copyright 2020 Zoreev Mikhail
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <mpi.h>
