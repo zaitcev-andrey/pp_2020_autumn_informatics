@@ -1,7 +1,11 @@
 #include "rectangle_method.h"
 
-double Integralseqential(double (*funсtion)(double),double a, double b, size_t count)
+double integralSeqential(double (*funсtion)(double),double a, double b, size_t count)
 {
+    if (count == 0)
+    {
+        throw std::runtime_error("Zero rectangles count");
+    }
     double result = 0, delta = (b - a) / count;
     for (size_t i = 0; i < count; i++)
     {
@@ -11,7 +15,7 @@ double Integralseqential(double (*funсtion)(double),double a, double b, size_t 
     return result;
 }
 
-double Integralparallel(double (*funсtion)(double), double a, double b, size_t count)
+double integralParallel(double (*funсtion)(double), double a, double b, size_t count)
 {
     int rank, process_count;
     double delta = (b - a) / count;
@@ -21,11 +25,11 @@ double Integralparallel(double (*funсtion)(double), double a, double b, size_t 
     double result = 0, local_result = 0;
     if (rank != process_count - 1)
     {
-        local_result = Integralseqential(funсtion, a + rank * (part * delta), a + (rank + 1) * (part * delta), part);
+        local_result = integralSeqential(funсtion, a + rank * (part * delta), a + (rank + 1) * (part * delta), part);
     }
     else
     {
-        local_result = Integralseqential(funсtion, a + rank * (part * delta), b, count - part * (process_count - 1));
+        local_result = integralSeqential(funсtion, a + rank * (part * delta), b, count - part * (process_count - 1));
     }
     MPI_Reduce(&local_result, &result, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     return result;
