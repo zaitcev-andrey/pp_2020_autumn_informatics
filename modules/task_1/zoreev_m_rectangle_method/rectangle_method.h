@@ -4,6 +4,7 @@
 
 #include <mpi.h>
 
+#include <cmath>
 #include <stdexcept>
 
 double integralSeqential(double a, double b, size_t count);
