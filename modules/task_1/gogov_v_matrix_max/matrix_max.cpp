@@ -33,10 +33,10 @@ int findMaxParallel(const Matrix& matrix, int rows, int cols) {
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     const int n = elementsCount / procNum;
-    const int delta = elementsCount - n * procNum;
+    int delta = elementsCount - n * procNum;
     if (procRank == 0) {
         for (int i = 1; i < procNum; i++)
-            MPI_Send(&matrix[delta + i * n], n, MPI_INT, i, 0, MPI_COMM_WORLD);
+            MPI_Send(&matrix[0] + delta + i * n, n, MPI_INT, i, 0, MPI_COMM_WORLD);
     }
     Matrix localMatrix(n + (procRank == 0 ? delta : 0));
     if (procRank == 0) {
