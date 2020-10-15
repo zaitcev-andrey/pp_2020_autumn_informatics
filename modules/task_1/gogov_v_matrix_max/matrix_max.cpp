@@ -36,14 +36,14 @@ int findMaxParallel(const Matrix& matrix, int rows, int cols) {
     int delta = elementsCount - n * procNum;
     if (procRank == 0) {
         for (int i = 1; i < procNum; i++)
-            MPI_Send(matrix.data() + delta + i * n, n, MPI_INT, i, 0, MPI_COMM_WORLD);
+            MPI_Send(&matrix[0] + delta + i * n, n, MPI_INT, i, 0, MPI_COMM_WORLD);
     }
     Matrix localMatrix(n + (procRank == 0 ? delta : 0));
     if (procRank == 0) {
         localMatrix = Matrix(matrix.begin(), matrix.begin() + n + delta);
     } else {
         MPI_Status status;
-        MPI_Recv(localMatrix.data(), n, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(&localMatrix[0], n, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
     int globalMax;
     int localMax = findMaxSequential(localMatrix);
