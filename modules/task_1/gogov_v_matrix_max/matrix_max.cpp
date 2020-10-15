@@ -1,4 +1,4 @@
-//Copyright 2020 Gogov Vladislav
+// Copyright 2020 Gogov Vladislav
 #include <vector>
 #include <random>
 #include <algorithm>

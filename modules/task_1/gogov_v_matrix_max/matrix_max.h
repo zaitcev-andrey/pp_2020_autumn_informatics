@@ -1,4 +1,4 @@
-//Copyright 2020 Gogov Vladislav
+// Copyright 2020 Gogov Vladislav
 #ifndef MODULES_TASK_1_GOGOV_V_MATRIX_MAX_MATRIX_MAX_H_
 #define MODULES_TASK_1_GOGOV_V_MATRIX_MAX_MATRIX_MAX_H_
 #include <vector>
