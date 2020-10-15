@@ -1,11 +1,11 @@
-// Copyright 2020 Shagov Maksim  
+  // Copyright 2020 Shagov Maksim 
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <string>
 #include "./symbol_count.h"
 
-TEST(Parallel_Symbol_Count_MPI, Test_Empty_String) { 
+TEST(Parallel_Symbol_Count_MPI, Test_Empty_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 0;
@@ -49,7 +49,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_Same_Symbols_String) {
     }
 }
 
-TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) { 
+TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 100;

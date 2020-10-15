@@ -1,15 +1,18 @@
-// Copyright 2020 Shagov Maksim  
+  // Copyright 2020 Shagov Maksim 
 #include <mpi.h>
 #include <random>
 #include <ctime>
 #include <iostream>
-#include "../../../modules/task1/shagov_m_symbol_count/symbol_count.h"
+#include <string>
+#include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
 
 std::string createRandomString(int sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::string string(sz, NULL);
-    for (int i = 0; i < sz; i++) { string[i] = gen() % 100; }
+    for (int i = 0; i < sz; i++) {
+        string[i] = gen() % 100;
+        }
     return string;
 }
 
