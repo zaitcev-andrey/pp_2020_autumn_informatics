@@ -15,20 +15,6 @@ TEST(Parallel_Matrix_Max_MPI, Size_0x0) {
     ASSERT_ANY_THROW(findMaxParallel(matrix, rows, cols));
 }
 
-TEST(Parallel_Matrix_Max_MPI, Size_1x1) {
-    int procRank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 1, cols = 1;
-    Matrix matrix;
-    if (procRank == 0)
-         matrix = createRandomMatrix(rows, cols);
-    int max = findMaxParallel(matrix, rows, cols);
-    if (procRank == 0) {
-        int controlMax = findMaxSequential(matrix);
-        ASSERT_EQ(controlMax, max);
-    }
-}
-
 TEST(Parallel_Matrix_Max_MPI, Size_300x300) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
