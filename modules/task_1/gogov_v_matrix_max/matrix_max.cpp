@@ -3,7 +3,7 @@
 #include <random>
 #include <algorithm>
 #include <mpi.h>
-#include "matrix_max.h"
+#include "../../../modules/task_1/gogov_v_matrix_max/matrix_max.h"
 
 Matrix createRandomMatrix(int rows, int cols) {
     std::random_device rd;
