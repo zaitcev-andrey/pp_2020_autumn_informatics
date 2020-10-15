@@ -19,7 +19,7 @@ Matrix createRandomMatrix(int rows, int cols) {
 
 int findMaxSequential(const Matrix& matrix) {
     if (matrix.size() == 0) {
-       throw std::exception("Invalid matrix size.");
+       throw "Invalid matrix size.";
     }
     return *std::max_element(matrix.begin(), matrix.end());
 }
@@ -28,7 +28,7 @@ int findMaxParallel(const Matrix& matrix, int rows, int cols) {
     int procNum, procRank;
     int elementsCount = rows * cols;
     if (elementsCount == 0) {
-       throw std::exception("Invalid matrix size.");
+       throw "Invalid matrix size.";
     }
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
