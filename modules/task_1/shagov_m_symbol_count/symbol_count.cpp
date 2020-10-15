@@ -1,4 +1,4 @@
-  // Copyright 2020 Shagov Maksim 
+  // Copyright 2020 Shagov Maksim
 #include <mpi.h>
 #include <random>
 #include <ctime>
@@ -23,8 +23,8 @@ int calculateSymbolsCountSequental(const std::string& string, char symbol) {
     for (int i = 0; i < string.size(); i++)
         if (string[i] == symbol)
             count++;
-    return count;
-}
+        return count;
+        }
 
 int getParallelSymbolsCount(const std::string& global_string,
                             int count_size_vector, char symbol) {
