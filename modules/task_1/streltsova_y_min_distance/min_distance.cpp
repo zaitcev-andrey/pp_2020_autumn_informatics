@@ -11,16 +11,16 @@ std::vector<int> getRandomVector(int size) {
     std::mt19937 gen(time(0));
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vec(size);
-    for (size_t i = 0; i < size; i++) { vec[i] = gen() % 100; }
+    for (int i = 0; i < size; i++) { vec[i] = gen() % 100; }
     return vec;
 }
 
-int getSequentialOperations(std::vector<int> vec) {
+int getSequentialOperations(std::vector<int> vec, int size_vector) {
     double t1, t2;
     t1 = MPI_Wtime();
     int min = abs(vec[1] - vec[0]);
     int idx = 0;
-    for (int i = 1; i < (vec.size() - 1); i++)
+    for (int i = 1; i < size_vector - 1; i++)
         if (abs(vec[i + 1] - vec[i]) < min) {
             min = abs(vec[i + 1] - vec[i]);
             idx = i;

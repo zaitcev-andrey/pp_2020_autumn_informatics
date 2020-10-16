@@ -17,7 +17,7 @@ TEST(Parallel_Operations_MPI, Test_VecInt4) {
     int global_min = getParallelOperations(global_vec, size_vector);
 
     if (rank == 0) {
-        int min_idx = getSequentialOperations(global_vec);
+        int min_idx = getSequentialOperations(global_vec, size_vector);
         ASSERT_EQ(min_idx, global_min);
     }
 }
