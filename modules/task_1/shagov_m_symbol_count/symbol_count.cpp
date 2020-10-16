@@ -30,7 +30,7 @@ int calculateSymbolsCountSequental(const std::string& string, char symbol) {
 int getParallelSymbolsCount(const std::string& global_string,
                             int count_size_vector, char symbol) {
     if (global_string.size() == 0)
-        throw std::exception("Invalid size");
+        throw "Invalid size";
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
