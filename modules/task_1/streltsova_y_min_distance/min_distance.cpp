@@ -20,7 +20,7 @@ int getSequentialOperations(std::vector<int> vec) {
     t1 = MPI_Wtime();
     int min = abs(vec[1] - vec[0]);
     int idx = 0;
-    for (size_t i = 1; i < (vec.size() - 1); i++)
+    for (int i = 1; i < (vec.size() - 1); i++)
         if (abs(vec[i + 1] - vec[i]) < min) {
             min = abs(vec[i + 1] - vec[i]);
             idx = i;
@@ -39,7 +39,7 @@ int getParallelOperations(std::vector<int> global_vec, int size_vector) {
     int* local_vec = new int[size_vector];
     if (rank == 0) {
         t1 = MPI_Wtime();
-        for (size_t i = 0; i < size_vector; i++)
+        for (int i = 0; i < size_vector; i++)
             local_vec[i] = global_vec[i];
     }
     MPI_Bcast(local_vec, size_vector, MPI_INT, 0, MPI_COMM_WORLD);
@@ -49,7 +49,7 @@ int getParallelOperations(std::vector<int> global_vec, int size_vector) {
     }local_min, global_min;
     local_min.value = abs(local_vec[1] - local_vec[0]);
     local_min.idx = 0;
-    for (size_t i = rank; i < size_vector - 1; i += size)
+    for (int i = rank; i < size_vector - 1; i += size)
         if (abs(local_vec[i + 1] - local_vec[i]) < local_min.value) {
             local_min.value = abs(local_vec[i + 1] - local_vec[i]);
             local_min.idx = i;
