@@ -30,7 +30,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_Random_Symbols_String) {
         global_string = createRandomString(count_size_string);
     }
 
-    int global_sum = getParallelSymbolsCount(global_string, count_size_string, global_string[0]);
+    int global_sum = getParallelSymbolsCount(global_string, global_string.size(), global_string[0]);
 
     if (rank == 0) {
         int reference_sum = calculateSymbolsCountSequental(global_string, global_string[0]);
