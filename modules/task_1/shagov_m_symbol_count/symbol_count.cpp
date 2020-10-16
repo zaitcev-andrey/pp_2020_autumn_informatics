@@ -9,10 +9,9 @@
 std::string createRandomString(int sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::string string;
-    string.resize(sz);
+    std::string string(sz, 'a');
     for (int i = 0; i < sz; i++) {
-        string[i] = gen() % 100;
+        string[i] = static_cast<char>(gen() % 100);
         }
     return string;
 }
@@ -24,8 +23,8 @@ int calculateSymbolsCountSequental(const std::string& string, char symbol) {
     for (int i = 0; i < string.size(); i++)
         if (string[i] == symbol)
             count++;
-        return count;
-        }
+    return count;
+}
 
 int getParallelSymbolsCount(const std::string& global_string,
                             int count_size_vector, char symbol) {
