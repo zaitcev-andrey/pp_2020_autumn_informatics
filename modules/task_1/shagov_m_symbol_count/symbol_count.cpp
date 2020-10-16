@@ -7,13 +7,19 @@
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
 
 std::vector<char> createRandomString(int sz) {
-    std::mt19937 gen;
-    gen.seed(static_cast<unsigned int>(time(0)));
+    
     std::vector<char> string;
     for (int i = 0; i < sz; i++) {
-        string.push_back(static_cast<char>(gen() % 100));
+        string.push_back(getRandomSymbol());
         }
     return string;
+}
+
+char getRandomSymbol()
+{
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+    return static_cast<char>(gen() % 100);
 }
 
 int calculateSymbolsCountSequental(const std::vector<char>& string, char symbol) {
