@@ -2,7 +2,6 @@
 #include <mpi.h>
 #include <random>
 #include <ctime>
-#include <iostream>
 #include <string>
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
 
@@ -33,8 +32,6 @@ int getParallelSymbolsCount(const std::string& global_string,
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::cout << size;
-    std::cout << rank;
     const int delta = count_size_vector / size;
     int remainder = count_size_vector - delta * size;
 
