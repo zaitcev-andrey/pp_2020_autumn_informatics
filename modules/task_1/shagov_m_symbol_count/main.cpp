@@ -1,9 +1,10 @@
-  //Copyright 2020 Shagov Maksim
+// Copyright 2020 Shagov Maksim
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include <iostream>
 #include "./symbol_count.h"
 
 TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
@@ -17,7 +18,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
     }
 
     if (rank == 0) {
-        ASSERT_ANY_THROW(getParallelSymbolsCount(global_string, count_size_string, global_string[0]));
+        ASSERT_ANY_THROW(getParallelSymbolsCount(global_string, count_size_string, 'a'));
     }
 }
 
