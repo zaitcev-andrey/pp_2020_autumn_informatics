@@ -41,16 +41,15 @@ int getParallelSymbolsCount(const std::string& global_string,
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
             MPI_Send(&global_string[0] + remainder + proc * delta, delta,
-                MPI_INT, proc, 0, MPI_COMM_WORLD);
+                MPI_CHAR, proc, 0, MPI_COMM_WORLD);
         }
     }
     std::string local_string;
+    local_string.resize(delta);
     if (rank == 0) {
-        local_string.resize(delta + remainder);
         local_string = std::string(global_string.begin(),
                                    global_string.begin() + delta + remainder);
     } else {
-        local_string.resize(delta);
         MPI_Status status;
         MPI_Recv(&local_string[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
