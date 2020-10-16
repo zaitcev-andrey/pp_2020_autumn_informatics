@@ -9,7 +9,8 @@
 std::string createRandomString(int sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::string string(sz, NULL);
+    std::string string;
+    string.resize(sz);
     for (int i = 0; i < sz; i++) {
         string[i] = gen() % 100;
         }
@@ -18,7 +19,7 @@ std::string createRandomString(int sz) {
 
 int calculateSymbolsCountSequental(const std::string& string, char symbol) {
     if (string.size() == 0)
-        throw std::exception("Invalid size");
+        throw "Invalid size";
     int count = 0;
     for (int i = 0; i < string.size(); i++)
         if (string[i] == symbol)
@@ -44,12 +45,13 @@ int getParallelSymbolsCount(const std::string& global_string,
                 MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
     }
-    std::string local_string(delta, NULL);
+    std::string local_string;
     if (rank == 0) {
         local_string.resize(delta + remainder);
         local_string = std::string(global_string.begin(),
                                    global_string.begin() + delta + remainder);
     } else {
+        local_string.resize(delta);
         MPI_Status status;
         MPI_Recv(&local_string[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
