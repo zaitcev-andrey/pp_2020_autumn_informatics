@@ -3,19 +3,20 @@
 #include <random>
 #include <ctime>
 #include <string>
+#include <vector>
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
 
-std::string createRandomString(int sz) {
+std::vector<char> createRandomString(int sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::string string(sz, 'a');
+    std::vector<char> string(sz, 'a');
     for (int i = 0; i < sz; i++) {
         string[i] = static_cast<char>(gen() % 100);
         }
     return string;
 }
 
-int calculateSymbolsCountSequental(const std::string& string, char symbol) {
+int calculateSymbolsCountSequental(const std::vector<char>& string, char symbol) {
     if (string.size() == 0)
         throw "Invalid size";
     int count = 0;
@@ -25,7 +26,7 @@ int calculateSymbolsCountSequental(const std::string& string, char symbol) {
     return count;
 }
 
-int getParallelSymbolsCount(const std::string& global_string,
+int getParallelSymbolsCount(const std::vector<char>& global_string,
                             int count_size_vector, char symbol) {
     if (global_string.size() == 0)
         throw "Invalid size";
@@ -41,10 +42,10 @@ int getParallelSymbolsCount(const std::string& global_string,
                 MPI_CHAR, proc, 0, MPI_COMM_WORLD);
         }
     }
-    std::string local_string;
+    std::vector<char> local_string;
     local_string.resize(delta);
     if (rank == 0) {
-        local_string = std::string(global_string.begin(),
+        local_string = std::vector<char>(global_string.begin(),
                                    global_string.begin() + delta + remainder);
     } else {
         MPI_Status status;

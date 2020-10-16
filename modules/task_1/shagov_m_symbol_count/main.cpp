@@ -3,12 +3,13 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <string>
+#include <vector>
 #include "./symbol_count.h"
 
 TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::string global_string;
+    std::vector<char> global_string;
     const int count_size_string = 0;
 
     if (rank == 0) {
@@ -23,7 +24,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
 TEST(Parallel_Symbol_Count_MPI, Test_100_Random_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::string global_string;
+    std::vector<char> global_string;
     const int count_size_string = 100;
 
     if (rank == 0) {
@@ -42,7 +43,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 100;
-    std::string global_string(count_size_string, 'a');
+    std::vector<char> global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, global_string[0]);
 
@@ -56,7 +57,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 100;
-    std::string global_string(count_size_string, 'a');
+    std::vector<char> global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'b');
 
@@ -69,7 +70,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) {
 TEST(Parallel_Symbol_Count_MPI, Test_103_Random_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::string global_string;
+    std::vector<char> global_string;
     const int count_size_string = 103;
 
     if (rank == 0) {
@@ -88,7 +89,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_103_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 103;
-    std::string global_string(count_size_string, 'a');
+    std::vector<char> global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, global_string[0]);
 
@@ -102,7 +103,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_1000_Random_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 1000;
-    std::string global_string;
+    std::vector<char> global_string;
 
     if (rank == 0) {
         global_string = createRandomString(count_size_string);
@@ -120,7 +121,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_1000_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 1000;
-    std::string global_string(count_size_string, 'a');
+    std::vector<char> global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, global_string[0]);
 
