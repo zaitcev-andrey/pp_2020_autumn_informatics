@@ -1,4 +1,4 @@
-  // Copyright 2020 Shagov Maksim
+  //Copyright 2020 Shagov Maksim
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>

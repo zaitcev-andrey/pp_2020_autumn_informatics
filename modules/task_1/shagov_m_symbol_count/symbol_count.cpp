@@ -9,9 +9,9 @@
 std::vector<char> createRandomString(int sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::vector<char> string(sz, 'a');
+    std::vector<char> string;
     for (int i = 0; i < sz; i++) {
-        string[i] = static_cast<char>(gen() % 100);
+        string.push_back(static_cast<char>(gen() % 100));
         }
     return string;
 }
@@ -43,10 +43,10 @@ int getParallelSymbolsCount(const std::vector<char>& global_string,
         }
     }
     std::vector<char> local_string;
-    local_string.resize(delta);
+    local_string.resize(delta + (rank == 0 ? remainder : 0));
     if (rank == 0) {
         local_string = std::vector<char>(global_string.begin(),
-                                   global_string.begin() + delta + remainder);
+                                         global_string.begin() + delta + remainder);
     } else {
         MPI_Status status;
         MPI_Recv(&local_string[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
