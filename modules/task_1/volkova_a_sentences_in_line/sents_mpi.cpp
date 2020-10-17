@@ -3,7 +3,7 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
-#include "./sents_mpi.h"
+#include "../../../modules/task_1/volkova_a_sentences_in_line/sents_mpi.h"
 
 std::vector<char> getRandomLine(int size) {
     std::vector<char> line(size);
