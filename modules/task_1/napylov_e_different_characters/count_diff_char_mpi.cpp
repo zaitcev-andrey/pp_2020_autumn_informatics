@@ -20,7 +20,7 @@ char* getRandomString(int len) {
 
 int getSequentialDifferenceCount(const char *str1, const char *str2) {
     int diff_count = 0;
-    for (auto i = 0; i < strlen(str1); i++) {
+    for (size_t i = 0; i < strlen(str1); i++) {
         if (str1[i] != str2[i]) {
             diff_count++;
         }
