@@ -2,6 +2,7 @@
 #include <mpi.h>
 #include <random>
 #include <ctime>
+#include <cstring>
 #include "./count_diff_char_mpi.h"
 
 
