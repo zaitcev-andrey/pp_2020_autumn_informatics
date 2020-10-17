@@ -41,8 +41,7 @@ int getParallelDifferenceCount(const char *str1, const char *str2) {
     if (len1 < len2) {
         min_len = len1;
         len_diff = len2 - len1;
-    }
-    else {
+    } else {
         min_len = len2;
         len_diff = len1 - len2;
     }
@@ -64,14 +63,13 @@ int getParallelDifferenceCount(const char *str1, const char *str2) {
     if (rank == 0) {
         str1_local = new char[rem + delta + 1];
         str2_local = new char[rem + delta + 1];
-        for (int i = 0; i < rem + delta; i++) { 
+        for (int i = 0; i < rem + delta; i++) {
             str1_local[i] = str1[i];
             str2_local[i] = str2[i];
         }
         str1_local[rem + delta] = '\0';
         str2_local[rem + delta] = '\0';
-    }
-    else {
+    } else {
         str1_local = new char[delta + 1];
         str2_local = new char[delta + 1];
         MPI_Status status;
