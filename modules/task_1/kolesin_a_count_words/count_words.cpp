@@ -101,7 +101,7 @@ int countWords(std::string str) {
             }
         }
     }
-    delete buff;
-    delete result_array;
+    delete[] buff;
+    delete[] result_array;
     return result;
 }
