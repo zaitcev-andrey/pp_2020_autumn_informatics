@@ -2,7 +2,7 @@
 #include <iostream>
 #include "./trapezoidal_integral.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 	std::function<double(double)> first = func1;
 	std::function<double(double)> second = func2;
 	std::function<double(double)> third = func3;
@@ -13,10 +13,22 @@ int main() {
 	double c3 = trap_integral(0.0, 10.0, 1000, third);
 	double c4 = trap_integral(0.0, 10.0, 1000, fourth);
 	double c5 = trap_integral(0.0, 10.0, 1000, fifth);
+	MPI_Init(&argc, &argv);
+	double d1 = trap_integral_parallel(0.0, 10.0, 1000, first);
+	double d2 = trap_integral_parallel(0.0, 10.0, 1000, second);
+	double d3 = trap_integral_parallel(0.0, 10.0, 1000, third);
+	double d4 = trap_integral_parallel(0.0, 10.0, 1000, fourth);
+	double d5 = trap_integral_parallel(0.0, 10.0, 1000, fifth);
 	std::cout << c1 << std::endl;
 	std::cout << c2 << std::endl;
 	std::cout << c3 << std::endl;
 	std::cout << c4 << std::endl;
 	std::cout << c5 << std::endl;
+	std::cout << d1 << std::endl;
+	std::cout << d2 << std::endl;
+	std::cout << d3 << std::endl;
+	std::cout << d4 << std::endl;
+	std::cout << d5 << std::endl;
+	MPI_Finalize();
 	return 0;
 }

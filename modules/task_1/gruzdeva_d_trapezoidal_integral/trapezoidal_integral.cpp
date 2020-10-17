@@ -15,13 +15,21 @@ double trap_integral(double a, double b, int n, std::function<double(double)> fu
 }
 
 double trap_integral_parallel(double a, double b, int n, std::function<double(double)> function) {
-	int rank, process_count;
+	int rank, size;
 	double width = (b - a) / n;
-	MPI_Comm_size(MPI_COMM_WORLD, &process_count);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	int local_n = n / process_count;
-	double result = 0, local_result = 0;
-	// there should be new a, b and trap integral 
+	int local_n = n / size;
+	double result = 0,
+		   local_result = 0,
+		   local_a = a * rank * local_n * width,
+		   local_b = a * (rank + 1) * local_n * width;
+	if (rank != size - 1) {
+		local_result = trap_integral(local_a, local_b, local_n, function);
+	}
+	else {
+		local_result = trap_integral(local_a, b, n - local_n * (size - 1), function);
+	}
 	MPI_Reduce(&local_result, &result, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 	return result;
 }
