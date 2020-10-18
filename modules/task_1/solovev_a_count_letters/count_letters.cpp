@@ -8,7 +8,7 @@ constexpr char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123
 
 
 int calculateCountSequental(std::string result) {
-    return  std::count_if(result.begin(), result.end(), 
+    return  std::count_if(result.begin(), result.end(),
         [](char c) { return ((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')); });
 }
 
