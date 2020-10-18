@@ -7,15 +7,6 @@
 #include <iostream>
 #include "./symbol_count.h"
 
-TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 0;
-    std::string global_string;
-    
-    ASSERT_ANY_THROW(getParallelSymbolsCount(global_string, count_size_string, 'A'));
-}
-
 TEST(Parallel_Symbol_Count_MPI, Test_1_Random_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
