@@ -2,6 +2,7 @@
 #include <mpi.h>
 #include <time.h>
 #include <random>
+#include <algorithm>
 #include <string>
 #include "../../../modules/task_1/solovev_a_count_letters/count_letters.h"
 constexpr char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!,.&^$#@*()-_+=";

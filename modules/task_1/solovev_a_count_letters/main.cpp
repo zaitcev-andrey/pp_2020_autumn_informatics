@@ -3,6 +3,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <string>
+#include <algorithm>
 #include "./count_letters.h"
 
 TEST(Parallel_Count_Letters_MPI, Size_1) {
