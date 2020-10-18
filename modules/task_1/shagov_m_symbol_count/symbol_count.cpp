@@ -4,7 +4,8 @@
 #include <ctime>
 #include <string>
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
-constexpr char string_for_random[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!,.&^$#@*()-_+=#%&'*/:;<>?][~}{|";
+constexpr char string_for_random[] =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!,.&^$#@*()-_+=#%&'*/:;<>?][~}{|";
 
 std::string createRandomString(int sz) {
     std::string string;
