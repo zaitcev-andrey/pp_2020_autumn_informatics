@@ -14,8 +14,7 @@ std::vector<char> createRandomString(int sz) {
     return string;
 }
 
-char getRandomSymbol()
-{
+char getRandomSymbol() {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     return static_cast<char>('a' + gen() % 10);

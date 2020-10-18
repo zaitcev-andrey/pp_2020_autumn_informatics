@@ -7,11 +7,11 @@
 #include <iostream>
 #include "./symbol_count.h"
 
-TEST(Parallel_Symbol_Count_MPI, Test_100_Same_Symbols_String) {
+TEST(Parallel_Symbol_Count_MPI, Test_10_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 100;
-    std::vector<char> global_string(count_size_string, 'a');
+    const int count_size_string = 10;
+    std::vector<char> global_string(count_size_string, 'A');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
 
