@@ -21,6 +21,24 @@ TEST(Parallel_Symbol_Count_MPI, Test_10_Same_Symbols_String) {
     }
 }
 
+TEST(Parallel_Symbol_Count_MPI, Test_10_Random_Symbols_String) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    const int count_size_string = 10;
+    std::vector<char> global_string();
+
+    if (rank == 0) {
+    global_string = createRandomString(count_size_string);
+    }
+
+    int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
+
+    if (rank == 0) {
+        int reference_sum = calculateSymbolsCountSequental(global_string, 'A');
+        ASSERT_EQ(reference_sum, global_sum);
+    }
+}
+
 TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
