@@ -1,4 +1,4 @@
-  // Copyright 2020 Shagov Maksim
+// Copyright 2020 Shagov Maksim
 #include <mpi.h>
 #include <random>
 #include <ctime>
@@ -7,7 +7,6 @@
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
 
 std::vector<char> createRandomString(int sz) {
-    
     std::vector<char> string;
     for (int i = 0; i < sz; i++) {
         string.push_back(getRandomSymbol());
@@ -19,7 +18,7 @@ char getRandomSymbol()
 {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    return static_cast<char>(gen() % 100);
+    return static_cast<char>(gen() % 10);
 }
 
 int calculateSymbolsCountSequental(const std::vector<char>& string, char symbol) {
