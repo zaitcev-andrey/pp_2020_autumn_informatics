@@ -16,11 +16,11 @@ std::string createRandomString(int sz) {
     return string;
 }
 
-int calculateSymbolsCountSequental(std::string& string, char symbol) {
+int calculateSymbolsCountSequental(const std::string& string, char symbol) {
     if (string.size() == 0)
         throw "Invalid size";
     int count = 0;
-    for (std::string::iterator it = string.begin(); it != string.end(); ++it)
+    for (auto it = string.cbegin(); it != string.cend(); ++it)
         if (*it == symbol)
             count++;
     return count;
