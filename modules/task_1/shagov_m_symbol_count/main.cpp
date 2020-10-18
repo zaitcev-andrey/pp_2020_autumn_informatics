@@ -25,7 +25,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_10_Random_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 10;
-    std::string global_string(count_size_string, 'A');
+    std::string global_string;
 
     if (rank == 0)
         global_string = createRandomString(count_size_string);
