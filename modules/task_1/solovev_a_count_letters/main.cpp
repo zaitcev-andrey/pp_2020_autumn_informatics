@@ -20,7 +20,7 @@ TEST(Parallel_Count_Letters_MPI, Size_1) {
     }
 }
 
-TEST(Parallel_Matrix_Sum_MPI, Size_1x1) {
+TEST(Parallel_Count_Letters_MPI, Size_1x1) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     int rows = 1;
@@ -36,7 +36,7 @@ TEST(Parallel_Matrix_Sum_MPI, Size_1x1) {
     }
 }
 
-TEST(Parallel_Matrix_Sum_MPI, Size_100x1) {
+TEST(Parallel_Count_Letters_MPI, Size_100x1) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     int rows = 100;
@@ -52,7 +52,7 @@ TEST(Parallel_Matrix_Sum_MPI, Size_100x1) {
     }
 }
 
-TEST(Parallel_Matrix_Sum_MPI, Size_100x200) {
+TEST(Parallel_Count_Letters_MPI, Size_100x200) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     int rows = 100;
@@ -68,7 +68,7 @@ TEST(Parallel_Matrix_Sum_MPI, Size_100x200) {
     }
 }
 
-TEST(Parallel_Matrix_Sum_MPI, Size_51x2) {
+TEST(Parallel_Count_Letters_MPI, Size_51x2) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     int rows = 51;
