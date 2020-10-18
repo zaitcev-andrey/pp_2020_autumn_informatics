@@ -5,13 +5,14 @@
 #include <string>
 #include <vector>
 #include "../../../modules/task_1/shagov_m_symbol_count/symbol_count.h"
+constexpr char string_for_random[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!,.&^$#@*()-_+=";
 
 std::string createRandomString(int sz) {
     std::string string;
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     for (int i = 0; i < sz; i++) {
-        string.push_back(static_cast<char>('A' + gen() % 62));
+        string.push_back(string_for_random[gen() % 77]);
         }
     return string;
 }
