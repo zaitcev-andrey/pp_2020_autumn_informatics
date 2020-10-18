@@ -5,8 +5,7 @@
 #include <vector>
 
 std::string createRandomString(int  sz);
-char getRandomSymbol();
-int calculateSymbolsCountSequental(const std::string& string, char symbol);
+int calculateSymbolsCountSequental(std::string& string, char symbol);
 int getParallelSymbolsCount(const std::string& global_string,
                             int count_size_vector, char symbol);
 #endif  // MODULES_TASK_1_SHAGOV_M_SYMBOL_COUNT_SYMBOL_COUNT_H_
