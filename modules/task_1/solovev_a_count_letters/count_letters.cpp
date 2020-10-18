@@ -1,13 +1,15 @@
 // Copyright 2020 Solovev Alexandr
 #include <mpi.h>
-#include <random>
 #include <time.h>
-#include "count_letters.h"
+#include <random>
+#include <string>
+#include "../../../modules/task_1/solovev_a_count_letters/count_letters.h"
 constexpr char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!,.&^$#@*()-_+=";
 
 
 int calculateCountSequental(std::string result) {
-    return  std::count_if(result.begin(), result.end(), [](char c) { return ((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')); });
+    return  std::count_if(result.begin(), result.end(), 
+        [](char c) { return ((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')); });
 }
 
 int calculateCountParallel(const std::string result, int elements_count) {
@@ -25,8 +27,7 @@ int calculateCountParallel(const std::string result, int elements_count) {
     part_string.resize(process_rank == 0 ? delta + remain : delta);
     if (process_rank == 0) {
         part_string = { result.begin(), result.begin() + delta + remain };
-    }
-    else {
+    } else {
         MPI_Status status;
         MPI_Recv(&part_string[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
@@ -36,8 +37,7 @@ int calculateCountParallel(const std::string result, int elements_count) {
     return sum;
 }
 
-std::string CreateRandomString(int elems_count)
-{
+std::string CreateRandomString(int elems_count) {
     std::string result;
     result.resize(elems_count);
     srand(static_cast<unsigned>(time(0)));
