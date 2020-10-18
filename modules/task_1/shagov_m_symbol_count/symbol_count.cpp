@@ -18,7 +18,7 @@ char getRandomSymbol()
 {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    return static_cast<char>(gen() % 10);
+    return static_cast<char>('a' + gen() % 10);
 }
 
 int calculateSymbolsCountSequental(const std::vector<char>& string, char symbol) {
