@@ -11,25 +11,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_10_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 10;
-    std::vector<char> global_string(count_size_string, 'A');
-
-    int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
-
-    if (rank == 0) {
-        int reference_sum = calculateSymbolsCountSequental(global_string, 'A');
-        ASSERT_EQ(reference_sum, global_sum);
-    }
-}
-
-TEST(Parallel_Symbol_Count_MPI, Test_10_Random_Symbols_String) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 10;
-    std::vector<char> global_string();
-
-    if (rank == 0) {
-    global_string = createRandomString(count_size_string);
-    }
+    std::string global_string(count_size_string, 'A');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
 
@@ -43,7 +25,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_100_No_Required_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 100;
-    std::vector<char> global_string(count_size_string, 'a');
+    std::string global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'b');
 
@@ -57,7 +39,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_103_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 103;
-    std::vector<char> global_string(count_size_string, 'a');
+    std::string global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'a');
 
@@ -71,7 +53,7 @@ TEST(Parallel_Symbol_Count_MPI, Test_1000_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int count_size_string = 1000;
-    std::vector<char> global_string(count_size_string, 'a');
+    std::string global_string(count_size_string, 'a');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'a');
 
