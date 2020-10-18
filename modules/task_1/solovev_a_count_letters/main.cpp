@@ -20,12 +20,10 @@ TEST(Parallel_Count_Letters_MPI, Size_1) {
     }
 }
 
-TEST(Parallel_Count_Letters_MPI, Size_1x1) {
+TEST(Parallel_Count_Letters_MPI, Size_10) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-    int rows = 1;
-    int cols = 1;
-    int elements_count = rows * cols;
+    int elements_count = 10;
     std::string result;
     if (process_rank == 0)
         result = CreateRandomString(elements_count);
@@ -36,12 +34,10 @@ TEST(Parallel_Count_Letters_MPI, Size_1x1) {
     }
 }
 
-TEST(Parallel_Count_Letters_MPI, Size_100x1) {
+TEST(Parallel_Count_Letters_MPI, Size_100) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-    int rows = 100;
-    int cols = 200;
-    int elements_count = rows * cols;
+    int elements_count = 10;
     std::string result;
     if (process_rank == 0)
         result = CreateRandomString(elements_count);
@@ -52,12 +48,10 @@ TEST(Parallel_Count_Letters_MPI, Size_100x1) {
     }
 }
 
-TEST(Parallel_Count_Letters_MPI, Size_100x200) {
+TEST(Parallel_Count_Letters_MPI, Size_1000) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-    int rows = 100;
-    int cols = 200;
-    int elements_count = rows * cols;
+    int elements_count = 1000;
     std::string result;
     if (process_rank == 0)
         result = CreateRandomString(elements_count);
@@ -68,12 +62,10 @@ TEST(Parallel_Count_Letters_MPI, Size_100x200) {
     }
 }
 
-TEST(Parallel_Count_Letters_MPI, Size_51x2) {
+TEST(Parallel_Count_Letters_MPI, Size_1500) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-    int rows = 51;
-    int cols = 2;
-    int elements_count = rows * cols;
+    int elements_count = 1500;
     std::string result;
     if (process_rank == 0)
         result = CreateRandomString(elements_count);
