@@ -37,7 +37,7 @@ TEST(Parallel_Count_Letters_MPI, Size_10) {
 TEST(Parallel_Count_Letters_MPI, Size_100) {
     int process_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-    int elements_count = 10;
+    int elements_count = 100;
     std::string result;
     if (process_rank == 0)
         result = CreateRandomString(elements_count);
