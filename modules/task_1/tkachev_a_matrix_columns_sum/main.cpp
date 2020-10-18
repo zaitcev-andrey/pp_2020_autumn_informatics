@@ -17,7 +17,11 @@ TEST(Parallel_Operations_MPI, Matrix_20_20)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
@@ -42,7 +46,11 @@ TEST(Parallel_Operations_MPI, Matrix_50_25)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
@@ -68,7 +76,11 @@ TEST(Parallel_Operations_MPI, Matrix_10_5)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
@@ -93,7 +105,11 @@ TEST(Parallel_Operations_MPI, Matrix_60_61)
     test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
@@ -118,7 +134,11 @@ TEST(Parallel_Operations_MPI, Matrix_1_10)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
@@ -143,7 +163,11 @@ TEST(Parallel_Operations_MPI, Matrix_50_1)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
+<<<<<<< HEAD
     int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+=======
+    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
+>>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
     int16_t sequential_sum = 0;
 
     if (rank == 0)
