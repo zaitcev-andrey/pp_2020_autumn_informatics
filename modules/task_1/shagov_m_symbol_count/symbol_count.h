@@ -2,7 +2,6 @@
 #ifndef MODULES_TASK_1_SHAGOV_M_SYMBOL_COUNT_SYMBOL_COUNT_H_
 #define MODULES_TASK_1_SHAGOV_M_SYMBOL_COUNT_SYMBOL_COUNT_H_
 #include <string>
-#include <vector>
 
 std::string createRandomString(int  sz);
 int calculateSymbolsCountSequental(const std::string& string, char symbol);

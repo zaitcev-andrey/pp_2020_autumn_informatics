@@ -3,8 +3,6 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <string>
-#include <vector>
-#include <iostream>
 #include "./symbol_count.h"
 
 TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
