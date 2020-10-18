@@ -1,34 +1,79 @@
 // Copyright 2020 Gruzdeva Diana
-#include <iostream>
+#include <gtest-mpi-listener.hpp>
+#include <gtest/gtest.h>
+#include <cmath>
 #include "./trapezoidal_integral.h"
 
-int main(int argc, char* argv[]) {
-	std::function<double(double)> first = func1;
-	std::function<double(double)> second = func2;
-	std::function<double(double)> third = func3;
-	std::function<double(double)> fourth = func4;
-	std::function<double(double)> fifth = func5;
-	double c1 = trap_integral(0.0, 10.0, 1000, first);
-	double c2 = trap_integral(0.0, 10.0, 1000, second);
-	double c3 = trap_integral(0.0, 10.0, 1000, third);
-	double c4 = trap_integral(0.0, 10.0, 1000, fourth);
-	double c5 = trap_integral(0.0, 10.0, 1000, fifth);
+std::function<double(double)> polinom = polinomFunction;
+std::function<double(double)> composite = compositeFunction;
+
+
+TEST(Parallel_Operations_MPI, POLINOM_FROM_0_TO_1) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	double parallel_result = getParallelIntegral(0, 1, 10000, polinom);
+
+	if (rank == 0) {
+		double sequential_result = getSequentialIntegral(0, 1, 10000, polinom);
+		ASSERT_LT(std::fabs(parallel_result - sequential_result), 1.0e-8);
+	}
+}
+
+TEST(Parallel_Operations_MPI, POLINOM_FROM_0_TO_10) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	double parallel_result = getParallelIntegral(0, 10, 10000, polinom);
+
+	if (rank == 0) {
+		double sequential_result = getSequentialIntegral(0, 10, 10000, polinom);
+		ASSERT_LT(std::fabs(parallel_result - sequential_result), 1.0e-4);
+	}
+}
+
+TEST(Parallel_Operations_MPI, POLINOM_FROM_0_TO_1000) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	double parallel_result = getParallelIntegral(0, 1000, 10000, polinom);
+
+	if (rank == 0) {
+		double sequential_result = getSequentialIntegral(0, 1000, 10000, polinom);
+		ASSERT_LT(std::fabs(parallel_result - sequential_result), 1.0e+4);
+	}
+}
+
+TEST(Parallel_Operations_MPI, COMPOSITE_FUNCTION_FROM_0_TO_1) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	double parallel_result = getParallelIntegral(0, 1, 10000, composite);
+
+	if (rank == 0) {
+		double sequential_result = getSequentialIntegral(0, 1, 10000, composite);
+		ASSERT_LT(std::fabs(parallel_result - sequential_result), 1.0e-8);
+	}
+}
+
+TEST(Parallel_Operations_MPI, COMPOSITE_FUNCTION_FROM_0_TO_0_001) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	double parallel_result = getParallelIntegral(0, 0.001, 10000, composite);
+
+	if (rank == 0) {
+		double sequential_result = getSequentialIntegral(0, 0.001, 10000, composite);
+		ASSERT_LT(std::fabs(parallel_result - sequential_result), 1.0e-17);
+	}
+}
+
+int main(int argc, char** argv) {
+	::testing::InitGoogleTest(&argc, argv);
 	MPI_Init(&argc, &argv);
-	double d1 = trap_integral_parallel(0.0, 10.0, 1000, first);
-	double d2 = trap_integral_parallel(0.0, 10.0, 1000, second);
-	double d3 = trap_integral_parallel(0.0, 10.0, 1000, third);
-	double d4 = trap_integral_parallel(0.0, 10.0, 1000, fourth);
-	double d5 = trap_integral_parallel(0.0, 10.0, 1000, fifth);
-	std::cout << c1 << std::endl;
-	std::cout << c2 << std::endl;
-	std::cout << c3 << std::endl;
-	std::cout << c4 << std::endl;
-	std::cout << c5 << std::endl;
-	std::cout << d1 << std::endl;
-	std::cout << d2 << std::endl;
-	std::cout << d3 << std::endl;
-	std::cout << d4 << std::endl;
-	std::cout << d5 << std::endl;
-	MPI_Finalize();
-	return 0;
+
+	::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
+	::testing::TestEventListeners& listeners =
+		::testing::UnitTest::GetInstance()->listeners();
+
+	listeners.Release(listeners.default_result_printer());
+	listeners.Release(listeners.default_xml_generator());
+
+	listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
+	return RUN_ALL_TESTS();
 }
