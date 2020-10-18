@@ -20,25 +20,39 @@ std::vector<int8_t> generateRandomMatrix(uint8_t count_rows, uint8_t count_colum
     return matrix;
 }
 
-int16_t getSequentialColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
+std::vector<int8_t> transposeMatrix(std::vector<int8_t> matrix, uint8_t count_columns)
 {
-    int16_t cols_sum = 0;
-
     assert(count_columns != 0);
 
-    for (size_t current_column = 0; current_column < count_columns; current_column++)
+    std::vector<int8_t> transposed_matrix;
+
+    for (size_t i = 0; i < matrix.size(); i++)
     {
-        cols_sum += matrix[current_column + count_columns];
+        transposed_matrix.push_back(matrix[i] * count_columns);
     }
 
-    return cols_sum;
+    return transposed_matrix;
 }
 
-<<<<<<< HEAD
-int16_t getParallelColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
-=======
-int getParallelColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
+std::vector<int16_t> getSequentialColsSum(std::vector<int8_t> matrix, uint8_t count_columns, int count_processes)
+{
+    assert(count_columns != 0);
+    assert(count_processes != 0);
+
+    std::vector<int16_t> sum_columns(count_columns);
+    std::vector<int8_t> transposed_matrix = transposeMatrix(matrix, count_columns);
+
+    for (size_t i = 0; i < transposed_matrix.size() && i < count_processes; i++)
+    {
+        std::partial_sum(matrix.begin() + count_columns * i,
+                         matrix.begin() + count_columns * (i + 1),
+                         sum_columns.begin() + count_columns * i);
+    }
+
+    return sum_columns;
+}
+
+std::vector<int16_t> getParallelColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
 {
     assert(count_columns != 0);
 
@@ -48,22 +62,17 @@ int getParallelColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
 
-<<<<<<< HEAD
     assert(processes_count != 0);
 
-    uint8_t offset = count_columns / processes_count;
+    std::vector<int8_t> transposed_matrix = transposeMatrix(matrix, count_columns);
 
-=======
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
+    int offset = count_columns / processes_count;
+
     if (process_rank == 0)
     {
         for (size_t process_id = 1; process_id < processes_count; process_id++)
         {
-<<<<<<< HEAD
-            MPI_Send(&matrix[0] + process_id * offset,
-=======
-            MPI_Send(&matrix[0] + process_id * count_columns,
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
+            MPI_Send(&transposed_matrix[0] + process_id * offset,
                      count_columns, MPI_INT, process_id, 0,
                      MPI_COMM_WORLD);
         }
@@ -81,14 +90,9 @@ int getParallelColsSum(std::vector<int8_t> matrix, uint8_t count_columns)
         MPI_Recv(&local_vec[0], count_columns, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
 
-    int16_t global_sum = 0;
+    std::vector<int16_t> global_columns_sum(count_columns);
+    std::vector<int16_t> sequensial_columns_sum = getSequentialColsSum(local_vec, count_columns, processes_count);
 
-    int16_t sequensial_sum = getSequentialColsSum(local_vec, count_columns);
-
-<<<<<<< HEAD
-    MPI_Reduce(&sequensial_sum, &global_sum, 2, MPI_INT, 0, 0, MPI_COMM_WORLD);
-=======
-    MPI_Reduce(&sequensial_sum, &global_sum, 2, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    return global_sum;
+    MPI_Reduce(&sequensial_columns_sum, &global_columns_sum, 2, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    return global_columns_sum;
 }

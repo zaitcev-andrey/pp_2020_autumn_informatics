@@ -17,16 +17,12 @@ TEST(Parallel_Operations_MPI, Matrix_20_20)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-        sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
@@ -46,16 +42,12 @@ TEST(Parallel_Operations_MPI, Matrix_50_25)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-        sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
@@ -76,16 +68,12 @@ TEST(Parallel_Operations_MPI, Matrix_10_5)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-        sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
@@ -102,19 +90,15 @@ TEST(Parallel_Operations_MPI, Matrix_60_61)
 
     if (rank == 0)
     {
-    test_matrix = generateRandomMatrix(count_raws, count_columns);
+        test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-    sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
@@ -134,16 +118,12 @@ TEST(Parallel_Operations_MPI, Matrix_1_10)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-        sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
@@ -163,16 +143,12 @@ TEST(Parallel_Operations_MPI, Matrix_50_1)
         test_matrix = generateRandomMatrix(count_raws, count_columns);
     }
 
-<<<<<<< HEAD
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
-=======
-    int16_t parallel_sum_cols = getParallelColsSum(test_matrix, count_columns, rank);
->>>>>>> 35f53f84d395a7ca5f9b1d2662d4232b8a8ee7e6
-    int16_t sequential_sum = 0;
+    std::vector<int16_t> parallel_sum_cols = getParallelColsSum(test_matrix, count_columns);
+    std::vector<int16_t> sequential_sum(count_columns);
 
     if (rank == 0)
     {
-        sequential_sum = getSequentialColsSum(test_matrix, count_columns);
+        sequential_sum = getSequentialColsSum(test_matrix, count_columns, 1);
     }
 
     ASSERT_EQ(parallel_sum_cols, sequential_sum);
