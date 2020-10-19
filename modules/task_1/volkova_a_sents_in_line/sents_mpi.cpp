@@ -40,8 +40,11 @@ int getParallelSumSentences(std::vector<char> global_line, int size_line) {
         }
     }
     int vec_local_size = 0;
-    if (rank == 0) vec_local_size = k + delta;
-    else vec_local_size = delta;
+    if (rank == 0) {
+        vec_local_size = k + delta;
+    } else {
+        vec_local_size = delta;
+    }
     std::vector<char> local_line(vec_local_size);
     if (rank == 0) {
         local_line = std::vector<char>(global_line.begin(), global_line.begin() + k + delta);
