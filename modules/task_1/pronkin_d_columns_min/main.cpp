@@ -5,7 +5,7 @@
 #include "./columns_min.h"
 
 TEST(Parallel_Operations_MPI, Matrix_5x5) {
-	int rank;
+    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 5;
     int cols = 5;
@@ -21,7 +21,7 @@ TEST(Parallel_Operations_MPI, Matrix_5x5) {
 }
 
 TEST(Parallel_Operations_MPI, Matrix_25x25) {
-	int rank;
+    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 25;
     int cols = 25;
@@ -37,7 +37,7 @@ TEST(Parallel_Operations_MPI, Matrix_25x25) {
 }
 
 TEST(Parallel_Operations_MPI, Matrix_100x100) {
-	int rank;
+    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 100;
     int cols = 100;
@@ -53,7 +53,7 @@ TEST(Parallel_Operations_MPI, Matrix_100x100) {
 }
 
 TEST(Parallel_Operations_MPI, Matrix_51x1) {
-	int rank;
+    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 51;
     int cols = 1;
@@ -69,7 +69,7 @@ TEST(Parallel_Operations_MPI, Matrix_51x1) {
 }
 
 TEST(Parallel_Operations_MPI, Matrix_1x51) {
-	int rank;
+    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 1;
     int cols = 51;
