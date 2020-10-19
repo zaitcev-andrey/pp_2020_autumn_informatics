@@ -57,7 +57,7 @@ std::vector<int> getParallelOperations(std::vector<int> global_mat, int cols, in
     std::vector<int> result(rows);
     std::vector<int> local_result = getSequentialOperations(local_mat, cols, rank == 0 ? delta + epsilon : delta);
     if (rank == 0) {
-        for (int i = 0; i < local_result.size(); i++)
+        for (int i = 0; i < delta + epsilon; i++)
             result[i] = local_result[i];
     } else {
         MPI_Send(local_result.data(), delta, MPI_INT, 0, 0, MPI_COMM_WORLD);
