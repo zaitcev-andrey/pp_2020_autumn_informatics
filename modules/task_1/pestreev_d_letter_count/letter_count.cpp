@@ -19,7 +19,7 @@ std::string getRandomString(int size) {
     return str;
 }
 
-int LetterInLineSequential(std::string str) {
+int64_t LetterInLineSequential(std::string str) {
     int count = 0;
     for (size_t i = 0; i < str.size(); i++) {
         char letter = str[i];
@@ -28,8 +28,8 @@ int LetterInLineSequential(std::string str) {
     return count;
 }
 
-int LetterInLineParallel(std::string global_str, int size_str) {
-    int globalcount = 0;
+int64_t LetterInLineParallel(std::string global_str, int size_str) {
+    int64_t globalcount = 0;
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -41,7 +41,7 @@ int LetterInLineParallel(std::string global_str, int size_str) {
         }
     }
 
-	std::string local_str(delta, NULL);
+    std::string local_str(delta, NULL);
     if (rank == 0) {
         local_str.resize(delta + remain);
         local_str = std::string(global_str.begin(),
@@ -50,7 +50,7 @@ int LetterInLineParallel(std::string global_str, int size_str) {
         MPI_Status status;
         MPI_Recv(&local_str[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
-    int local_sum = LetterInLineSequential(local_str);
+    int64_t local_sum = LetterInLineSequential(local_str);
     MPI_Reduce(&local_sum, &globalcount, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return globalcount;
 }

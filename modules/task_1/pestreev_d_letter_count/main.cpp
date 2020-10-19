@@ -13,9 +13,9 @@ TEST(Parallel_Operations_MPI, empty_string) {
         global_str = getRandomString(size_str);
     }
 
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
     if (rank == 0) {
-        int expexted = 0;
+        int64_t expexted = 0;
         ASSERT_EQ(expexted, global_sum);
     }
 }
@@ -29,9 +29,9 @@ TEST(Parallel_Operations_MPI, 14_character_string) {
         global_str = "3453g453f44d53";
     }
 
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
     if (rank == 0) {
-        int expexted = 3;
+        int64_t expexted = 3;
         ASSERT_EQ(expexted, global_sum);
     }
 }
@@ -45,9 +45,9 @@ TEST(Parallel_Operations_MPI, 100_random_character_string) {
         global_str = getRandomString(size_str);
     }
 
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
     if (rank == 0) {
-        int expexted = LetterInLineSequential(global_str);
+        int64_t expexted = LetterInLineSequential(global_str);
         ASSERT_EQ(expexted, global_sum);
     }
 }
@@ -61,9 +61,9 @@ TEST(Parallel_Operations_MPI, 1000_random_character_string) {
         global_str = getRandomString(size_str);
     }
 
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
     if (rank == 0) {
-        int expexted = LetterInLineSequential(global_str);
+        int64_t expexted = LetterInLineSequential(global_str);
         ASSERT_EQ(expexted, global_sum);
     }
 }
@@ -74,10 +74,10 @@ TEST(Parallel_Operations_MPI, 1000_same_character_string) {
     std::string global_str;
     const int size_str = 1000;
     global_str = std::string(size_str, 'G');
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
 
     if (rank == 0) {
-        int expexted = LetterInLineSequential(global_str);
+        int64_t expexted = LetterInLineSequential(global_str);
         ASSERT_EQ(expexted, global_sum);
     }
 }
@@ -91,9 +91,9 @@ TEST(Parallel_Operations_MPI, no_letter_character_string) {
         global_str = "1234567890!@#$%^&*()";
     }
 
-    int global_sum = LetterInLineParallel(global_str, size_str);
+    int64_t global_sum = LetterInLineParallel(global_str, size_str);
     if (rank == 0) {
-        int expexted = 0;
+        int64_t expexted = 0;
         ASSERT_EQ(expexted, global_sum);
     }
 }
