@@ -2,8 +2,9 @@
 #include <mpi.h>
 #include <random>
 #include <ctime>
+#include <vector>
 #include <algorithm>
-#include "../../../modules/task_1/volkova_a_sentences_in_line/sents_mpi.h"
+#include "../../../modules/task_1/volkova_a_sents_in_line/sents_mpi.h"
 
 std::vector<char> getRandomLine(int size) {
     std::vector<char> line(size);
@@ -27,7 +28,7 @@ int getSequentialSumSentences(std::vector<char> line) {
 }
 
 int getParallelSumSentences(std::vector<char> global_line, int size_line) {
-    int size, rank, global_sum_sentences = 0;;
+    int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int delta = size_line / size;
@@ -44,6 +45,7 @@ int getParallelSumSentences(std::vector<char> global_line, int size_line) {
         MPI_Status status;
         MPI_Recv(&local_line[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
+    int global_sum_sentences = 0;
     int local_sum_sentences = getSequentialSumSentences(local_line);
     MPI_Reduce(&local_sum_sentences, &global_sum_sentences, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return global_sum_sentences;
