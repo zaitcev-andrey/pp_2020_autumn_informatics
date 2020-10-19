@@ -1,11 +1,8 @@
 // Copyright 2020 Pestreev Daniil
 #include <mpi.h>
+#include <time.h>
 #include <random>
-#include <ctime>
-#include <clocale>
-#include <cctype>
 #include <string>
-#include <iostream>
 #include "../../../modules/task_1/pestreev_d_letter_count/letter_count.h"
 
 std::string getRandomString(int size) {
@@ -22,8 +19,7 @@ std::string getRandomString(int size) {
 int64_t LetterInLineSequential(std::string str) {
     int count = 0;
     for (size_t i = 0; i < str.size(); i++) {
-        char letter = str[i];
-        if (std::isalpha((unsigned char)letter)) count++;
+        if ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')) count++;
     }
     return count;
 }
