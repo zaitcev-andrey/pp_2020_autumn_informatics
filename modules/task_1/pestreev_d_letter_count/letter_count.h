@@ -5,6 +5,6 @@
 
 std::string getRandomString(int  size);
 int LetterInLineSequential(std::string str);
-int LetterInLineParallel(std::string global_str,int size_str);
+int LetterInLineParallel(std::string global_str, int size_str);
 
 #endif  // MODULES_TASK_1_PESTREEV_D_LETTER_COUNT_LETTER_COUNT_H_
