@@ -41,7 +41,7 @@ int LetterInLineParallel(std::string global_str, int size_str) {
         }
     }
 
-std::string local_str(delta, NULL) {
+	std::string local_str(delta, NULL);
     if (rank == 0) {
         local_str.resize(delta + remain);
         local_str = std::string(global_str.begin(),
