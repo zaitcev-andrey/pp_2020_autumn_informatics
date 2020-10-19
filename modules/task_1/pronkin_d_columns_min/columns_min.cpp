@@ -1,3 +1,4 @@
+// Copyright 2020 Pronkin Dmitry
 #include <mpi.h>
 #include <vector>
 #include <random>
@@ -49,8 +50,7 @@ std::vector<int> getParallelOperations(std::vector<int> global_mat, int cols, in
 	std::vector<int> local_mat(rank == 0 ? (delta + epsilon) * cols : delta * cols);
 	if (rank == 0) {
 		local_mat = {global_mat.begin(), global_mat.begin() + (delta + epsilon) * cols};
-	}
-	else {
+	} else {
 		MPI_Status status;
 		MPI_Recv(local_mat.data(), delta * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 	}
@@ -59,9 +59,7 @@ std::vector<int> getParallelOperations(std::vector<int> global_mat, int cols, in
 	if (rank == 0) {
 		for (int i = 0; i < local_result.size(); i++)
 			result[i] = local_result[i];
-	}
-	else
-	{
+	} else {
 		MPI_Send(local_result.data(), delta, MPI_INT, 0, 0, MPI_COMM_WORLD);
 	}
 	if (rank == 0) {
