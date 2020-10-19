@@ -28,7 +28,7 @@ float get_Paral_Integral(float (*func)(float), int a, int b) {
 
 float get_Integral(float(*func)(float), int a, int b) {
     int n = 10;
-    float  h, ans = 0.0, res = 0.0;
+    float  h,  res = 0.0;
     h = (b - a) / static_cast<float>(n);
     for (int i =0; i < n; i++) {
         float x = a + h * static_cast<float>(i) + h/2;
