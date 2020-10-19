@@ -71,9 +71,12 @@ TEST(Parallel_Operations_MPI, 1000_random_character_string) {
 TEST(Parallel_Operations_MPI, 1000_same_character_string) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::string global_str;
     const int size_str = 1000;
-    global_str = std::string(size_str, 'G');
+    std::string global_str(size_str, '\n');
+    const char G = 'G';
+    for (int i = 0; i < size_str; i++) {
+        global_str[i] = G;
+    }
     int64_t global_sum = LetterInLineParallel(global_str, size_str);
 
     if (rank == 0) {

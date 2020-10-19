@@ -9,9 +9,9 @@ std::string getRandomString(int size) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<int> distribution(0, 127);
-    std::string str(size, NULL);
+    std::string str(size, '\0');
     for (int i = 0; i < size; i++) {
-    str[i] = static_cast<char>(distribution(gen));
+        str[i] = static_cast<char>(distribution(gen));
     }
     return str;
 }
@@ -37,7 +37,7 @@ int64_t LetterInLineParallel(std::string global_str, int size_str) {
         }
     }
 
-    std::string local_str(delta, NULL);
+    std::string local_str(delta, '\0');
     if (rank == 0) {
         local_str.resize(delta + remain);
         local_str = std::string(global_str.begin(),
