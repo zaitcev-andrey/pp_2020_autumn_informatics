@@ -32,13 +32,14 @@ int getParallelSumSentences(std::vector<char> global_line, int size_line) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int delta = size_line / size;
+    const int tmp = delta * size;
+    const int k = size_line - tmp;
     if (rank == 0) {
         for (int process = 1; process < size; process++) {
-            MPI_Send(&global_line[0] + process * delta, delta, MPI_CHAR, process, 0, MPI_COMM_WORLD);
+            MPI_Send(&global_line[0] + k + process * delta, delta, MPI_CHAR, process, 0, MPI_COMM_WORLD);
         }
     }
-
-    std::vector<char> local_line(delta);
+    std::vector<char> local_line(delta+k);
     if (rank == 0) {
         local_line = std::vector<char>(global_line.begin(), global_line.begin() + delta);
     } else {
