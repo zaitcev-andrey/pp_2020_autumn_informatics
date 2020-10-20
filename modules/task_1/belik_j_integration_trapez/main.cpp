@@ -10,7 +10,6 @@
 TEST(Parallel_Operations_MPI, Test_Square) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    
     if (rank == 0) {
         std::function<double(double)>f = [](double x) {return x * x; };
         double i1 = getSequentialIntegration(f, 2, 5, 3);
@@ -22,7 +21,6 @@ TEST(Parallel_Operations_MPI, Test_Square) {
 TEST(Parallel_Operations_MPI, Test_Sin) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
     if (rank == 0) {
         std::function<double(double)>f = [](double x) {return sin(x); };
         double i1 = getSequentialIntegration(f, 0, 3, 10);
@@ -34,7 +32,6 @@ TEST(Parallel_Operations_MPI, Test_Sin) {
 TEST(Parallel_Operations_MPI, Test_Polyn) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
     if (rank == 0) {
         std::function<double(double)>f = [](double x) {return x * x * 5 + 2 * x - 10; };
         double i1 = getSequentialIntegration(f, 0, 10, 10);
@@ -46,7 +43,6 @@ TEST(Parallel_Operations_MPI, Test_Polyn) {
 TEST(Parallel_Operations_MPI, Test_Sqrt_On_Big_Length) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
     if (rank == 0) {
         std::function<double(double)>f = [](double x) { return sqrt(x); };
         double i1 = getSequentialIntegration(f, 0, 1000, 100);
@@ -58,7 +54,6 @@ TEST(Parallel_Operations_MPI, Test_Sqrt_On_Big_Length) {
 TEST(Parallel_Operations_MPI, Test_Sqrt_On_Little_Length) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
     if (rank == 0) {
         std::function<double(double)>f = [](double x) { return sqrt(x); };
         double i1 = getSequentialIntegration(f, 0, 9, 9);
