@@ -15,7 +15,7 @@ TEST(Parallel_Operations_MPI, Test_Square) {
         std::function<double(double)>f = [](double x) {return x * x; };
         double i1 = getSequentialIntegration(f, 2, 5, 3);
         double i2 = getParallelIntegration(f, 2, 5, 3);
-        EXPECT_NEAR(i1, i2, 1e-2);
+        ASSERT_EQ(i1, i2);
     }
 }
 
