@@ -23,7 +23,7 @@ pair<int, int> getParallelOperations(const vector<int>& vec) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if ((vec.size() <= size) || (size == 1)) {
+    if ((static_cast<int>(vec.size()) <= size) || (size == 1)) {
         if (rank == 0) {
             return getSequentialOperations(vec);
         } else {
@@ -76,7 +76,7 @@ pair<int, int> getSequentialOperations(const vector<int>& vec) {
     int difference = abs(vec[0] - vec[1]);
     pair<int, int> result = std::make_pair(vec[0], vec[1]);
 
-    for (int i = 1; i < vec.size() - 1; i++) {
+    for (int i = 1; i < static_cast<int>(vec.size()) - 1; i++) {
         if (abs(vec[i] - vec[i + 1]) < difference) {
             difference = abs(vec[i] - vec[i + 1]);
             result.first = vec[i];
