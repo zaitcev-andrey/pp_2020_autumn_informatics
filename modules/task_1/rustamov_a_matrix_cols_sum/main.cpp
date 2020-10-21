@@ -2,7 +2,7 @@
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include "./matrix_sum.h"
+#include "./matrix_cols_sum.h"
 
 TEST(Parallel_Matrix_Cols_Sum, Size_0x0) {
     int procRank;
