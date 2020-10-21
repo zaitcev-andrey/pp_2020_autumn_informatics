@@ -5,6 +5,7 @@
 #include "matrix_columns_sum.h"
 #include <cassert>
 #include <cmath>
+#include <numeric>
 
 std::vector<int> generateRandomMatrix(int count_rows, int count_columns)
 {
@@ -12,32 +13,18 @@ std::vector<int> generateRandomMatrix(int count_rows, int count_columns)
     assert(count_rows != 0);
 
     srand(time(NULL));
-    std::vector<int> matrix(count_columns * count_rows);
+    std::vector<int> matrix;
 
     for (size_t i = 0; i < matrix.size(); i++)
     {
-        matrix[i] = rand() % 50 - 50;
+        matrix[i] = rand() % 100 - 50;
     }
 
     return matrix;
 }
 
-std::vector<int> transposeMatrix(std::vector<int> matrix, int count_columns)
-{
-    assert(count_columns != 0);
-
-    std::vector<int> transposed_matrix;
-
-    for (size_t i = 0; i < matrix.size(); i++)
-    {
-        transposed_matrix.push_back(matrix[i] * count_columns);
-    }
-
-    return transposed_matrix;
-}
-
 std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns,
-                                             int count_rows, int count_processes, int process_id, int offset)
+                                         int count_rows, int count_processes, int process_id, int offset)
 {
     assert(count_processes != 0);
     assert(count_columns != 0);
@@ -45,7 +32,7 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
     assert(offset != 0);
     assert(vector.size() != 0);
 
-    std::vector<int> sum_columns(count_columns);
+    std::vector<int> sum_columns;
 
     /*
      * If count process == 1 we just calculate all the columns sums by one process
@@ -69,13 +56,16 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
 
     if (count_processes == 1)
     {
-        std::vector<int> transposed_matrix = transposeMatrix(vector, count_columns);
-
-        for (size_t i = 0; i < count_columns; i++)
+        for (size_t current_column = 0; current_column < count_columns; current_column++)
         {
-            std::partial_sum(transposed_matrix.begin() + count_columns * i,
-                             transposed_matrix.begin() + count_columns * (i + 1),
-                             sum_columns.begin() + i);
+            int local_column_sum = 0;
+
+            for (size_t current_row = 0; current_row < count_columns; current_row++)
+            {
+                local_column_sum += vector[current_column + current_row * count_columns];
+            }
+
+            sum_columns.push_back(local_column_sum);
         }
     }
     else
@@ -95,26 +85,26 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
         // tail always is located in the next row after the current one
         if (process_id * offset + offset > count_columns * current_row)
         {
-            static int head_size = count_columns * current_row - offset * process_id;
-            std::vector<int> head = std::vector<int>(count_columns);
-            std::vector<int> tail = std::vector<int>(count_columns);
+            int head_size = count_columns * current_row - offset * process_id;
+            std::vector<int> head;
+            std::vector<int> tail;
 
             // if the first number of the vector isn't the start of the current row
             // if it is, we fill the empty elements with zeros up to the first element of the vector
-            if (process_id * offset > count_columns * current_row)
+            if (process_id * offset > count_columns * (current_row - 1))
             {
-                for (size_t i = 0; i < process_id * offset; i++)
+                for (size_t i = 0; count_columns * (current_row - 1) + i < process_id * offset; i++)
                     head.push_back(0);
             }
 
             for (size_t i = 0; i < head_size; i++)
                 head.push_back(vector[i]);
 
-            for (size_t i = head_size + 1; i < vector.size(); i++)
+            for (size_t i = head_size; i < vector.size(); i++)
                 tail.push_back(vector[i]);
 
             // fill with zeros empty elements of the tail until the next row after current ends
-            while (process_id * offset + offset <= (current_row + 1) * count_columns)
+            for (size_t i = 0; (offset * process_id + offset) + i < count_columns * (current_row + 1); i++)
                 tail.push_back(0);
 
             for (size_t i = 0; i < count_columns; i++)
@@ -122,19 +112,26 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
         }
         else
         {
-            if (process_id * offset > count_columns * current_row)
+            if (process_id * offset > count_columns * (current_row - 1))
             {
-                for (size_t i = 0; i < process_id * offset; i++)
+                for (size_t i = 0; (count_columns * (current_row - 1) + i) < process_id * offset; i++)
                     sum_columns.push_back(0);
             }
 
             for (size_t i = 0; i < vector.size(); i++)
                 sum_columns.push_back(vector[i]);
+
+            if (process_id * offset + offset < count_columns * current_row)
+            {
+                for (size_t i = 0; process_id * offset + offset + i < count_columns * current_row; i++)
+                    sum_columns.push_back(0);
+            }
         }
     }
 
     return sum_columns;
 }
+
 
 std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_columns, int count_rows)
 {
@@ -152,11 +149,11 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
 
     int offset = int(ceil(matrix.size() / processes_count));
 
-    int memory_blocks_count = matrix.size() / offset;
+    const int MAX_COUNT_PROCESS_TO_USE = matrix.size() / offset;
 
     if (process_rank == 0)
     {
-        for (size_t process_id = 1; process_id < processes_count && process_id < memory_blocks_count; process_id++)
+        for (size_t process_id = 1; process_id < processes_count && process_id < MAX_COUNT_PROCESS_TO_USE; process_id++)
         {
             MPI_Send(&matrix[0] + offset * process_id,
                      offset, MPI_INT, process_id, 0,
@@ -180,6 +177,6 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     std::vector<int> sequential_columns_sum = getSequentialColumnsSum(local_vec, count_columns, count_rows,
                                                                       processes_count, process_rank, offset);
 
-    MPI_Reduce(&sequential_columns_sum, &global_columns_sum, count_columns, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&sequential_columns_sum, &global_columns_sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return global_columns_sum;
 }

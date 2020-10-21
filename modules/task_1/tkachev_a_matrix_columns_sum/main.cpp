@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "matrix_columns_sum.h"
+#include <numeric>
 
 // 1
 TEST(Parallel_Operations_MPI, Matrix_20_20)
