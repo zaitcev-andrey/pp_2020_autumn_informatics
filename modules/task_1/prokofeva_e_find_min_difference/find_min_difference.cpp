@@ -26,25 +26,23 @@ pair<int, int> getParallelOperations(const vector<int>& vec) {
     if ((vec.size() <= size) || (size == 1)) {
         if (rank == 0) {
             return getSequentialOperations(vec);
-        }
-        else {
+        } else {
             return std::make_pair(0, 0);
         }
     }
-    
+
     vector<int> local_vector;
 
     int delta = vec.size() / size + 1;
-    
-    if(rank == 0) {
+
+    if (rank == 0) {
         for (int num_proc = 1; num_proc < size; num_proc++) {
             int start_index = delta * num_proc - 1 * num_proc;
 
             if (num_proc == size - 1) {
                 MPI_Send(&vec[0] + start_index, vec.size() - start_index,
                     MPI_INT, num_proc, 0, MPI_COMM_WORLD);
-            }
-            else {
+            } else {
                 MPI_Send(&vec[0] + start_index, delta, MPI_INT, num_proc, 0, MPI_COMM_WORLD);
             }
         }

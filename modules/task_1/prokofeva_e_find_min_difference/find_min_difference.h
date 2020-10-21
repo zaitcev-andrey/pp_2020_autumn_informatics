@@ -1,6 +1,6 @@
 // Copyright 2020 Prokofeva Elizaveta
-#ifndef MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H
-#define MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H
+#ifndef MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H_
+#define MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H_
 
 #include <vector>
 #include <utility>
@@ -16,4 +16,4 @@ pair<int, int> getSequentialOperations(const vector<int>& vec);
 
 void pairCompare(int* input, int* output, int* lenght, MPI_Datatype* dtype);
 
-#endif  // MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H
+#endif  // MODULES_TASK_1_PROKOFEVA_E_FIND_MIN_DIFFERENCE_FIND_MIN_DIFFERENCE_H_
