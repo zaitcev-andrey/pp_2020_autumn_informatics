@@ -12,7 +12,7 @@ char* getRandomString(int len) {
     const char alph[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     char* res = new char[len + 1];
     for (int i = 0; i < len; i++) {
-        res[i] = alph[gen() % (strlen(alph) - 1)];
+        res[i] = alph[gen() % strlen(alph)];
     }
     res[len] = '\0';
     return res;
