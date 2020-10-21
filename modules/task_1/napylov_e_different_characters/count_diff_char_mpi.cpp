@@ -12,15 +12,15 @@ char* getRandomString(int len) {
     const char alph[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     char* res = new char[len + 1];
     for (int i = 0; i < len; i++) {
-        res[i] = alph[gen() % (strlen(alph) - 1)];
+        res[i] = alph[gen() % strlen(alph)];
     }
     res[len] = '\0';
     return res;
 }
 
-int getSequentialDifferenceCount(const char *str1, const char *str2) {
+int getSequentialDifferenceCount(const char *str1, const char *str2, int len) {
     int diff_count = 0;
-    for (size_t i = 0; i < strlen(str1); i++) {
+    for (size_t i = 0; i < len; i++) {
         if (str1[i] != str2[i]) {
             diff_count++;
         }
@@ -60,26 +60,25 @@ int getParallelDifferenceCount(const char *str1, const char *str2) {
     char* str1_local;
     char* str2_local;
     int local_diff = 0;
-
+    int len_local = 0;
     if (rank == 0) {
-        str1_local = new char[rem + delta + 1];
-        str2_local = new char[rem + delta + 1];
+        len_local = rem + delta;
+        str1_local = new char[len_local];
+        str2_local = new char[len_local];
+        // My compiler says strncpy is not a safe function
         for (int i = 0; i < rem + delta; i++) {
             str1_local[i] = str1[i];
             str2_local[i] = str2[i];
         }
-        str1_local[rem + delta] = '\0';
-        str2_local[rem + delta] = '\0';
     } else {
-        str1_local = new char[delta + 1];
-        str2_local = new char[delta + 1];
+        len_local = delta;
+        str1_local = new char[len_local];
+        str2_local = new char[len_local];
         MPI_Status status;
         MPI_Recv(&str1_local[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         MPI_Recv(&str2_local[0], delta, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
-        str1_local[delta] = '\0';
-        str2_local[delta] = '\0';
     }
-    local_diff = getSequentialDifferenceCount(str1_local, str2_local);
+    local_diff = getSequentialDifferenceCount(str1_local, str2_local, len_local);
     delete[] str1_local;
     delete[] str2_local;
     MPI_Reduce(&local_diff, &global_diff, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
