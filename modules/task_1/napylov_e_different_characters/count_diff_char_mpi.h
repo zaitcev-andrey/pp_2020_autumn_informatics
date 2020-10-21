@@ -4,7 +4,7 @@
 
 
 char* getRandomString(int len);
-int getSequentialDifferenceCount(const char *str1, const char *str2);
+int getSequentialDifferenceCount(const char *str1, const char *str2, int len);
 int getParallelDifferenceCount(const char *str1, const char *str2);
 
 
