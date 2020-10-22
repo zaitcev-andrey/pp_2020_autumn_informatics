@@ -6,7 +6,7 @@
 using Matrix = std::vector<int>;
 
 Matrix RandomMatrix(int rows, int cols);
-Matrix SequentialColsSum(Matrix matrix, int rows, int *sum);
+Matrix SequentialColsSum(Matrix matrix, int rows, int cols);
 Matrix ParallelColsSum(Matrix matrix, int rows, int cols);
 
 #endif  // MODULES_TASK_1_RUSTAMOV_A_MATRIX_COLS_SUM_MATRIX_COLS_SUM_H_
