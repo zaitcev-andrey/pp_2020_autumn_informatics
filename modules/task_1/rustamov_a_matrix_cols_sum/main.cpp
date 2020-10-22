@@ -13,10 +13,10 @@ TEST(Parallel_Matrix_Cols_Sum, Size_0x0) {
         matrix = RandomMatrix(rows, cols);
     ASSERT_ANY_THROW(ParallelColsSum(matrix, rows, cols));
 }
-TEST(Parallel_Matrix_Cols_Sum, Size_100x100) {
+TEST(Parallel_Matrix_Cols_Sum, Size_1x100) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 100, cols = 100;
+    int rows = 1, cols = 100;
     Matrix matrix;
     if (procRank == 0)
          matrix = RandomMatrix(rows, cols);
