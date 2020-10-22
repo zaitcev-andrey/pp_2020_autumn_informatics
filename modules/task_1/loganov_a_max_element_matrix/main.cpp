@@ -98,8 +98,8 @@ TEST(TEST_PARALEL_MPI, TEST4) {
 TEST(TEST_PARALEL_MPI, TEST5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int rows = 0;
-    const int cols = 0;
+    const int rows = 33;
+    const int cols = 3;
     int size = rows * cols;
     int** matr;
     std::vector<int> matrvec(size, 0);

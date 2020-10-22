@@ -34,12 +34,7 @@ std::vector<int> randomMatrix(int** Matrix, int cols, int rows) {
     return rez;
 }
 int getSequentialMax(const std::vector<int>& vec) {
-    int  maxb = vec[0];
-    for (int i = 1; i < vec.size(); i++) {
-        maxb = std::max(maxb, vec[i]);
-    }
-
-    return maxb;
+    return *std::max_element(vec.begin(), vec.end());
 }
 std::vector<int> getParallelMaxElements(const std::vector<int>& a, int cols, int rows) {
     int rank, size;
