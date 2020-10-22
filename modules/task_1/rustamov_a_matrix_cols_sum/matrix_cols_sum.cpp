@@ -35,6 +35,12 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     if (rows * cols == 0) {
         throw "Invalid matrix size";
     }
+    if(rows == 1) {
+        return matrix;
+    }
+    if (cols == 1) {
+        return std::accumulate(matrix.begin(), matrix.end());
+    }
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
