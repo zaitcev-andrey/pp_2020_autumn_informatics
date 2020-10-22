@@ -4,6 +4,7 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 #include "../../../modules/task_1/rustamov_a_matrix_cols_sum/matrix_cols_sum.h"
 
 Matrix RandomMatrix(int rows, int cols) {
