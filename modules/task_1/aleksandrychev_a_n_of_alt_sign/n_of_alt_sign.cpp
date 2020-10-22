@@ -5,6 +5,7 @@
 #include <ctime>
 #include <random>
 #include "../../../../modules/task_1/aleksandrychev_a_n_of_alt_sign/n_of_alt_sign.h"
+#define INT_MIN -2147483647
 
 
 std::vector<int> create_rand_vector(int size) {
@@ -20,7 +21,7 @@ int get_num_alter_signs(std::vector<int> a) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     int res = 0;
-    for (int i = 0; i < a.size() - 1; i++) {
+    for (int i = 0; i < static_cast<int>(a.size()) - 1; i++) {
         if ((a[i] & (1 << 31)) != (a[i + 1] & (1 << 31))) {
             res++;
         }
@@ -36,7 +37,7 @@ int get_parallel_solution(std::vector<int> a) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 
-    if (a.size() <= size || size == 1) {
+    if (static_cast<int>(a.size()) <= size || size == 1) {
         if (rank == 0) {
             return get_num_alter_signs(a);
         } else {
