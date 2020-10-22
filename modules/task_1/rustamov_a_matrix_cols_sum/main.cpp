@@ -46,23 +46,6 @@ TEST(Parallel_Matrix_Cols_Sum, Size_2x100) {
     }
 }
 
-
-TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
-    int procRank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 1, cols = 50;
-    Matrix matrix;
-    if (procRank == 0)
-        matrix = RandomMatrix(rows, cols);
-    Matrix sum = ParallelColsSum(matrix, rows, cols);
-    if (procRank == 0) {
-        Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        for (int i = 0; i < cols; i++) {
-            ASSERT_EQ(control_sum[i], sum[i]);
-        }
-    }
-}
-
 TEST(Parallel_Matrix_Cols_Sum, Size_22x44) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
