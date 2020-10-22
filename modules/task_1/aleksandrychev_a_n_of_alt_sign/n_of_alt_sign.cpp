@@ -4,7 +4,7 @@
 #include <vector>
 #include <ctime>
 #include <random>
-#include "../modules/task_1/aleksandrychev_a_n_of_alt_sign/n_of_alt_sign.h"
+#include "../../../../modules/task_1/aleksandrychev_a_n_of_alt_sign/n_of_alt_sign.h"
 
 
 std::vector<int> create_rand_vector(int size) {
