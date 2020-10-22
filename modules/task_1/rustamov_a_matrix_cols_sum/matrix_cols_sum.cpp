@@ -41,7 +41,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     if ((n == 0)&&(rows > 2)) {
         const int n = 2;
         int procNumNew = rows / 2;
-        delta = rows % procNumNew;
+        int delta = rows % procNumNew;
     } else {
         int procNumNew = procNum;
         const int n = rows / procNumNew;
