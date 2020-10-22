@@ -38,10 +38,19 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    const int n = rows / procNum;
-    int delta = rows % procNum;
+    if (n == 0)&&(rows > 2) {
+        const int n = 2;
+        int procNumNew = rows / 2;
+        delta = rows % procNumNew;
+    } else {
+        int procNumNew = procNum;
+        const int n = rows / procNumNew;
+        int delta = rows % procNumNew;
+    }
+    Matrix global_sum(cols);
+    Matrix local_sum(cols);
     if (procRank == 0) {
-        for (int i = 1; i < procNum; i++) {
+        for (int i = 1; i < procNumNew; i++) {
             MPI_Send(&matrix[0] + (delta * cols) + (i * n * cols), n * cols, MPI_INT, i, 0, MPI_COMM_WORLD);
         }
     }
@@ -52,8 +61,6 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
         MPI_Status status;
         MPI_Recv(&local_matrix[0], n * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
-    Matrix global_sum(cols);
-    Matrix local_sum(cols);
     local_sum = SequentialColsSum(local_matrix, n + (procRank == 0 ? delta : 0), cols);
     MPI_Reduce(&local_sum[0], &global_sum[0], cols, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return global_sum;
