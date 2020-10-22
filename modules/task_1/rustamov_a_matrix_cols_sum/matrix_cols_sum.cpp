@@ -38,7 +38,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    if ((rows / procNum == 0)&&(rows > 2)) {
+    if ((rows / procNum == 0)&&(rows > 3)) {
         const int n = 2;
         int procNumNew = rows / 2;
         int delta = rows % procNumNew;
