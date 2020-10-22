@@ -13,21 +13,6 @@ TEST(Parallel_Matrix_Cols_Sum, Size_0x0) {
         matrix = RandomMatrix(rows, cols);
     ASSERT_ANY_THROW(ParallelColsSum(matrix, rows, cols));
 }
-TEST(Parallel_Matrix_Cols_Sum, Size_1x100) {
-    int procRank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 1, cols = 100;
-    Matrix matrix;
-    if (procRank == 0)
-         matrix = RandomMatrix(rows, cols);
-    Matrix sum = ParallelColsSum(matrix, rows, cols);
-    if (procRank == 0) {
-        Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        for (int i = 0; i < cols; i++) {
-            ASSERT_EQ(control_sum[i], sum[i]);
-        }
-    }
-}
 
 TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
     int procRank;
@@ -44,6 +29,23 @@ TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
         }
     }
 }
+
+TEST(Parallel_Matrix_Cols_Sum, Size_1x100) {
+    int procRank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+    int rows = 1, cols = 100;
+    Matrix matrix;
+    if (procRank == 0)
+         matrix = RandomMatrix(rows, cols);
+    Matrix sum = ParallelColsSum(matrix, rows, cols);
+    if (procRank == 0) {
+        Matrix control_sum = SequentialColsSum(matrix, rows, cols);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
+    }
+}
+
 
 TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
     int procRank;
