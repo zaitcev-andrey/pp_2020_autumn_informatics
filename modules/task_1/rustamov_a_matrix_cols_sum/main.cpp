@@ -27,10 +27,10 @@ TEST(Parallel_Matrix_Cols_Sum, Size_100x100) {
     }
 }
 
-TEST(Parallel_Matrix_Cols_Sum, Size_92x1) {
+TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 92, cols = 1;
+    int rows = 72, cols = 1;
     Matrix matrix;
     if (procRank == 0)
         matrix = RandomMatrix(rows, cols);
@@ -41,10 +41,10 @@ TEST(Parallel_Matrix_Cols_Sum, Size_92x1) {
     }
 }
 
-TEST(Parallel_Matrix_Cols_Sum, Size_1x35) {
+TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 1, cols = 35;
+    int rows = 1, cols = 50;
     Matrix matrix;
     if (procRank == 0)
         matrix = RandomMatrix(rows, cols);
@@ -55,10 +55,10 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x35) {
     }
 }
 
-TEST(Parallel_Matrix_Cols_Sum, Size_77x58) {
+TEST(Parallel_Matrix_Cols_Sum, Size_22x44) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 77, cols = 58;
+    int rows = 22, cols = 44;
     Matrix matrix;
     if (procRank == 0)
         matrix = RandomMatrix(rows, cols);
