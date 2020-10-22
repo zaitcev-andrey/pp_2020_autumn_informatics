@@ -45,7 +45,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
             MPI_Send(&matrix[0] + (delta * cols) + (i * n * cols), n * cols, MPI_INT, i, 0, MPI_COMM_WORLD);
         }
     }
-    Matrix local_matrix(n + (procRank == 0 ? delta : 0));
+    Matrix local_matrix((n + (procRank == 0 ? delta : 0)) * cols);
     if (procRank == 0) {
         local_matrix = Matrix(matrix.begin(), matrix.begin() + (n + delta) * cols);
     } else {
