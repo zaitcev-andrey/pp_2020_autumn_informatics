@@ -19,12 +19,12 @@ Matrix RandomMatrix(int rows, int cols) {
 }
 
 Matrix SequentialColsSum(Matrix matrix, int rows, int cols) {
-    if(rows * cols == 0) {
+    if (rows * cols == 0) {
         throw "Invalid matrix size.";
     }
     Matrix sum(cols);
     for (int i = 0; i < rows; i++) {
-        for ( int j = 0; j < cols; j++) {
+        for (int j = 0; j < cols; j++) {
             sum[j] += matrix[i][j];
         }
     }
@@ -56,27 +56,5 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     Matrix local_sum(cols);
     local_sum = SequentialColsSum(local_matrix, n + (procRank == 0 ? delta : 0), cols);
     MPI_Reduce(&local_sum[0], &global_sum[0], cols, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    return global_sum;
-    /*const int n = tr_rows / procNum;
-    int delta = tr_rows % procNum;
-    int local_tr_matrix[n][tr_cols];
-    int local_sum[n];
-    int zero_sum[n+delta];
-    int global_sum[tr_rows]
-    if (procRank == 0) {
-        for (int i = 1; i < procNum; i++)
-            MPI_Send(transposed_matrix + delta + i * n, n, MPI_INT, i, 0, MPI_COMM_WORLD);
-        zero_sum = SequentialColsSum(transposed_matrix, n + delta, tr_cols);
-        for (int i = 1; i < procNum; i++)
-        {
-            MPI_Status status;
-            MPI_Recv(global_sum[delta + i * n], n, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
-        }
-    } else {
-        MPI_Status status;
-        MPI_Recv(local_tr_matrix, n * tr_cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
-        local_sum = SequentialColsSum(local_tr_matrix, n, tr_cols);
-        MPI_Send(local_sum, n, MPI_INT, 0, 0, MPI_COMM_WORLD);
-    }*/
     return global_sum;
 }
