@@ -23,7 +23,10 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x100) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(control_sum, sum);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
+        
     }
 }
 
@@ -37,7 +40,9 @@ TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(control_sum, sum);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
     }
 }
 
@@ -51,7 +56,9 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(control_sum, sum);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
     }
 }
 
@@ -65,7 +72,9 @@ TEST(Parallel_Matrix_Cols_Sum, Size_22x44) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(control_sum, sum);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
     }
 }
 
@@ -79,16 +88,19 @@ TEST(Parallel_Matrix_Cols_Sum, Size_58x77) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(control_sum, sum);
+        for (int i = 0; i < cols; i++) {
+            ASSERT_EQ(control_sum[i], sum[i]);
+        }
     }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
-    ::testing::TestEventListeners &listeners = ::testing::UnitTest::GetInstance()->listeners();
+    ::testing::TestEventListeners& listeners =
+        ::testing::UnitTest::GetInstance()->listeners();
 
     listeners.Release(listeners.default_result_printer());
     listeners.Release(listeners.default_xml_generator());
