@@ -22,7 +22,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_100x100) {
          matrix = RandomMatrix(rows, cols);
     int sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
-        int controlSum = SequentialColsSum(matrix);
+        int controlSum = SequentialColsSum(matrix, rows, cols);
         ASSERT_EQ(controlSum, sum);
     }
 }
@@ -36,7 +36,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
         matrix = RandomMatrix(rows, cols);
     int sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
-        int controlSum = SequentialColsSum(matrix);
+        int controlSum = SequentialColsSum(matrix, rows, cols);
         ASSERT_EQ(controlSum, sum);
     }
 }
@@ -50,7 +50,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
         matrix = RandomMatrix(rows, cols);
     int sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
-        int controlSum = SequentialColsSum(matrix);
+        int controlSum = SequentialColsSum(matrix, rows, cols);
         ASSERT_EQ(controlSum, sum);
     }
 }
@@ -64,7 +64,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_22x44) {
         matrix = RandomMatrix(rows, cols);
     int sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
-        int controlSum = SequentialColsSum(matrix);
+        int controlSum = SequentialColsSum(matrix, rows, cols);
         ASSERT_EQ(controlSum, sum);
     }
 }
@@ -78,7 +78,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_58x77) {
         matrix = RandomMatrix(rows, cols);
     int sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
-        int controlSum = SequentialColsSum(matrix);
+        int controlSum = SequentialColsSum(matrix, rows, cols);
         ASSERT_EQ(controlSum, sum);
     }
 }
