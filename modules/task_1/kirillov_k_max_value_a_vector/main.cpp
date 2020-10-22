@@ -47,7 +47,7 @@ TEST(Parallel_Operations_MPI, Test_Max_300) {
         ASSERT_EQ(seqMax, globalMax);
     }
 }
-TEST(Parallel_Operations_MPI, Test_Max_500) {
+TEST(Parallel_Operations_MPI, Test_Max_333) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int size = 500;

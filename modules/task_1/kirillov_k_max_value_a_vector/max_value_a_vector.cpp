@@ -23,14 +23,15 @@ int getParallelMax(std::vector<int> vec, int size_vec) {
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int delta = size_vec / procNum;
+    int tmp = size_vec - delta*procNum;
     if (procRank == 0) {
         for (int proc = 1; proc < procNum; proc++) {
-            MPI_Send(&vec[0] + proc * delta, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
+            MPI_Send(&vec[0] + tmp + proc * delta, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
     }
-    std::vector<int> local(delta);
+    std::vector<int>local(delta);
     if (procRank == 0) {
-        local = std::vector<int>(vec.begin(), vec.begin() + delta);
+        local = std::vector<int>(vec.begin(), vec.begin() + tmp + delta);
     } else {
         MPI_Status status;
         MPI_Recv(&local[0], delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
