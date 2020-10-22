@@ -29,7 +29,11 @@ int getParallelMax(std::vector<int> vec, int size_vec) {
             MPI_Send(&vec[0] + tmp + proc * delta, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
     }
-    std::vector<int>local(delta);
+    int local_size;
+    if (procRank == 0) local_size = tmp + delta;
+    else
+    local_size = delta;
+    std::vector<int>local(local_size);
     if (procRank == 0) {
         local = std::vector<int>(vec.begin(), vec.begin() + tmp + delta);
     } else {
