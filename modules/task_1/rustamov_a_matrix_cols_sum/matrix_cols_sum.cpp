@@ -35,7 +35,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     if (rows * cols == 0) {
         throw "Invalid matrix size";
     }
-    if(rows == 1) {
+    if (rows == 1) {
         return matrix;
     }
     if (cols == 1) {
