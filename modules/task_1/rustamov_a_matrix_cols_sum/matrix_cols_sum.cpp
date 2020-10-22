@@ -38,19 +38,12 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    if ((rows / procNum == 0)&&(rows > 3)) {
-        const int n = 2;
-        int procNumNew = rows / 2;
-        int delta = rows % procNumNew;
-    } else {
-        int procNumNew = procNum;
-        const int n = rows / procNumNew;
-        int delta = rows % procNumNew;
-    }
+    const int n = rows / procNum;
+    int delta = rows % procNum;
     Matrix global_sum(cols);
     Matrix local_sum(cols);
     if (procRank == 0) {
-        for (int i = 1; i < procNumNew; i++) {
+        for (int i = 1; i < procNum; i++) {
             MPI_Send(&matrix[0] + (delta * cols) + (i * n * cols), n * cols, MPI_INT, i, 0, MPI_COMM_WORLD);
         }
     }
