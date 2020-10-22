@@ -20,7 +20,7 @@ TEST(Parallel_Count_Sentences_MPI, Rand_Vector_With_Size_50) {
 
     if (rank == 0) {
         int single_res = get_num_alter_signs(global_vector);
-        ASSERT_EQ(single_res, single_res);
+        ASSERT_EQ(parallel_res, single_res);
     }
 }
 
@@ -38,7 +38,7 @@ TEST(Parallel_Count_Sentences_MPI, Rand_Vector_With_Size_500) {
 
     if (rank == 0) {
         int single_res = get_num_alter_signs(global_vector);
-        ASSERT_EQ(single_res, single_res);
+        ASSERT_EQ(parallel_res, single_res);
     }
 }
 
@@ -56,7 +56,7 @@ TEST(Parallel_Count_Sentences_MPI, Rand_Vector_With_Size_50000) {
 
     if (rank == 0) {
         int single_res = get_num_alter_signs(global_vector);
-        ASSERT_EQ(single_res, single_res);
+        ASSERT_EQ(parallel_res, single_res);
     }
 }
 
@@ -74,7 +74,7 @@ TEST(Parallel_Count_Sentences_MPI, Rand_Vector_With_Size_100000) {
 
     if (rank == 0) {
         int single_res = get_num_alter_signs(global_vector);
-        ASSERT_EQ(single_res, single_res);
+        ASSERT_EQ(parallel_res, single_res);
     }
 }
 
@@ -92,7 +92,7 @@ TEST(Parallel_Count_Sentences_MPI, Rand_Vector_With_Size_1000000) {
 
     if (rank == 0) {
         int single_res = get_num_alter_signs(global_vector);
-        ASSERT_EQ(single_res, single_res);
+        ASSERT_EQ(parallel_res, single_res);
     }
 }
 

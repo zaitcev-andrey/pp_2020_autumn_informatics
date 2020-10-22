@@ -46,30 +46,41 @@ int get_parallel_solution(std::vector<int> a) {
 
     int delta = a.size() / size;
     int remainder = a.size() % size;
+	
+	// a.push_back(a.end);
+	// d = 1
+	// r = 2
+	// 1 -2 3 -4 5 -6 | -6
 
     std::vector<int> locale_vector;
     int loc_res, greate_res = 0;
 
     if (rank == 0) {
         for (int idx_p = 1; idx_p < size; idx_p++) {
-            MPI_Send(&a[0] + delta * idx_p + remainder, delta, MPI_INT, idx_p, 0, MPI_COMM_WORLD);
+			if (idx_p != size - 1) {
+			    MPI_Send(&a[0] + delta * idx_p + remainder, delta + 1, MPI_INT, idx_p, 0, MPI_COMM_WORLD);
+			} else {
+				MPI_Send(&a[0] + delta * idx_p + remainder, delta, MPI_INT, idx_p, 0, MPI_COMM_WORLD);
+			}
         }
     }
 
     if (rank == 0) {
-        locale_vector = std::vector<int>(delta + remainder);
-    } else {
-        locale_vector = std::vector<int>(delta);
-    }
-
-    if (rank == 0) {
-        locale_vector = std::vector<int>(a.begin(), a.begin() + delta + remainder);
+        locale_vector = std::vector<int>(a.begin(), a.begin() + delta + remainder + 1);
     } else {
         MPI_Status status;
 
-        locale_vector = std::vector<int>(delta);
+        if (rank != size - 1) {
+		    locale_vector = std::vector<int>(delta + 1);
+		} else {
+			locale_vector = std::vector<int>(delta);
+		}
 
-        MPI_Recv(&locale_vector[0], delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        if (rank != size - 1) {
+		    MPI_Recv(&locale_vector[0], delta + 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+		} else {
+			MPI_Recv(&locale_vector[0], delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+		}
     }
     loc_res = get_num_alter_signs(locale_vector);
     MPI_Reduce(&loc_res, &greate_res, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
