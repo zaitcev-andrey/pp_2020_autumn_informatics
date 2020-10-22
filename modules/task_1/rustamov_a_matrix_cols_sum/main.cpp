@@ -23,7 +23,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_100x100) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(controlSum, sum);
+        ASSERT_EQ(control_sum, sum);
     }
 }
 
@@ -37,7 +37,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_72x1) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(controlSum, sum);
+        ASSERT_EQ(control_sum, sum);
     }
 }
 
@@ -51,7 +51,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x50) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(controlSum, sum);
+        ASSERT_EQ(control_sum, sum);
     }
 }
 
@@ -65,7 +65,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_22x44) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(controlSum, sum);
+        ASSERT_EQ(control_sum, sum);
     }
 }
 
@@ -79,7 +79,7 @@ TEST(Parallel_Matrix_Cols_Sum, Size_58x77) {
     Matrix sum = ParallelColsSum(matrix, rows, cols);
     if (procRank == 0) {
         Matrix control_sum = SequentialColsSum(matrix, rows, cols);
-        ASSERT_EQ(controlSum, sum);
+        ASSERT_EQ(control_sum, sum);
     }
 }
 
