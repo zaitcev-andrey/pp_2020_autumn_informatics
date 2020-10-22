@@ -5,8 +5,6 @@
 #include <ctime>
 #include <random>
 #include "../../../../modules/task_1/aleksandrychev_a_n_of_alt_sign/n_of_alt_sign.h"
-#define INT_MIN -2147483647
-
 
 std::vector<int> create_rand_vector(int size) {
     std::mt19937 random_generator;
@@ -41,7 +39,7 @@ int get_parallel_solution(std::vector<int> a) {
         if (rank == 0) {
             return get_num_alter_signs(a);
         } else {
-            return INT_MIN;
+            return -2147483647;
         }
     }
 
