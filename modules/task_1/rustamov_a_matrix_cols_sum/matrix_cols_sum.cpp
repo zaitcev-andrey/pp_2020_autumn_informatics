@@ -39,7 +39,9 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
         return matrix;
     }
     if (cols == 1) {
-        return std::accumulate(matrix.begin(), matrix.end(), 0);
+        Matrix sum(1);
+        sum[0] = std::accumulate(matrix.begin(), matrix.end(), 0);
+        return sum;
     }
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
