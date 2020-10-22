@@ -12,7 +12,7 @@ Matrix RandomMatrix(int rows, int cols) {
     Matrix matrix(rows * cols);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            matrix(i * cols + j) = static_cast<int>(mersenne() % 100u);
+            matrix[i * cols + j] = static_cast<int>(mersenne() % 100u);
         }
     }
     return matrix;
@@ -25,7 +25,7 @@ Matrix SequentialColsSum(Matrix matrix, int rows, int cols) {
     Matrix sum(cols);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            sum[j] += matrix[i][j];
+            sum[j] += matrix[i * cols + j];
         }
     }
     return sum;
