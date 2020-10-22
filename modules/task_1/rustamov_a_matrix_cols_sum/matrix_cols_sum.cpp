@@ -50,7 +50,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
         local_matrix = Matrix(matrix.begin(), matrix.begin() + (n + delta) * cols);
     } else {
         MPI_Status status;
-        MPI_Recv(&local_matrix[0], n * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, status);
+        MPI_Recv(&local_matrix[0], n * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
     Matrix global_sum(cols);
     Matrix local_sum(cols);
