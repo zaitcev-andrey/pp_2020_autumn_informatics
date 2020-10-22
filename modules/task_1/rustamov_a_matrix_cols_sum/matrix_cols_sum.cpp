@@ -44,7 +44,7 @@ Matrix ParallelColsSum(Matrix matrix, int rows, int cols) {
         int delta = rows % procNumNew;
     } else {
         int procNumNew = procNum;
-        const int n = New;
+        const int n = rows / procNumNew;
         int delta = rows % procNumNew;
     }
     Matrix global_sum(cols);
