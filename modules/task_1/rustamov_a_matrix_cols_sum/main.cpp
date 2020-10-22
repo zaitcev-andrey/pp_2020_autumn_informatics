@@ -26,7 +26,6 @@ TEST(Parallel_Matrix_Cols_Sum, Size_1x100) {
         for (int i = 0; i < cols; i++) {
             ASSERT_EQ(control_sum[i], sum[i]);
         }
-        
     }
 }
 
