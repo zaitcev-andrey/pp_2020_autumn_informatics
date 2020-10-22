@@ -7,7 +7,8 @@
 #include <ctime>
 #include <numeric>
 #include "./matrix_sum_stolb.h"
-TEST(TEST_PARALEL_MPI, TEST1)  {
+
+TEST(TEST_PARALEL_MPI, TEST1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 4;
@@ -16,7 +17,7 @@ TEST(TEST_PARALEL_MPI, TEST1)  {
     std::vector<int> matrvec(size, 0);
     std::vector<int> result(cols, 0);
     std::vector<int> result2(cols, 0);
-    matrvec = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    matrvec = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
     result = { 4, 8, 12, 16 };
     result2 = getParallelMaxElements(matrvec, cols, rows);
     if (rank == 0) {
@@ -45,7 +46,7 @@ TEST(TEST_PARALEL_MPI, TEST2) {
     }
     result = getParallelMaxElements(matrvec, cols, rows);
     if (rank == 0) {
-    ASSERT_EQ(result, result2);
+        ASSERT_EQ(result, result2);
     }
 }
 TEST(TEST_PARALEL_MPI, TEST3) {
@@ -67,7 +68,7 @@ TEST(TEST_PARALEL_MPI, TEST3) {
         result2 = getSequentialMaxStolb(matrvec, cols, rows);
     }
     result = getParallelMaxElements(matrvec, cols, rows);
-    if ( rank == 0 ) {
+    if (rank == 0) {
         ASSERT_EQ(result, result2);
     }
 }
@@ -90,7 +91,7 @@ TEST(TEST_PARALEL_MPI, TEST4) {
         result2 = getSequentialMaxStolb(matrvec, cols, rows);
     }
     result = getParallelMaxElements(matrvec, cols, rows);
-    if ( rank == 0 ) {
+    if (rank == 0) {
         ASSERT_EQ(result, result2);
     }
 }
