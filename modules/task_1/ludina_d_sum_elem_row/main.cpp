@@ -1,23 +1,95 @@
+// Copyright 2020 Ludina Daria
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "./sum_elem_row.h"
 
-TEST(Parallel_Operations_MPI, Test_Parallel_Sum) {
-	int size_vector = 100;
+TEST(Parallel_Operations_MPI, Matrix_test_4x4) {
 	int rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	std::vector<int> global_vec(size_vector);
-	int size_row = 25;
+    const int row = 4, col = 4;
+	std::vector<int> global_vec(row * col);
 
 	if (rank == 0) {
-		global_vec = createRandomMatrix(size_vector);
+		global_vec = createRandomMatrix(row, col);
 	}
 
-	std::vector<int> parallel_sum = getParallelOperations(global_vec, size_row);
+	std::vector<int> parallel_sum = getParallelOperations(global_vec, row, col);
 
 	if (rank == 0) {
-		std::vector<int> sequential_sum = getSequentialOperations(global_vec, size_row);
+		std::vector<int> sequential_sum = getSequentialOperations(global_vec, row, col);
+		ASSERT_EQ(sequential_sum, parallel_sum);
+	}
+}
+
+TEST(Parallel_Operations_MPI, Matrix_test_24x80) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	const int row = 24, col = 80;
+	std::vector<int> global_vec(row * col);
+
+	if (rank == 0) {
+		global_vec = createRandomMatrix(row, col);
+	}
+
+	std::vector<int> parallel_sum = getParallelOperations(global_vec, row, col);
+
+	if (rank == 0) {
+		std::vector<int> sequential_sum = getSequentialOperations(global_vec, row, col);
+		ASSERT_EQ(sequential_sum, parallel_sum);
+	}
+}
+
+TEST(Parallel_Operations_MPI, Matrix_test_150x150) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	const int row = 150, col = 150;
+	std::vector<int> global_vec(row * col);
+
+	if (rank == 0) {
+		global_vec = createRandomMatrix(row, col);
+	}
+
+	std::vector<int> parallel_sum = getParallelOperations(global_vec, row, col);
+
+	if (rank == 0) {
+		std::vector<int> sequential_sum = getSequentialOperations(global_vec, row, col);
+		ASSERT_EQ(sequential_sum, parallel_sum);
+	}
+}
+
+TEST(Parallel_Operations_MPI, Matrix_test_13x1) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	const int row = 13, col = 1;
+	std::vector<int> global_vec(row * col);
+
+	if (rank == 0) {
+		global_vec = createRandomMatrix(row, col);
+	}
+
+	std::vector<int> parallel_sum = getParallelOperations(global_vec, row, col);
+
+	if (rank == 0) {
+		std::vector<int> sequential_sum = getSequentialOperations(global_vec, row, col);
+		ASSERT_EQ(sequential_sum, parallel_sum);
+	}
+}
+
+TEST(Parallel_Operations_MPI, Matrix_test_1x20) {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	const int row = 1, col = 20;
+	std::vector<int> global_vec(row * col);
+
+	if (rank == 0) {
+		global_vec = createRandomMatrix(row, col);
+	}
+
+	std::vector<int> parallel_sum = getParallelOperations(global_vec, row, col);
+
+	if (rank == 0) {
+		std::vector<int> sequential_sum = getSequentialOperations(global_vec, row, col);
 		ASSERT_EQ(sequential_sum, parallel_sum);
 	}
 }
