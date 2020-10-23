@@ -11,7 +11,7 @@ TEST(Parallel_Operations_MPI, Matrix_20_20)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
 
-    int count_columns = 14, count_rows = 3;
+    int count_columns = 20, count_rows = 20;
     std::vector<int> test_matrix(count_columns * count_rows);
 
     if (rank == 0)
@@ -135,13 +135,13 @@ TEST(Parallel_Operations_MPI, Matrix_21_20)
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_40_40)
+TEST(Parallel_Operations_MPI, Matrix_41_41)
 {
     int rank, processes_count;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
 
-    int count_columns = 40, count_rows = 40;
+    int count_columns = 41, count_rows = 41;
     std::vector<int> test_matrix(count_columns * count_rows);
 
     if (rank == 0)
