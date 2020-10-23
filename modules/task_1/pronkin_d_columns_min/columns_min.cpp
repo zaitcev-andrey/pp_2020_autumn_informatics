@@ -59,14 +59,12 @@ std::vector<int> getParallelOperations(std::vector<int> global_mat, int cols, in
     if (rank == 0) {
         for (int i = 0; i < delta + epsilon; i++)
             result[i] = local_result[i];
-    } else {
-        MPI_Send(local_result.data(), delta, MPI_INT, 0, 0, MPI_COMM_WORLD);
-    }
-    if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
             MPI_Status status;
             MPI_Recv(result.data() + epsilon + delta * proc, delta, MPI_INT, proc, 0, MPI_COMM_WORLD, &status);
         }
+    } else {
+        MPI_Send(local_result.data(), delta, MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
     return result;
 }

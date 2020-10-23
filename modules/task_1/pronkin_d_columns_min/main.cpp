@@ -20,11 +20,11 @@ TEST(Parallel_Operations_MPI, Matrix_5x5) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_25x25) {
+TEST(Parallel_Operations_MPI, Matrix_100x100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 25;
-    int cols = 25;
+    int rows = 100;
+    int cols = 100;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = transposeMatrix(randomMatrix(cols, rows), cols, rows);
@@ -36,11 +36,11 @@ TEST(Parallel_Operations_MPI, Matrix_25x25) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_100x100) {
+TEST(Parallel_Operations_MPI, Matrix_57x28) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 100;
-    int cols = 100;
+    int rows = 57;
+    int cols = 28;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = transposeMatrix(randomMatrix(cols, rows), cols, rows);
