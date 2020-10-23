@@ -3,7 +3,6 @@
 #include <vector>
 
 std::vector<int> generateRandomMatrix(int count_rows, int count_columns = 0);
-std::vector<int> transposeMatrix(std::vector<int> matrix, int count_columns = 0);
 
 std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns = 0, int count_rows = 0,
                                          int processes_count = 1, int process_id = 0, int offset = 0);
