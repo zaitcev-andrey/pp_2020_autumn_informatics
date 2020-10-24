@@ -8,10 +8,10 @@
 
 double func1(double x) { return 1 / (log(pow(x, 2))+x); }
 double func2(double x) { return exp(x) / (1+pow(x, 3)); }
-double func3(double x) { return log(x) / (exp(pow(x, 3)) +x); }
+double func3(double x) { return sin(x) / (exp(x) +x); }
 
-double get_Paral_Integral(double(*func)(double), int a, int b) {
-    int n = 10, ProcNum, ProcRank;
+double get_Paral_Integral(double(*func)(double), int a, int b, int n) {
+    int ProcNum, ProcRank;
     double ans = 0.0, res = 0.0;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -26,8 +26,7 @@ double get_Paral_Integral(double(*func)(double), int a, int b) {
     return ans;
 }
 
-double get_Integral(double(*func)(double), int a, int b) {
-    int n = 10;
+double get_Integral(double(*func)(double), int a, int b, int n) {
     double  h,  res = 0.0;
     h = static_cast<double>(b - a) / static_cast<double>(n);
     for (int i =0; i < n; i++) {
