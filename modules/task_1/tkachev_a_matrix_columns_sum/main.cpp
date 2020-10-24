@@ -31,6 +31,32 @@ TEST(Parallel_Operations_MPI, Matrix_20_20)
     }
 }
 
+TEST(Parallel_Operations_MPI, Matrix_1_1)
+{
+    int rank, processes_count;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
+
+    int count_columns = 1, count_rows = 1;
+    std::vector<int> test_matrix(count_columns * count_rows);
+
+    if (rank == 0)
+    {
+        test_matrix = generateRandomMatrix(count_rows, count_columns);
+    }
+
+    std::vector<int> parallel_sum_cols(count_columns);
+    parallel_sum_cols = getParallelColumnsSum(test_matrix, count_columns, count_rows);
+
+    if (rank == 0)
+    {
+        std::vector<int> sequential_sum(count_columns);
+        sequential_sum = getSequentialColumnsSum(test_matrix, count_columns, count_rows,
+                                                1, 0, test_matrix.size());
+        ASSERT_EQ(parallel_sum_cols, sequential_sum);
+    }
+}
+
 TEST(Parallel_Operations_MPI, Matrix_1_10)
 {
     int rank, processes_count;
