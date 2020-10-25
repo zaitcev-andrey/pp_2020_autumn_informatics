@@ -26,7 +26,7 @@ std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
 }
 
 std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns, int count_rows,
-                                        int count_processes, int process_id, int offset) {
+                                        uint64_t count_processes, int process_id, int offset) {
     assert(count_processes != 0);
     assert(count_columns != 0);
     assert(count_rows != 0);
@@ -120,17 +120,19 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
 
-    assert(processes_count != 0);
+    uint64_t uintprocesses_count = abs(processes_count); 
 
-    if (processes_count >= matrix.size()) {
+    assert(uintprocesses_count != 0);
+
+    if (uintprocesses_count >= matrix.size()) {
         MAX_COUNT_PROCESS_TO_USE = matrix.size();
         offset = 1;
     } else {
-        if (matrix.size() % processes_count != 0) {
-            offset = round(matrix.size() / processes_count + 0.5);
+        if (matrix.size() % uintprocesses_count != 0) {
+            offset = round(matrix.size() / uintprocesses_count + 0.5);
         } else {
-            if (matrix.size() % processes_count == 0) {
-                offset = matrix.size() / processes_count;
+            if (matrix.size() % uintprocesses_count == 0) {
+                offset = matrix.size() / uintprocesses_count;
             }
         }
 
@@ -144,25 +146,25 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
         }
     }
 
-    if (MAX_COUNT_PROCESS_TO_USE > processes_count) {
+    if (MAX_COUNT_PROCESS_TO_USE > uintprocesses_count) {
         offset = matrix.size();
         MAX_COUNT_PROCESS_TO_USE = 1;
 
-        for (int i = 0; i < offset * processes_count; i++) {
+        for (int i = 0; i < offset * uintprocesses_count; i++) {
             matrix.push_back(0);
         }
     }
 
     if (process_rank == 0) {
-        if (MAX_COUNT_PROCESS_TO_USE <= processes_count || matrix.size() % processes_count != 0) {
-            for (int i = 0; i < offset * (processes_count - MAX_COUNT_PROCESS_TO_USE) + offset; i++) {
+        if (MAX_COUNT_PROCESS_TO_USE <= uintprocesses_count || matrix.size() % uintprocesses_count != 0) {
+            for (int i = 0; i < offset * (uintprocesses_count - MAX_COUNT_PROCESS_TO_USE) + offset; i++) {
                 matrix.push_back(0);
             }
         }
     }
 
     if (process_rank == 0) {
-        for (int process_id = 1; process_id < processes_count; process_id++) {
+        for (int process_id = 1; process_id < uintprocesses_count; process_id++) {
             MPI_Send(&matrix[0] + offset * process_id, offset, MPI_INT, process_id, 0, MPI_COMM_WORLD);
         }
     }
@@ -178,7 +180,7 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
 
     std::vector<int> global_columns_sum(count_columns);
     std::vector<int> sequential_columns_sum = getSequentialColumnsSum(
-        local_vec, count_columns, count_rows, processes_count, process_rank, offset);
+        local_vec, count_columns, count_rows, uintprocesses_count, process_rank, offset);
 
     MPI_Reduce(
         sequential_columns_sum.data(), global_columns_sum.data(), count_columns, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
