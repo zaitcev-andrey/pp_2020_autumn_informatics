@@ -1,32 +1,32 @@
+// Copyright 2020 Tkachev Alexey
+#include "matrix_columns_sum.h"
+#include <mpi.h>
+#include <stdlib.h>
 #include <vector>
 #include <ctime>
+#include <iostream>
 #include <random>
-#include <mpi.h>
-#include "matrix_columns_sum.h"
 #include <cassert>
 #include <cmath>
-#include "math.h"
-#include <iostream>
 
-std::vector<int> generateRandomMatrix(int count_rows, int count_columns)
-{
+std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
     assert(count_columns != 0);
     assert(count_rows != 0);
 
-    srand(time(NULL));
     std::vector<int> matrix(count_rows * count_columns);
 
-    for (int i = 0; i < matrix.size(); i++)
-    {
-        matrix[i] = rand() % 100 - 50;
+    std::mt19937 generator(time(0));
+    std::uniform_int_distribution<> int_distribution(-50, 50);
+
+    for (int i = 0; i < matrix.size(); i++) {
+        matrix[i] = int_distribution(generator);
     }
 
     return matrix;
 }
 
-std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns, int count_rows, 
-                                        int count_processes, int process_id, int offset)
-{
+std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns, int count_rows,
+                                        int count_processes, int process_id, int offset) {
     assert(count_processes != 0);
     assert(count_columns != 0);
     assert(count_rows != 0);
@@ -37,87 +37,70 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
 
     int check_sum = 0;
 
-    for (int item : vector) 
-    {
+    for (int item : vector) {
         check_sum += item;
     }
 
-    if (check_sum == 0) 
-    {
+    if (check_sum == 0) {
         return std::vector<int>(count_columns, 0);
     }
 
-    if (count_processes == 1)
-    {
-        for (int current_column = 0; current_column < count_columns; current_column++)
-        {
+    if (count_processes == 1) {
+        for (int current_column = 0; current_column < count_columns; current_column++) {
             int local_column_sum = 0;
 
-            for (int current_row = 0; current_row < count_rows; current_row++)
-            {
+            for (int current_row = 0; current_row < count_rows; current_row++) {
                 local_column_sum += vector[current_column + current_row * count_columns];
             }
 
             sum_columns.push_back(local_column_sum);
         }
-    }
-    else
-    {
+    } else {
         int current_row = 0;
 
-        if (process_id * offset < count_columns)
-        {
+        if (process_id * offset < count_columns) {
             current_row = 1;
-        }
-        else
-        {
-            for (current_row = 2; current_row < count_rows; current_row++)
-            {
-                if (process_id * offset < current_row * count_columns)
-                {
+        } else {
+            for (current_row = 2; current_row < count_rows; current_row++) {
+                if (process_id * offset < current_row * count_columns) {
                     break;
                 }
             }
         }
 
-        if (process_id * offset + (offset-1) >= count_columns * current_row)
-        {
+        if (process_id * offset + (offset-1) >= count_columns * current_row) {
             int head_size = count_columns * current_row - offset * process_id;
             std::vector<int> head;
             std::vector<int> tail(count_columns, 0);
 
-            for (int i = 0; (count_columns * (current_row - 1) + i < process_id * offset) && 
-                            (head_size < count_columns); i++){
+            for (int i = 0; (count_columns * (current_row - 1) + i < process_id * offset) &&
+                            (head_size < count_columns); i++) {
                 head.push_back(0);
             }
-    
-            for (int i = 0; i < head_size; i++)
-                head.push_back(vector[i]);      
 
-            for (int i = 0; i < count_columns; i++)
-            {
-                for (int j = 0; head_size + j * count_columns + i < vector.size(); j++)
-                    tail[i] += vector[head_size + j * count_columns + i];   
+            for (int i = 0; i < head_size; i++) {
+                head.push_back(vector[i]);
             }
 
-            for (int i = 0; i < count_columns; i++)
+            for (int i = 0; i < count_columns; i++) {
+                for (int j = 0; head_size + j * count_columns + i < vector.size(); j++) {
+                    tail[i] += vector[head_size + j * count_columns + i];
+                }
+            }
+
+            for (int i = 0; i < count_columns; i++) {
                 sum_columns.push_back(head[i] + tail[i]);
-        }
-        else
-        // no tail part
-        {
-            for (int i = 0; (count_columns * (current_row - 1) + i) < process_id * offset; i++)
-            {
+            }
+        } else {
+            for (int i = 0; (count_columns * (current_row - 1) + i) < process_id * offset; i++) {
                 sum_columns.push_back(0);
             }
 
-            for (int item : vector)
-            {
+            for (int item : vector) {
                 sum_columns.push_back(item);
             }
-            
-            for (int i = 0; process_id * offset + (offset-1) + i < count_columns * current_row - 1; i++)
-            {
+
+            for (int i = 0; process_id * offset + (offset-1) + i < count_columns * current_row - 1; i++) {
                 sum_columns.push_back(0);
             }
         }
@@ -126,9 +109,7 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
     return sum_columns;
 }
 
-
-std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_columns, int count_rows)
-{
+std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_columns, int count_rows) {
     assert(count_columns != 0);
     assert(count_rows != 0);
     assert(matrix.size() != 0);
@@ -140,87 +121,66 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
 
     assert(processes_count != 0);
 
-    if (processes_count >= matrix.size())
-    {
-        MAX_COUNT_PROCESS_TO_USE = matrix.size(); 
+    if (processes_count >= matrix.size()) {
+        MAX_COUNT_PROCESS_TO_USE = matrix.size();
         offset = 1;
-    }
-    else 
-    {
-        if (matrix.size() % processes_count != 0)
-        {
+    } else {
+        if (matrix.size() % processes_count != 0) {
             offset = round(matrix.size() / processes_count + 0.5);
-        } 
-        else
-        { 
-            if (matrix.size() % processes_count == 0)
-            {
+        } else {
+            if (matrix.size() % processes_count == 0) {
                 offset = matrix.size() / processes_count;
             }
         }
 
-        if (matrix.size() % 2 != 0)
-        {
-            MAX_COUNT_PROCESS_TO_USE = matrix.size(); 
+        if (matrix.size() % 2 != 0) {
+            MAX_COUNT_PROCESS_TO_USE = matrix.size();
             offset = 1;
-        }
-        else 
-        {
-            if (matrix.size() % 2 == 0)
-            {
+        } else {
+            if (matrix.size() % 2 == 0) {
                 MAX_COUNT_PROCESS_TO_USE = round(matrix.size() / offset + 0.5);
             }
         }
     }
 
-    if (MAX_COUNT_PROCESS_TO_USE > processes_count)
-    {
+    if (MAX_COUNT_PROCESS_TO_USE > processes_count) {
         offset = matrix.size();
         MAX_COUNT_PROCESS_TO_USE = 1;
-        
-        for (int i = 0; i < offset * processes_count; i++)
-        {
+
+        for (int i = 0; i < offset * processes_count; i++) {
             matrix.push_back(0);
         }
     }
 
-    if (process_rank == 0)
-    {
-        if (MAX_COUNT_PROCESS_TO_USE <= processes_count || matrix.size() % processes_count != 0)
-        {
-            for (int i = 0; i < offset * (processes_count - MAX_COUNT_PROCESS_TO_USE) + offset; i++)
-            {
+    if (process_rank == 0) {
+        if (MAX_COUNT_PROCESS_TO_USE <= processes_count || matrix.size() % processes_count != 0) {
+            for (int i = 0; i < offset * (processes_count - MAX_COUNT_PROCESS_TO_USE) + offset; i++) {
                 matrix.push_back(0);
             }
         }
     }
 
-    if (process_rank == 0)
-    {
-        for (int process_id = 1; process_id < processes_count; process_id++)
-        {
+    if (process_rank == 0) {
+        for (int process_id = 1; process_id < processes_count; process_id++) {
             MPI_Send(&matrix[0] + offset * process_id, offset, MPI_INT, process_id, 0, MPI_COMM_WORLD);
         }
     }
 
     std::vector<int> local_vec(offset);
 
-    if (process_rank == 0)
-    {
+    if (process_rank == 0) {
         local_vec = std::vector<int>(matrix.begin(), matrix.begin() + offset);
-    }
-    else
-    {
+    } else {
         MPI_Status status;
         MPI_Recv(&local_vec[0], offset, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
 
     std::vector<int> global_columns_sum(count_columns);
-    std::vector<int> sequential_columns_sum = getSequentialColumnsSum(local_vec, count_columns, count_rows,
-                                                                    processes_count, process_rank, offset);
-   
-    MPI_Reduce(sequential_columns_sum.data(), global_columns_sum.data(), count_columns, MPI_INT, MPI_SUM, 
-            0, MPI_COMM_WORLD);
+    std::vector<int> sequential_columns_sum = getSequentialColumnsSum(
+        local_vec, count_columns, count_rows, processes_count, process_rank, offset);
+
+    MPI_Reduce(
+        sequential_columns_sum.data(), global_columns_sum.data(), count_columns, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     return global_columns_sum;
 }
