@@ -10,14 +10,13 @@ TEST(Parallel_MPI, TEST_3x3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int str = 3;
-    int stlb = 3;
     std::vector<std::vector<int>> matrix = { {1, 2, 3}, {0, 0, 0}, {5, 6, 9} };
     std::vector<int> RRes = { 0, 0, 0 };
     std::vector<int> linm = VVconvertV(matrix, 3, 3);
     std::vector<int> res(3);
     res = Min(linm, 3, 3);
     if (rank == 0) {
-        for (int i = 0; i < stlb; ++i)
+        for (int i = 0; i < str; ++i)
             EXPECT_EQ(RRes[i], res[i]);
     }
 }
@@ -25,7 +24,6 @@ TEST(Parallel_MPI, TEST_3x3) {
 TEST(Parallel_MPI, TEST_2x3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int str = 2;
     int stlb = 3;
     std::vector<std::vector<int>> matrix = { {0, 5, 9}, {2, 3, 9} };
     std::vector<int> RRes = { 0, 3, 9 };
@@ -41,7 +39,6 @@ TEST(Parallel_MPI, TEST_2x3) {
 TEST(Parallel_MPI, TEST_OTR_EL) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int str = 2;
     int stlb = 2;
     std::vector<std::vector<int>> matrix = { {-1, -9}, {0, -50} };
     std::vector<int> RRes = { -1, -50 };
@@ -57,7 +54,6 @@ TEST(Parallel_MPI, TEST_OTR_EL) {
 TEST(Parallel_MPI, TEST_RANDOM) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int str = 3;
     int stlb = 3;
     std::vector<std::vector<int>> matrix = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} };
     std::vector<int> RRes = { 0, 0, 0 };
