@@ -1,9 +1,5 @@
 // Copyright 2020 Ludina Daria
 #include "../../../modules/task_1/ludina_d_sum_elem_row/sum_elem_row.h"
-#include <random>
-#include <ctime>
-#include <mpi.h>
-#include <vector>
 
 std::vector<int> createRandomMatrix(int rows, int cols) {
   std::mt19937 gen;
@@ -41,7 +37,7 @@ std::vector<int> getParallelOperations(std::vector<int> global_matrix, int rows,
   if (rank == 0) {
     local_matrix.resize((delta + rest) * cols);
     local_matrix = std::vector<int>(global_matrix.begin(), global_matrix.begin() + (delta + rest) * cols);
-  }else {
+  } else {
     MPI_Status status;
     MPI_Recv(&local_matrix[0], delta * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
   }
@@ -58,7 +54,7 @@ std::vector<int> getParallelOperations(std::vector<int> global_matrix, int rows,
       MPI_Status status;
       MPI_Recv(&global_sum[0] + delta * proc + rest, delta, MPI_INT, proc, 0, MPI_COMM_WORLD, &status);
     }
-  }else {
+  } else {
     MPI_Send(&local_sum[0], local_row, MPI_INT, 0, 0, MPI_COMM_WORLD);
   }
   return global_sum;

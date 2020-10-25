@@ -2,6 +2,9 @@
 #ifndef MODULES_TASK_1_LUDINA_D_SUM_ELEM_ROW_SUM_ELEM_ROW_H_
 #define MODULES_TASK_1_LUDINA_D_SUM_ELEM_ROW_SUM_ELEM_ROW_H_
 
+#include <mpi.h>
+#include <random>
+#include <ctime>
 #include <vector>
 
 std::vector<int> createRandomMatrix(int rows, int cols);
