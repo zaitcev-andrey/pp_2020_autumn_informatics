@@ -114,7 +114,7 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     assert(count_rows != 0);
     assert(matrix.size() != 0);
 
-    uint64_t processes_count;
+    int processes_count;
     int process_rank, offset, MAX_COUNT_PROCESS_TO_USE = 0;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
