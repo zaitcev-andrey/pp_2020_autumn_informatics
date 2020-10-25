@@ -7,7 +7,7 @@
 #include <random>
 #include <cassert>
 #include <cmath>
-#include "./matrix_columns_sum.h"
+#include "matrix_columns_sum.h"
 
 std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
     assert(count_columns != 0);
