@@ -1,13 +1,6 @@
 // Copyright 2020 Kiseleva Anastasia
+#include "../../../modules/task_1/kiseleva_a_min_stolb_matrix/min_stolb.h"
 #include <mpi.h>
-#include <string>
-#include <limits.h>
-#include <random>
-#include <ctime>
-#include <algorithm>
-#include <vector>
-#include <iostream>
-#include "min_stolb.h"
 
 std::vector<std::vector<int>> RandomMatrix(int str, int stlb) {
     std::mt19937 gen;

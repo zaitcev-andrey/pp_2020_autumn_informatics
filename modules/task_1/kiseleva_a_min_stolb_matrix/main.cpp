@@ -59,7 +59,7 @@ TEST(Parallel_MPI, TEST_RANDOM) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int str = 3;
     int stlb = 3;
-    std::vector<std::vector<int>> matrix = { {0, 0, 0},{0, 0, 0},{0, 0, 0} };
+    std::vector<std::vector<int>> matrix = { {0, 0, 0}, {0, 0, 0},{0, 0, 0} };
     std::vector<int> RRes = { 0, 0, 0 };
     std::vector<int> linm = VVconvertV(matrix, 3, 3);
     std::vector<int> res(3);
@@ -85,10 +85,10 @@ TEST(Parallel_MPI, TEST_RANDOM_NOT_SQUARE) {
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
-    ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
-    ::testing::TestEventListeners& listeners =
-        ::testing::UnitTest::GetInstance()->listeners();
     
+    ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
+    ::testing::TestEventListeners& listeners = ::testing::UnitTest::GetInstance()->listeners();
+	   
     listeners.Release(listeners.default_result_printer());
     listeners.Release(listeners.default_xml_generator());
     

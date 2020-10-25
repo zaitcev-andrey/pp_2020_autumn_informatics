@@ -4,6 +4,11 @@
 
 #include <string>
 #include <vector>
+#include <limits.h>
+#include <random>
+#include <ctime>
+#include <algorithm>
+#include <iostream>
 
 
 std::vector<std::vector<int>> RandomMatrix(int str, int stlb);
