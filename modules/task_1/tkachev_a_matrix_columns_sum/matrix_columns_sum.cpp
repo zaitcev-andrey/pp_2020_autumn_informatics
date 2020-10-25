@@ -18,7 +18,7 @@ std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
     std::mt19937 generator(time(0));
     std::uniform_int_distribution<> int_distribution(-50, 50);
 
-    for (int i = 0; i < matrix.size(); i++) {
+    for (long unsigned int i = 0; i < matrix.size(); i++) {
         matrix[i] = int_distribution(generator);
     }
 
@@ -83,7 +83,7 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
             }
 
             for (int i = 0; i < count_columns; i++) {
-                for (int j = 0; head_size + j * count_columns + i < vector.size(); j++) {
+                for (long unsigned int j = 0; head_size + j * count_columns + i < vector.size(); j++) {
                     tail[i] += vector[head_size + j * count_columns + i];
                 }
             }
@@ -114,7 +114,8 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     assert(count_rows != 0);
     assert(matrix.size() != 0);
 
-    int processes_count, process_rank, offset, MAX_COUNT_PROCESS_TO_USE = 0;
+    long unsigned int processes_count;
+    int process_rank, offset, MAX_COUNT_PROCESS_TO_USE = 0;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
