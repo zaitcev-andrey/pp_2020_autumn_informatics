@@ -120,7 +120,7 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes_count);
 
-    uint64_t uintprocesses_count = abs(processes_count); 
+    uint64_t uintprocesses_count = abs(processes_count);
 
     assert(uintprocesses_count != 0);
 
