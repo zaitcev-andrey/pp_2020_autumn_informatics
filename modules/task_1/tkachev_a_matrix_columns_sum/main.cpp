@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <vector>
-#include "pp_2020_autumn_informatics/modules/task_1/tkachev_a_matrix_columns_sum/matrix_columns_sum.h"
+#include "../../../../modules/task_1/tkachev_a_matrix_columns_sum/matrix_columns_sum.h"
 
 TEST(Parallel_Operations_MPI, Matrix_20_20) {
     int rank, processes_count;

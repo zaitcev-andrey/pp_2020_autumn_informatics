@@ -1,5 +1,4 @@
 // Copyright 2020 Tkachev Alexey
-#include "pp_2020_autumn_informatics/modules/task_1/tkachev_a_matrix_columns_sum/matrix_columns_sum.h"
 #include <mpi.h>
 #include <stdlib.h>
 #include <vector>
@@ -8,6 +7,7 @@
 #include <random>
 #include <cassert>
 #include <cmath>
+#include "./matrix_columns_sum.h"
 
 std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
     assert(count_columns != 0);
