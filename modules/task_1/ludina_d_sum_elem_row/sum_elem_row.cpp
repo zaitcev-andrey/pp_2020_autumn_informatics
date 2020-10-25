@@ -1,5 +1,6 @@
 // Copyright 2020 Ludina Daria
 #include "../../../modules/task_1/ludina_d_sum_elem_row/sum_elem_row.h"
+#include <vector>
 
 std::vector<int> createRandomMatrix(int rows, int cols) {
   std::mt19937 gen;
