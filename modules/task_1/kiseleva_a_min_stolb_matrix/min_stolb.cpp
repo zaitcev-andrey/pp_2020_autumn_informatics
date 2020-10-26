@@ -50,8 +50,7 @@ std::vector<int> Min(std::vector<int> linm, int str, int stlb) {
         MPI_Group_size(newworld, &size_);
         int min = INT_MAX;
         int delta = 1;
-        if (comm_newworld != MPI_COMM_NULL)
-        {
+        if (comm_newworld != MPI_COMM_NULL) {
             MPI_Bcast(linm.data(), str * stlb, MPI_INT, 0, comm_newworld);
             for (int i = delta * rank; i < delta * (rank + 1); i++) {
                 min = linm[i];
