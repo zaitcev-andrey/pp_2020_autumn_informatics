@@ -42,7 +42,6 @@ bool isSortedStringPairParallel(std::string lhs, std::string rhs) {
 
     if (size > strLen) size = strLen;
     if (rank >= size) return false;
-    
     const int delta_symbols = strLen / size;
     const int rem_symbols = strLen % size;
 
