@@ -4,17 +4,15 @@
 #include <vector>
 #include "./alter_sign.h"
 
-using namespace std;
-
 TEST(Parallel_Operations_MPI, Test_test) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  vector<int> vec;
+  std::vector<int> vec;
   const int size_v = 10;
   if (rank == 0) vec = getRandomVector(size_v);
   int global = getParallelOperations(vec, size_v);
   if (rank == 0) {
-    int res = getSequentialOperations(vec,size_v);
+    int res = getSequentialOperations(vec, size_v);
     ASSERT_EQ(global, res);
   }
 }
@@ -22,7 +20,7 @@ TEST(Parallel_Operations_MPI, Test_test) {
 TEST(Parallel_Operations_MPI, Test_zero_size) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  vector<int> vec;
+  std::vector<int> vec;
   const int size_v = 0;
   if (rank == 0) vec = getRandomVector(size_v);
   int global = getParallelOperations(vec, size_v);
@@ -36,7 +34,7 @@ TEST(Parallel_Operations_MPI, Test_one_elem) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   const int size_v = 1;
-  vector<int> vec(size_v);
+  std::vector<int> vec(size_v);
   if (rank == 0) vec = getRandomVector(size_v);
   int global = getParallelOperations(vec, size_v);
   if (rank == 0) {
@@ -49,8 +47,8 @@ TEST(Parallel_Operations_MPI, Test_same_sign) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   int size_v = 7;
-  vector<int>vec = {8,24,1,5,6,11,20};
-  vector<int> v = {-8,-24,-1,-5,-6,-11,-20};
+  std::vector<int>vec = {8, 24, 1, 5, 6, 11, 20};
+  std::vector<int> v = {-8, -24, -1, -5, -6, -11, -20};
   int res = getParallelOperations(vec, size_v);
   int r = getParallelOperations(v, size_v);
   if (rank == 0) {
@@ -62,12 +60,12 @@ TEST(Parallel_Operations_MPI, Test_same_sign) {
 TEST(Parallel_Operations_MPI, Test_many_elems) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  vector<int> vec;
+  std::vector<int> vec;
   const int size_v = 10000000;
   if (rank == 0) vec = getRandomVector(size_v);
   int global = getParallelOperations(vec, size_v);
   if (rank == 0) {
-    int res = getSequentialOperations(vec,size_v);
+    int res = getSequentialOperations(vec, size_v);
     ASSERT_EQ(global, res);
   }
 }

@@ -1,28 +1,27 @@
 // Copyright 2020 Schekotilova Julia
 #include "../../modules/task_1/schekotilova_ju_alter_sign/alter_sign.h"
+#include <vector>
 
-
-using namespace std;
-vector<int> getRandomVector(int sz) {
-  mt19937 gen;
+std::vector<int> getRandomVector(int sz) {
+  std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
-  vector<int> v(sz);
+  std::vector<int> v(sz);
   for (int i = 1; i < sz; i++) v[i] = gen() % 100;
   return v;
 }
 
-int  getSequentialOperations(vector<int> v, int size_v) {
+int  getSequentialOperations(std::vector<int> v, int size_v) {
   size_v = v.size();
   if (size_v == 0) return 0;
   int res = 0;
   for (int i = 1; i < size_v; i++)  {
-    if (((v[i - 1] < 0) && (v[i] >= 0)) || 
+    if (((v[i - 1] < 0) && (v[i] >= 0)) ||
         ((v[i - 1] >= 0) && (v[i] <0))) res++;
   }
   return res;
 }
 
-int getParallelOperations(vector<int> vec, int count_size_vec) {
+int getParallelOperations(std::vector<int> vec, int count_size_vec) {
   int size, rank;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -34,16 +33,16 @@ int getParallelOperations(vector<int> vec, int count_size_vec) {
     }
   }
 
-  vector<int> local_v(delta);
+  std::vector<int> local_v(delta);
   const int size_v = local_v.size();
   if (rank == 0)  {
-    local_v = vector<int>(vec.begin(), vec.begin() + delta);
+    local_v = std::vector<int>(vec.begin(), vec.begin() + delta);
   } else {
     MPI_Status status;
     MPI_Recv(&local_v[0], delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
   }
   int global = 0;
-  int local = getSequentialOperations(local_v,size_v);
+  int local = getSequentialOperations(local_v, size_v);
   MPI_Reduce(&local, &global, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
   return global;
 }
