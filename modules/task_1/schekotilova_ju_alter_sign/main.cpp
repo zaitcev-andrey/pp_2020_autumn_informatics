@@ -38,7 +38,6 @@ TEST(Parallel_Operations_MPI, Test_one_elem) {
   if (rank == 0) vec = getRandomVector(size_v);
   int global = getParallelOperations(vec, size_v);
   if (rank == 0) {
-    int res = getSequentialOperations(vec, size_v);
     ASSERT_EQ(0, global);
   }
 }
