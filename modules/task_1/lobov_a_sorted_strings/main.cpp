@@ -6,7 +6,7 @@
 
 TEST(Parallel_Operations_MPI, Test_randomStringSize) {
     std::string s1 = getRandomString(10);
-    EXPECT_EQ(10, s1.size());
+    EXPECT_EQ(10, (int)s1.size());
 }
 
 TEST(Parallel_Operations_MPI, Test_isSortedWhenEq) {
