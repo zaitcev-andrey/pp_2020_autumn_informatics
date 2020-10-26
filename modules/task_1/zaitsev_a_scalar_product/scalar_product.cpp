@@ -17,7 +17,7 @@ std::vector<int> createRandomVector(int size) {
 int scalar_product_of_part_vectors(const std::vector<int>& vec1, const std::vector<int>& vec2) {
   int result = 0;
 
-  for (int i = 0; i < vec1.size(); i++)
+  for (int i = 0; i < static_cast<int>(vec1.size()); i++)
     result += vec1[i] * vec2[i];
   return result;
 }
