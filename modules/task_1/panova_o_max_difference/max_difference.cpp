@@ -2,14 +2,17 @@
 #include <mpi.h>
 #include <vector>
 #include <random>
-#include <cmath>
+#include <ctime>
 #include <iostream>
 #include "../../../modules/task_1/panova_o_max_difference/max_difference.h"
 std::vector<int> CreateVector(int size) {
     std::vector<int> v(size);
-    std::random_device rand;
-    std::uniform_int_distribution<int> dis(0, 666);
-    std::generate(v.begin(), v.end(), [&] {return dis(rand);});
+    // std::random_device rand;
+    // std::uniform_int_distribution<int> dis(0, 666);
+    // std::generate(v.begin(), v.end(), [&] {return dis(rand);});
+    std::mt19937 gen(time(0));
+    gen.seed(static_cast<unsigned int>time(0)));
+    for (int i = 0; i < size; i++) v[i] = gen() % 100;
     return v;
 }
 int GetSequentialDifference(std::vector<int> v, int size) {
