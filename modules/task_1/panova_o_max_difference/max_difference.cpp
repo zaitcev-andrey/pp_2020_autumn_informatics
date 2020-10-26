@@ -1,15 +1,15 @@
 // Copyright 2020 Panova Olga
-#include <iostream>
 #include <mpi.h>
 #include <vector>
-#include <cmath>
 #include <random>
+#include <cmath>
+#include <iostream>
 #include "../../../modules/task_1/panova_o_max_difference/max_difference.h"
 std::vector<int> CreateVector(int size){
     std::vector<int> v(size);
-    random_device rand;
-    uniform_int_distribution<int> dis(0, 666);
-    generate(v.begin(), v.end(), [&] {return dis(rand); }); 
+    std::random_device rand;
+    std::uniform_int_distribution<int> dis(0, 666);
+    std::generate(v.begin(), v.end(), [&] {return dis(rand); }); 
     return v;
 }
 int GetSequentialDifference(std::vector<int> v, int size) {
@@ -50,8 +50,8 @@ int GetParallelDifference(std::vector<int> vec, int vec_size) {
     }
     MPI_Reduce(&m, &max, 1, MPI_2INT, MPI_MAXLOC, 0, MPI_COMM_WORLD);  //
     if (p_rank == 0) {
-       cout << "Max difference between " << v[max.num] << " and " << v[max.num + 1] << endl;
-       cout << "This is the " << max.num << " and " << max.num + 1 << " elements of vector" << endl;
+       std::cout << "Max difference between " << v[max.num] << " and " << v[max.num + 1] << std::endl;
+       std::cout << "This is the " << max.num << " and " << max.num + 1 << " elements of vector" << std::endl;
     }
     return max.num;
 }
