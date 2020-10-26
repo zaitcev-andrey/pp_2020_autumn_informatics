@@ -1,9 +1,9 @@
 // Copyright 2020 Panova Olga
-#include <iostream>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include "max_difference.h"
+#include <iostream>
+#include "../../../modules/task_1/panova_o_max_difference/max_difference.h"
 TEST(Parallel_Operations, Test_Vecint5) {
     std::vector<int>vec;
     const int vec_size = 5;
