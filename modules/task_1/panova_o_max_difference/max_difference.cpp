@@ -12,7 +12,7 @@ std::vector<int> CreateVector(int size) {
     // std::uniform_int_distribution<int> dis(0, 666);
     // std::generate(v.begin(), v.end(), [&] {return dis(rand);});
     std::mt19937 gen(time(0));
-    gen.seed(static_cast<unsigned int>time(0)));
+    gen.seed(static_cast<unsigned int>(time(0)));
     for (int i = 0; i < size; i++) v[i] = gen() % 100;
     return v;
 }
