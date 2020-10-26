@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include <ctime>
+#include <algorithm>
 #include <iostream>
 #include "../../../modules/task_1/panova_o_max_difference/max_difference.h"
 std::vector<int> CreateVector(int size) {
