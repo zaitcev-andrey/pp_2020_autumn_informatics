@@ -3,6 +3,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <random>
+#include <algorithm>
 #include <vector>
 #include <ctime>
 
@@ -36,7 +37,7 @@ int getMaxElemParallel(const std::vector<int>& mat, int rows, int cols) {
   int rem = sizeM % ProcNum;
   if (ProcRank == 0) {
     for (int proc = 1; proc < ProcNum; proc++) {
-      MPI_Send(mat.data() + rem + delta * proc, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
+      MPI_Send(mat.data() + rem + proc * delta, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
   }
   }
   int locSize;
