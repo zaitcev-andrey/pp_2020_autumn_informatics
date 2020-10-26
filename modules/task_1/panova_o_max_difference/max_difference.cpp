@@ -9,7 +9,7 @@ std::vector<int> CreateVector(int size) {
     std::vector<int> v(size);
     std::random_device rand;
     std::uniform_int_distribution<int> dis(0, 666);
-    std::generate(v.begin(), v.end(), [&] {return dis(rand);});
+    random::generate(v.begin(), v.end(), [&] {return dis(rand);});
     return v;
 }
 int GetSequentialDifference(std::vector<int> v, int size) {
