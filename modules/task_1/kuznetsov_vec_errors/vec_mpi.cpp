@@ -10,7 +10,7 @@ std::vector<int> randV(int size)
 	std::vector<int> tmp(size);
 	rand_vec.seed(static_cast<unsigned int>(time(0)));
 	for (int i = 0; i < tmp.size(); i++)
-		tmp[i] = rand_vec();
+		tmp[i] = rand_vec() % 100;
 	return tmp;
 }
 
@@ -41,30 +41,23 @@ int parallelVector(const std::vector<int>& a)
 	{
 		for (int i = 1; i < size; i++)
 		{
-			if (rank != size - 1)
-				MPI_Send(&a + i * res + remain - 1, res, MPI_INT, i, 0, MPI_COMM_WORLD);
-			else
-				MPI_Send(&a + i * res + remain - 1, res + 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+			if (i < size)
+				MPI_Send(&a[0] + i * res + remain - 1, res + 1, MPI_INT, i, 0, MPI_COMM_WORLD);
 		}
 	}
 	std::vector<int> tmp;
 	if (rank == 0)
 	{
 		tmp.resize(res + remain);
-		for (int i = 0; i < res + remain; i++)
-			tmp[i] = a[i];
-	}
-	else if (rank != size - 1)
-	{
-		tmp.resize(res);
-		MPI_Status status;
-		MPI_Recv(&tmp, res, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+		/*for (int i = 0; i < res + remain; i++)
+			tmp[i] = a[i];*/
+		tmp = { a.begin(), a.begin() + res + remain };
 	}
 	else
 	{
 		tmp.resize(res + 1);
 		MPI_Status status;
-		MPI_Recv(&tmp, res + 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+		MPI_Recv(&tmp[0], res + 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 	}
 	int count_sum = countError(tmp);
 	int result = 0;
