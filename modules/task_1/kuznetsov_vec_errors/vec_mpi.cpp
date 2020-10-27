@@ -14,7 +14,7 @@ std::vector<int> randV(int size) {
   return tmp;
 }
 
-void vecNormalize(std::vector<int> a) {
+std::vector<int> vecNormalize(std::vector<int> a) {
   for (int i = 0; i < static_cast<int>(a.size()) - 1; i++) {
     for (int j = 0; j < static_cast<int>(a.size()) - i - 1; j++) {
       if (a[j] > a[j + 1]) {
@@ -24,6 +24,7 @@ void vecNormalize(std::vector<int> a) {
       }
     }
   }
+  return a;
 }
 
 int parallelVector(const std::vector<int>& a, int n) {

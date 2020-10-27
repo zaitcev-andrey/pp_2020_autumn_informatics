@@ -11,7 +11,7 @@ TEST(VEC_MPI, Successful_normalize_10_elem) {
     const int vec_size = 10;
     if (rank == 0) {
         vec = randV(vec_size);
-        vecNormalize(vec);
+        vec = vecNormalize(vec);
     }
     int res = parallelVector(vec, vec_size);
     if (rank == 0) {
@@ -26,7 +26,7 @@ TEST(VEC_MPI, Successful_normalize_500_elem) {
     const int vec_size = 500;
     if (rank == 0) {
         vec = randV(vec_size);
-        vecNormalize(vec);
+        vec = vecNormalize(vec);
     }
     int res = parallelVector(vec, vec_size);
     if (rank == 0) {
@@ -41,7 +41,7 @@ TEST(VEC_MPI, Successful_normalize_1000_elem) {
     const int vec_size = 1000;
     if (rank == 0) {
         vec = randV(vec_size);
-        vecNormalize(vec);
+        vec = vecNormalize(vec);
     }
     int res = parallelVector(vec, vec_size);
     if (rank == 0) {
