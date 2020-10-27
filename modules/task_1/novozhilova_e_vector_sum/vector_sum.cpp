@@ -32,7 +32,7 @@ int GetParSum(std::vector<int> v, int v_size) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
 
     int check = v_size%Comm_size;
-    while (check!=0) {
+    while (check != 0) {
         v.push_back(0);
         v_size++;
         check = v_size%Comm_size;
