@@ -14,7 +14,7 @@ TEST(VEC_MPI, Successful_normalize_10_elem)
         vec = randV(vec_size);
         vecNormalize(vec);
     }
-    int res = parallelVector(vec);
+    int res = parallelVector(vec, vec_size);
     if (rank == 0)
     {
         ASSERT_EQ(res, 0);
@@ -32,7 +32,7 @@ TEST(VEC_MPI, Successful_normalize_500_elem)
         vec = randV(vec_size);
         vecNormalize(vec);
     }
-    int res = parallelVector(vec);
+    int res = parallelVector(vec, vec_size);
     if (rank == 0)
     {
         ASSERT_EQ(res, 0);
@@ -50,7 +50,7 @@ TEST(VEC_MPI, Successful_normalize_1000_elem)
         vec = randV(vec_size);
         vecNormalize(vec);
     }
-    int res = parallelVector(vec);
+    int res = parallelVector(vec, vec_size);
     if (rank == 0)
     {
         ASSERT_EQ(res, 0);
@@ -67,7 +67,7 @@ TEST(VEC_MPI, With_errors)
     {
         vec = randV(vec_size);
     }
-    int res = parallelVector(vec);
+    int res = parallelVector(vec, vec_size);
     if (rank == 0)
     {
         ASSERT_NE(res, 0);
