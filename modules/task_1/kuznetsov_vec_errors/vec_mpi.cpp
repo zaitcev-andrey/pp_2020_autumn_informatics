@@ -30,13 +30,13 @@ void vecNormalize(std::vector<int>& a)
 	}
 }
 
-int parallelVector(const std::vector<int>& a)
+int parallelVector(const std::vector<int>& a, int n)
 {
 	int rank, size;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
-	int res = a.size() / size;
-	int remain = a.size() - res * size;
+	int res = n / size;
+	int remain = n - res * size;
 	if (rank == 0)
 	{
 		for (int i = 1; i < size; i++)
@@ -49,8 +49,6 @@ int parallelVector(const std::vector<int>& a)
 	if (rank == 0)
 	{
 		tmp.resize(res + remain);
-		/*for (int i = 0; i < res + remain; i++)
-			tmp[i] = a[i];*/
 		tmp = { a.begin(), a.begin() + res + remain };
 	}
 	else
