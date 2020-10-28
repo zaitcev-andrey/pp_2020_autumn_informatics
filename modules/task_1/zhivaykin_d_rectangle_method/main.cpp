@@ -50,7 +50,7 @@ TEST(Parallel_Operations_MPI, FROM_0_TO_2) {
     }
 }
 
-TEST(Parallel_Operations_MPI, ) {
+TEST(Parallel_Operations_MPI, FROM_0_TO_2) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     double p_res = parall_int(funct, 0, 1, 10000);
