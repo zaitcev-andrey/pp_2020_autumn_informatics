@@ -71,7 +71,7 @@ TEST(Parallel_Operations_MPI, Matrix_37x1) {
 TEST(Parallel_Operations_MPI, Matrix_1x37) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = S1;
+    int rows = 1;
     int cols = 37;
     std::vector<int> global_vec;
     if (rank == 0) {
