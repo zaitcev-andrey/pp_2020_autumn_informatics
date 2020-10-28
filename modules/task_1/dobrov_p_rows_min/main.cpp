@@ -4,11 +4,11 @@
 #include <vector>
 #include "./rows_min.h"
 
-TEST(Parallel_Operations_MPI, Matrix_5x5) {
+TEST(Parallel_Operations_MPI, Matrix_15x15) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 5;
-    int cols = 5;
+    int rows = 15;
+    int cols = 15;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = randomMatrix(cols, rows);
@@ -36,11 +36,11 @@ TEST(Parallel_Operations_MPI, Matrix_100x100) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_57x28) {
+TEST(Parallel_Operations_MPI, Matrix_67x48) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 57;
-    int cols = 28;
+    int rows = 69;
+    int cols =48;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = randomMatrix(cols, rows);
@@ -52,10 +52,10 @@ TEST(Parallel_Operations_MPI, Matrix_57x28) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_51x1) {
+TEST(Parallel_Operations_MPI, Matrix_37x1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 51;
+    int rows = 37;
     int cols = 1;
     std::vector<int> global_vec;
     if (rank == 0) {
@@ -68,11 +68,11 @@ TEST(Parallel_Operations_MPI, Matrix_51x1) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_1x51) {
+TEST(Parallel_Operations_MPI, Matrix_1x37) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 1;
-    int cols = 51;
+    int rows =1;
+    int cols = 37;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = randomMatrix(cols, rows);
