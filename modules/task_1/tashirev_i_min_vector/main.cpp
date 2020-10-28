@@ -61,10 +61,10 @@
             ASSERT_EQ(min, parallel_min);
         }
     }
-    TEST(Parralel_MPI, Min_300) {
+    TEST(Parralel_MPI, Min_60) {
         int ProcRank;
         MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-        const int size = 300;
+        const int size = 60;
         std::vector<int> vec(size);
         if (ProcRank == 0) {
             vec = getRandVector(size);
