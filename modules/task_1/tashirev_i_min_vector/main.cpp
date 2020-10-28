@@ -50,7 +50,21 @@
     TEST(Parralel_MPI, Min_101) {
         int ProcRank;
         MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-        const int size = 60;
+        const int size = 101;
+        std::vector<int> vec(size);
+        if (ProcRank == 0) {
+            vec = getRandVector(size);
+        }
+        int parallel_min = getVectorMinValueParallel(vec, size);
+        if (ProcRank == 0) {
+            int min = getVectorMinValue(vec);
+            ASSERT_EQ(min, parallel_min);
+        }
+    }
+    TEST(Parralel_MPI, Min_300) {
+        int ProcRank;
+        MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+        const int size = 300;
         std::vector<int> vec(size);
         if (ProcRank == 0) {
             vec = getRandVector(size);
