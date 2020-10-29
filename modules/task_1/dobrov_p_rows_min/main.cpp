@@ -4,11 +4,11 @@
 #include <vector>
 #include "./rows_min.h"
 
-TEST(Parallel_Operations_MPI, Matrix_15x15) {
+TEST(Parallel_Operations_MPI, Matrix_16x16) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 15;
-    int cols = 15;
+    int rows = 16;
+    int cols = 16;
     std::vector<int> global_vec;
     if (rank == 0) {
         global_vec = randomMatrix(cols, rows);
