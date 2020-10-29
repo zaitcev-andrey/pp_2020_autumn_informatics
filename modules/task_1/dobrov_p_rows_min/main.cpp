@@ -36,10 +36,10 @@ TEST(Parallel_Operations_MPI, Matrix_100x100) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_67x48) {
+TEST(Parallel_Operations_MPI, Matrix_68x48) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int rows = 69;
+    int rows = 68;
     int cols = 48;
     std::vector<int> global_vec;
     if (rank == 0) {
