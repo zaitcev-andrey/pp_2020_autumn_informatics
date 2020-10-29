@@ -1,8 +1,9 @@
 // Copyright 2020 Zhivaykin Daniil
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include "./rectangle.h"
 #include <cmath>
+#include <limits>
+#include "./rectangle.h"
 
 std::function<double(double)> funct = func;
 

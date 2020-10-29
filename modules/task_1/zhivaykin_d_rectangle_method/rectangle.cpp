@@ -1,13 +1,12 @@
 // Copyright 2020 Zhivaykin Daniil
 #include <mpi.h>
-#include "../../../modules/task_1/zhivaykin_d_rectangle_method/rectangle.h"
 #include <cmath>
+#include "../../../modules/task_1/zhivaykin_d_rectangle_method/rectangle.h"
 
-double def_int(std::function<double(double)> funct, double a, double b, int count){
+double def_int(std::function<double(double)> funct, double a, double b, int count) {
     double sfc = 0;
     double h = (b - a) / count;
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++){
         sfc += funct(a + i * h);
     }
     double res = h * sfc;
@@ -23,8 +22,7 @@ double parall_int(std::function<double(double)> funct, double a, double b, int c
     double res = 0, l_res = 0,
         l_a = a + rank * l_count * sfc,
         l_b = l_a + l_count * sfc;
-    if (rank != size - 1)
-    {
+    if (rank != size - 1){
         l_res = def_int(funct, l_a, l_b, l_count);
     } else {
         l_res = def_int(funct, l_a, b, count - l_count * (size - 1));
