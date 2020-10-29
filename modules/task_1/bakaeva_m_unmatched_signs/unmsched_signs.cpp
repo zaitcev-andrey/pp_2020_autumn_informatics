@@ -37,7 +37,6 @@ int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
 
     t2 = MPI_Wtime();
 
-    std::cout << "Linear result = " << diff << std::endl;
     std::cout << "Linear time = " << t2 - t1 << std::endl;
 
     return diff;
@@ -45,44 +44,66 @@ int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
 
 int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_global) {
     int size, rank;
+    
+    //Число задействованных процессов
+    MPI_Comm_size(MPI_COMM_WORLD, &size); 
+    //Получение номера текущего процесса в рамках коммуникатора
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     int local_diff = 0, global_diff = 0;
     double t1 = 0, t2 = 0;
     int length = (int)strlen(str1_global);
-    //Число задействованных процессов
-    MPI_Comm_size(MPI_COMM_WORLD, &size); 
-     //Получение номера текущего процесса в рамках коммуникатора
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    //Длина промежутка для каждого процесса
+    const int delta = (length - 1) / size;
+    //Длина остатка от всей строки
+    const int remainder = (length - 1) % size;
 
-    char* str1_local = new char[length + 1];
-    char* str2_local = new char[length + 1];
+    t1 = MPI_Wtime();
+    if (rank == 0) {
+            for (int process = 1; process < size; process++) {
+                MPI_Send(&str1_global[0] + process * delta + remainder, delta,
+                    MPI_CHAR, process, 0, MPI_COMM_WORLD);
+                MPI_Send(&str2_global[0] + process * delta + remainder, delta,
+                    MPI_CHAR, process, 1, MPI_COMM_WORLD);
+            }
+    }
 
     if (rank == 0) {
-        t1 = MPI_Wtime();
-        for (int i = 0; i < length + 1; i++) {
-            str1_local[i] = str1_global[i];
-            str2_local[i] = str2_global[i];
-        }
+            char* str1_local = new char[delta + remainder + 1];
+            char* str2_local = new char[delta + remainder + 1];
+            for (int i = 0; i < (delta + remainder); i++) {
+                str1_local[i] = str1_global[i];
+                str2_local[i] = str2_global[i];
+            }
+            
+            str1_local[delta + remainder] = '\0';
+            str2_local[delta + remainder] = '\0';
+
+            local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
+
+            delete[] str1_local;
+            delete[] str2_local;
+
+    } else {
+        char* str1_local = new char[delta + 1];
+        char* str2_local = new char[delta + 1];
+        MPI_Status status;
+        MPI_Recv(&str1_local[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(&str2_local[0], delta, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
+        
+        str1_local[delta + remainder] = '\0';
+        str2_local[delta + remainder] = '\0';
+        
+        local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
+
+        delete[] str1_local;
+        delete[] str2_local;
     }
 
-    MPI_Bcast(str1_local, length, MPI_CHAR, 0, MPI_COMM_WORLD);
-    MPI_Bcast(str2_local, length, MPI_CHAR, 0, MPI_COMM_WORLD);
-
-    for (int i = rank; i <= length + 1; i += size) {
-        if (str1_local[i] != str2_local[i])
-            local_diff++;
-    }
-
-    //Операция приведения, получение результата в главный процессор
     MPI_Reduce(&local_diff, &global_diff, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    t2 = MPI_Wtime();
 
-    if (rank == 0) {
-        t2 = MPI_Wtime();
-        std::cout << "MPI result = " << global_diff << std::endl;
-        std::cout << "MPI time = " << t2 - t1 << std::endl;
-    }
-
-    delete[] str1_local;
-    delete[] str2_local;
+    std::cout << "MPI time = " << t2 - t1 << std::endl;
 
     return global_diff;
 }

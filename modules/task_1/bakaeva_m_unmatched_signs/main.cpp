@@ -32,8 +32,10 @@ TEST(UnmatchedSigns, myExample) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int parallelCount = getParallelUnmachedSignsCount("abcd", "abcy");
 
+
     if (rank == 0) {
         int linearCount = getSequentialUnmachedSignsCount("abcd", "abcy");
+        std::cout << std::endl << linearCount << "     " << parallelCount << std::endl;
         ASSERT_EQ(linearCount, parallelCount);
     }
 }
@@ -42,9 +44,11 @@ TEST(UnmatchedSigns, equalsStrings) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int parallelCount = getParallelUnmachedSignsCount("abcd", "abcd");
+    std::cout << parallelCount;
 
     if (rank == 0) {
         int linearCount = getSequentialUnmachedSignsCount("abcd", "abcd");
+        std::cout << std::endl << linearCount << "     " << parallelCount << std::endl;
         ASSERT_EQ(linearCount, parallelCount);
     }
 }
