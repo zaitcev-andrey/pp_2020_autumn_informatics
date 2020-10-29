@@ -22,7 +22,6 @@ int compareSequential(const std::string& global_str1,
                       const std::string& global_str2) {
     const int sz1 = global_str1.size();
     const int sz2 = global_str2.size();
-    int compare_resuit = 0;
     for (int i = 0; i < std::min(sz1, sz2); i++) {
         char c1 = tolower(global_str1[i]), c2 = tolower(global_str2[i]);
         if (c1 > c2) return 1;
