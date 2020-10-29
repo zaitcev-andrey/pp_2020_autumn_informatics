@@ -4,6 +4,22 @@
 #include <vector>
 #include "./sents_mpi.h"
 
+TEST(Parallel_MPI, Test_Sentences_Length_0) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<char> global_line;
+    const int size_line = 0;
+    if (rank == 0) {
+        global_line = getRandomLine(size_line);
+    }
+
+    int global_sum_sentences = getParallelSumSentences(global_line, size_line);
+    if (rank == 0) {
+        int reference_sum_sentences = getSequentialSumSentences(global_line);
+        ASSERT_EQ(reference_sum_sentences, global_sum_sentences);
+    }
+}
+
 TEST(Parallel_MPI, Test_Sentences_Length_1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -68,21 +84,6 @@ TEST(Parallel_MPI, Test_Sentences_Length_100) {
     }
 }
 
-TEST(Parallel_MPI, Test_Sentences_Length_500) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::vector<char> global_line;
-    const int size_line = 500;
-    if (rank == 0) {
-        global_line = getRandomLine(size_line);
-    }
-
-    int global_sum_sentences = getParallelSumSentences(global_line, size_line);
-    if (rank == 0) {
-        int reference_sum_sentences = getSequentialSumSentences(global_line);
-        ASSERT_EQ(reference_sum_sentences, global_sum_sentences);
-    }
-}
 
 TEST(Parallel_MPI, Test_Sentences_Length_1000) {
     int rank;
