@@ -4,11 +4,11 @@
 #include <cmath>
 
 double def_int(std::function<double(double)> funct, double a, double b, int count){
-    double sfc = (funct(a) + funct(b) / 2);
+    double sfc = 0;
     double h = (b - a) / count;
-    for (int i = 1; i < count - 1; i++)
+    for (int i = 0; i < count; i++)
     {
-        sfc += function(a + i * h);
+        sfc += funct(a + i * h);
     }
     double res = h * sfc;
     return res;
@@ -26,9 +26,7 @@ double parall_int(std::function<double(double)> funct, double a, double b, int c
     if (rank != size - 1)
     {
         l_res = def_int(funct, l_a, l_b, l_count);
-    }
-    else
-    {
+    } else {
         l_res = def_int(funct, l_a, b, count - l_count * (size - 1));
     }
     MPI_Reduce(&l_res, &res, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
