@@ -1,8 +1,8 @@
 // Copyright 2020 Paranicheva Alyona
 #include <mpi.h>
-#include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <random>
 #include <iostream>
 #include <vector>
 #include "./min_in_rows.h"
