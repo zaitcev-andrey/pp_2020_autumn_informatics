@@ -2,15 +2,17 @@
 #include <mpi.h>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include "./min_in_rows.h"
 
 std::vector<int> getRandomMatrix(int rows, int cols) {
-    srand((unsigned int)time(NULL));
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> array(rows * cols);
     for (int i = 0; i < rows * cols; i++)
-        array[i] = 1 + rand() % 100;
+        array[i] = gen() % 100;
     return array;
 }
 
