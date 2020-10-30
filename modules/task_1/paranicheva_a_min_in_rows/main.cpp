@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Paranicheva Alyona  
+﻿// Copyright 2020 Paranicheva Alyona
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
