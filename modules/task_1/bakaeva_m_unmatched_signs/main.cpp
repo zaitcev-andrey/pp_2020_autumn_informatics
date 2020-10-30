@@ -3,39 +3,25 @@
 #include <gtest/gtest.h>
 #include "./unmached_signs.h"
 
-/*TEST(UnmatchedSigns, NormalSize) {
+TEST(UnmatchedSigns, differenceAtTheEnd) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int size = 4;
-    char* str1;
-    char* str2;
-    
-    if (rank == 0) {
-        str1 = generateString(size);
-        printf(str1);
-        std::cout << std::endl;
-        str2 = generateString(size);
-        printf(str2);
-        std::cout << std::endl;
-    }
+    int parallelCount = getParallelUnmachedSignsCount("abcdu", "abcdt");
 
-    int parallelCount = getParallelUnmachedSignsCount(str1, str2);
 
     if (rank == 0) {
-        int linearCount = getSequentialUnmachedSignsCount(str1, str2);
+        int linearCount = getSequentialUnmachedSignsCount("abcdu", "abcdt");
         ASSERT_EQ(linearCount, parallelCount);
     }
-}*/
+}
 
-TEST(UnmatchedSigns, myExample) {
+TEST(UnmatchedSigns, DifferenceInTheMiddle) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int parallelCount = getParallelUnmachedSignsCount("abcd", "abcy");
-
+    int parallelCount = getParallelUnmachedSignsCount("abofpcd", "abfftcd");
 
     if (rank == 0) {
-        int linearCount = getSequentialUnmachedSignsCount("abcdpk", "akbcyk");
-        std::cout << std::endl << linearCount << "     " << parallelCount << std::endl;
+        int linearCount = getSequentialUnmachedSignsCount("abofpcd", "abfftcd");
         ASSERT_EQ(linearCount, parallelCount);
     }
 }
@@ -44,13 +30,29 @@ TEST(UnmatchedSigns, equalsStrings) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int parallelCount = getParallelUnmachedSignsCount("abcd", "abcd");
-    std::cout << parallelCount;
 
     if (rank == 0) {
         int linearCount = getSequentialUnmachedSignsCount("abcd", "abcd");
-        std::cout << std::endl << linearCount << "     " << parallelCount << std::endl;
         ASSERT_EQ(linearCount, parallelCount);
     }
+}
+
+TEST(UnmatchedSigns, RandomStrings) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int length = 5;
+    int parallelCount = getParallelUnmachedSignsCount(generateString(length), generateString(length));
+
+    ASSERT_EQ(0, parallelCount);
+
+}
+
+TEST(UnmatchedSigns, differentLength) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    ASSERT_ANY_THROW(getParallelUnmachedSignsCount("abcdopop", "abcd"));
+    ASSERT_ANY_THROW(getSequentialUnmachedSignsCount("abcdopop", "abcd"));
+
 }
 
 int main(int argc, char** argv) {

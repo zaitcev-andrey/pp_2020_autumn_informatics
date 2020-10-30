@@ -10,21 +10,23 @@
 
 char* generateString(int length) {
     std::mt19937 gen;
-    gen.seed((unsigned)time(0) + clock());
+    gen.seed(static_cast<unsigned int>(time(0)) + clock());
     char* str = new char[length + 1];
-    const char alpNum[] = "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    const char alpNum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
 
     for (int i = 0; i < length; i++) {
         str[i] = alpNum[gen() % (sizeof(alpNum) - 1)];
     }
-
+    
     str[length] = '\0';
     return str;
 };
 
 int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
+    if(strlen(str1) != strlen(str2)){
+        throw "Error: Vectors have different length";
+    }
     int diff = 0;
 
     for (size_t i = 0; i < strlen(str1); i++) {
@@ -37,6 +39,10 @@ int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
 }
 
 int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_global) {
+    if(strlen(str1_global) != strlen(str2_global)){
+        throw "Error: Vectors have different length";
+    }
+    
     int size, rank;
     
     //Число задействованных процессов
@@ -48,9 +54,9 @@ int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_glob
     int length = (int)strlen(str1_global);
     
     //Длина промежутка для каждого процесса
-    const int delta = (length - 1) / size;
+    const int delta = (length) / size;
     //Длина остатка от всей строки
-    const int remainder = (length - 1) % size;
+    const int remainder = (length) % size;
 
     if (rank == 0) {
             for (int process = 1; process < size; process++) {
