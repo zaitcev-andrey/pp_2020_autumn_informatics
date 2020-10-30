@@ -3,7 +3,6 @@
 #define MODULES_TASK_1_MOLOTKOVA_S_MAX_IN_ROWS_H
 
 #include "mpi.h"
-#include <iostream>
 #include <cmath>
 #include <ctime>
 #include <iomanip>

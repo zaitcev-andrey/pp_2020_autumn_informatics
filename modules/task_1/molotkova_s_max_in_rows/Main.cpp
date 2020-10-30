@@ -1,149 +1,120 @@
 // Copyright 2020 Molotkova Svetlana
 #include "mpi.h"
-#include <iostream>
-#include <cmath>
-#include <ctime>
-#include <iomanip>
-#include <math.h>
-#include <map>
-#include "./Max.h"
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
+#include "./Max.h"
 
-using namespace std;
+TEST(Parallel_Operations_MPI, Matrix_6x6) {
+    int ProcNum, ProcRank;
 
-TEST(Parallel_Operations_MPI, Matrix_6x6)
-{
-	int ProcNum, ProcRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
-	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    int stolb = 6;
+    int stroka = 6;
+    double** matrix = Matrix(stolb, stroka);
+    std::vector<double> global_vec;
+    std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
 
-	int stolb = 6;
-	int stroka = 6;
-
-	double** matrix = Matrix(stolb, stroka);
-
-	std::vector<double> global_vec;
-
-	std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
-
-	if (ProcRank == 0) {
-		std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
-		ASSERT_EQ(control_result, result);
-	}
-
-	free2d(&matrix);
+    if (ProcRank == 0) {
+        std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
+        ASSERT_EQ(control_result, result);
+    }
+    free2d(&matrix);
 }
 
-TEST(Parallel_Operations_MPI, Matrix_1x6)
-{
-	int ProcNum, ProcRank;
 
-	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+TEST(Parallel_Operations_MPI, Matrix_1x6) {
+    int ProcNum, ProcRank;
 
-	int stolb = 1;
-	int stroka = 6;
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
-	double** matrix = Matrix(stolb, stroka);
+    int stolb = 1;
+    int stroka = 6;
 
-	std::vector<double> global_vec;
+    double** matrix = Matrix(stolb, stroka);
+    std::vector<double> global_vec;
+    std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
 
-	std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
-
-	if (ProcRank == 0) {
-		std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
-		ASSERT_EQ(control_result, result);
-	}
-
-	free2d(&matrix);
+    if (ProcRank == 0) {
+        std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
+        ASSERT_EQ(control_result, result);
+    }
+    free2d(&matrix);
 }
 
-TEST(Parallel_Operations_MPI, Matrix_3x1)
-{
-	int ProcNum, ProcRank;
+TEST(Parallel_Operations_MPI, Matrix_3x1) {
+    int ProcNum, ProcRank;
 
-	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
-	int stolb = 3;
-	int stroka = 1;
+    int stolb = 3;
+    int stroka = 1;
+    double** matrix = Matrix(stolb, stroka);
+    std::vector<double> global_vec;
+    std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
 
-	double** matrix = Matrix(stolb, stroka);
+    if (ProcRank == 0) {
+        std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
+        ASSERT_EQ(control_result, result);
+    }
 
-	std::vector<double> global_vec;
-
-	std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
-
-	if (ProcRank == 0) {
-		std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
-		ASSERT_EQ(control_result, result);
-	}
-
-	free2d(&matrix);
+    free2d(&matrix);
 }
 
-TEST(Parallel_Operations_MPI, Matrix_19x21)
-{
-	int ProcNum, ProcRank;
+TEST(Parallel_Operations_MPI, Matrix_19x21) {
+    int ProcNum, ProcRank;
 
-	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
-	int stolb = 19;
-	int stroka = 21;
+    int stolb = 19;
+    int stroka = 21;
+    double** matrix = Matrix(stolb, stroka);
+    std::vector<double> global_vec;
+    std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
 
-	double** matrix = Matrix(stolb, stroka);
+    if (ProcRank == 0) {
+        std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
+        ASSERT_EQ(control_result, result);
+    }
 
-	std::vector<double> global_vec;
-
-	std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
-
-	if (ProcRank == 0) {
-		std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
-		ASSERT_EQ(control_result, result);
-	}
-
-	free2d(&matrix);
+    free2d(&matrix);
 }
 
-TEST(Parallel_Operations_MPI, Matrix_14x2)
-{
-	int ProcNum, ProcRank;
+TEST(Parallel_Operations_MPI, Matrix_14x2) {
+    int ProcNum, ProcRank;
 
-	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
-	int stolb = 14;
-	int stroka = 2;
+    int stolb = 14;
+    int stroka = 2;
+    double** matrix = Matrix(stolb, stroka);
+    std::vector<double> global_vec;
+    std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
 
-	double** matrix = Matrix(stolb, stroka);
+    if (ProcRank == 0) {
+        std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
+        ASSERT_EQ(control_result, result);
+    }
 
-	std::vector<double> global_vec;
-
-	std::vector<double> result = Get_max_parallel(matrix, stolb, stroka);
-
-	if (ProcRank == 0) {
-		std::vector<double> control_result = Get_max_sequestional(matrix, stolb, stroka);
-		ASSERT_EQ(control_result, result);
-	}
-
-	free2d(&matrix);
+    free2d(&matrix);
 }
 
-int main(int argc, char* argv[])
-{
-	::testing::InitGoogleTest(&argc, argv);
-	MPI_Init(&argc, &argv);
+int main(int argc, char* argv[]) {
+    ::testing::InitGoogleTest(&argc, argv);
+    MPI_Init(&argc, &argv);
 
-	::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
-	::testing::TestEventListeners& listeners =
-		::testing::UnitTest::GetInstance()->listeners();
+    ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
+    ::testing::TestEventListeners& listeners =
+        ::testing::UnitTest::GetInstance()->listeners();
 
-	listeners.Release(listeners.default_result_printer());
-	listeners.Release(listeners.default_xml_generator());
+    listeners.Release(listeners.default_result_printer());
+    listeners.Release(listeners.default_xml_generator());
 
-	listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
-	return RUN_ALL_TESTS();
+    listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
+    return RUN_ALL_TESTS();
 }
