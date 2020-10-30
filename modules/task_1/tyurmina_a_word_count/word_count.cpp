@@ -16,7 +16,7 @@ int string_not_correct(std::string s) {
 int two_space(std::string s) {
     for (int i = 0; i < s.length() - 1; i++) {
         if ((s[i] == ' ') && (s[i + 1] == ' ')) return 0;
-		return 1;
+        return 1;
     }
 }
 /*std::string random_str(int size) {
