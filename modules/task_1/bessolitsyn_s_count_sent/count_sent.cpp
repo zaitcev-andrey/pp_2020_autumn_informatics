@@ -48,7 +48,7 @@ int getParallelOperations(std::vector<char> global_vec, int count_size_vector) {
     const int delta = count_size_vector / size;
     const int rem = count_size_vector % size;
     char* local_string;
-    const int n = (rank == 0) ? delta : (delta + 1 + static_cast<int>(rank <= rem));
+    const int n = (rank == 0) ? delta : (delta + static_cast<int>(rank <= rem));
     local_string = new char[n];
     int global_res = 0, local_res = 0;
 
