@@ -5,6 +5,7 @@
 #include <cmath>
 #include <ctime>
 #include <vector>
+#include <random>
 #include <iomanip>
 #include <map>
 #include <algorithm>
@@ -81,12 +82,13 @@ std::vector<double> Get_max_parallel(double** matrix, int stolb, int stroka) {
 }
 
 double** Matrix(int stolb, int stroka) {
-    srand((unsigned int)time(0));
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     double** ptrarray = 0;
     malloc2d(&ptrarray, stroka, stolb);
     for (int count_row = 0; count_row < stroka; count_row++)
         for (int count_column = 0; count_column < stolb; count_column++)
-            ptrarray[count_row][count_column] = (rand_r() % 10 + 1.0) / static_cast<double>((rand_r() % 10 + 1.0));
+            ptrarray[count_row][count_column] = gen() % 10 + 1.0 / static_cast<double>((gen() % 10 + 1.0));
     return ptrarray;
 }
 
