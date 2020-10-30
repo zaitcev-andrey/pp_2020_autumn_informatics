@@ -3,7 +3,7 @@
 #include <ctime>
 #include <random>
 #include <stdexcept>
-#include "../../../modules/test_tasks/test_mpi/unmached_signs.h"
+#include "./unmached_signs.h"
 
 char* generateString(int length) {
     std::mt19937 gen;
