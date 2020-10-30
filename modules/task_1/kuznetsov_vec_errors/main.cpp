@@ -24,20 +24,6 @@ TEST(VEC_MPI, THROW_WHEN_SIZE_IS_0) {
     }
 }
 
-TEST(VEC_MPI, THROW_WHEN_SIZE_IS_INCORRECT) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::vector<int> vec;
-    const int vec_size = 10;
-    if (rank == 0) {
-        vec = randV(vec_size);
-        vec = vecNormalize(vec);
-    }
-    if (rank == 0) {
-        ASSERT_ANY_THROW(int res = parallelVector(vec, vec_size + 2));
-    }
-}
-
 TEST(VEC_MPI, SUCCESSFUL_SWAP_10_ELEM) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
