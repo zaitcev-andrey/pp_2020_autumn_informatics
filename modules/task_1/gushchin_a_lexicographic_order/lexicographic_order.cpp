@@ -14,7 +14,7 @@ std::string getRandomString(size_t length) {
 
     std::string randomString;
     randomString.reserve(length);
-    for (int i = 0; i < length; i++)
+    for (size_t i = 0; i < length; i++)
         randomString.push_back(alphaNumeric[gen() % alphaNumeric.length()]);
 
     return randomString;
@@ -41,7 +41,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
 
     size_t minLength = std::min(length1, length2);
 
-    if (minLength < size)
+    if (static_cast<int>(minLength) < size)
         return sequentialIsLexicographicOrder(string1, string2);
 
     size_t delta = minLength / size;
@@ -49,9 +49,9 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
 
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
-            MPI_Send(string1.c_str() + proc * delta + reminder, delta,
+            MPI_Send(string1.c_str() + proc * delta + reminder, static_cast<int>(delta),
                      MPI_CHAR, proc, 0, MPI_COMM_WORLD);
-            MPI_Send(string2.c_str() + proc * delta + reminder, delta,
+            MPI_Send(string2.c_str() + proc * delta + reminder, static_cast<int>(delta),
                      MPI_CHAR, proc, 1, MPI_COMM_WORLD);
         }
     }
@@ -68,10 +68,10 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
         localString1.resize(delta);
 
         MPI_Status status;
-        MPI_Recv(&buffer[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         localString1.assign(buffer.begin(), buffer.end());
 
-        MPI_Recv(&buffer[0], delta, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
+        MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
         localString2.assign(buffer.begin(), buffer.end());
     }
 
