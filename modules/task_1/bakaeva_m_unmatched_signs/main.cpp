@@ -34,7 +34,7 @@ TEST(UnmatchedSigns, myExample) {
 
 
     if (rank == 0) {
-        int linearCount = getSequentialUnmachedSignsCount("abcd", "abcy");
+        int linearCount = getSequentialUnmachedSignsCount("abcdpk", "akbcyk");
         std::cout << std::endl << linearCount << "     " << parallelCount << std::endl;
         ASSERT_EQ(linearCount, parallelCount);
     }
