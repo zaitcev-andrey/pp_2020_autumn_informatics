@@ -1,12 +1,11 @@
-﻿// Copyright 2020 Paranicheva Alyona
+﻿// Copyright 2020 Paranicheva Alyona  
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "./min_in_rows.h"
 
-TEST(Parallel_Operations_MPI, Matrix_10x10)
-{
+TEST(Parallel_Operations_MPI, Matrix_10x10) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 10;
@@ -21,8 +20,7 @@ TEST(Parallel_Operations_MPI, Matrix_10x10)
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_12x21)
-{
+TEST(Parallel_Operations_MPI, Matrix_12x21) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 12;
@@ -37,8 +35,7 @@ TEST(Parallel_Operations_MPI, Matrix_12x21)
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_100x100)
-{
+TEST(Parallel_Operations_MPI, Matrix_100x100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 100;
@@ -53,8 +50,7 @@ TEST(Parallel_Operations_MPI, Matrix_100x100)
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_1x5)
-{
+TEST(Parallel_Operations_MPI, Matrix_1x5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 1;
@@ -69,8 +65,7 @@ TEST(Parallel_Operations_MPI, Matrix_1x5)
     }
 }
 
-TEST(Parallel_Operations_MPI, Matrix_3x13)
-{
+TEST(Parallel_Operations_MPI, Matrix_3x13) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int rows = 3;
@@ -85,8 +80,7 @@ TEST(Parallel_Operations_MPI, Matrix_3x13)
     }
 }
 
-int main(int argc, char* argv[])
-{ 
+int main(int argc, char* argv[]) { 
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
