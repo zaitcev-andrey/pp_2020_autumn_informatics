@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "./lexicographic_order.h"
+#include "../../../modules/task_1/gushchin_a_lexicographic_order/lexicographic_order.h"
 
 std::string getRandomString(size_t length) {
     std::random_device rd;

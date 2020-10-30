@@ -3,6 +3,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
+#include <string>
 #include "./lexicographic_order.h"
 
 TEST(Lexicographic_Order_MPI, Size_100_100) {
