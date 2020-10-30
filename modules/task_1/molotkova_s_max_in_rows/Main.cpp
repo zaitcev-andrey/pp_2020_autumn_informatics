@@ -1,7 +1,7 @@
 // Copyright 2020 Molotkova Svetlana
-#include "mpi.h"
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
+#include <mpi.h>
 #include "./Max.h"
 
 TEST(Parallel_Operations_MPI, Matrix_6x6) {

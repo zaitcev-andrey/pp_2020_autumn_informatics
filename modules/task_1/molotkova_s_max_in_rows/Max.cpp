@@ -1,11 +1,13 @@
 // Copyright 2020 Molotkova Svetlana
-#include "mpi.h"
+#include <stdlib.h>
+#include <math.h>
+#include <mpi.h>
 #include <cmath>
 #include <ctime>
 #include <vector>
 #include <iomanip>
-#include <math.h>
 #include <map>
+#include <algorithm>
 #include "../../../modules/task_1/molotkova_s_max_in_rows/Max.h"
 
 double findmax(int stolbnum, double** arr, int N) {
@@ -17,9 +19,9 @@ double findmax(int stolbnum, double** arr, int N) {
     return max;
 }
 int malloc2d(double*** array, int n, int m) {
-    double* p = (double*)malloc(n * m * sizeof(double));
+    double* p = reinterpret_cast<double*>(malloc(n * m * sizeof(double)));
     if (!p) return -1;
-    (*array) = (double**)malloc(n * sizeof(double*));
+    (*array) = reinterpret_cast<double**>(malloc(n * sizeof(double*)));
     if (!(*array)) {
         free(p);
         return -1;
@@ -39,12 +41,12 @@ std::vector<double> Get_max_parallel(double** matrix, int stolb, int stroka) {
     int g;
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-	if (ProcNum == 1 || stolb < ProcNum) {
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    if (ProcNum == 1 || stolb < ProcNum) {
         return Get_max_sequestional( matrix, stolb, stroka);
     }
     std::vector<double> max(ProcRank == 0 ? stolb : stolb / ProcNum);
-	int offset = static_cast<int>(ceil(stolb / ProcNum) + 1);
+    int offset = static_cast<int>(ceil(stolb / ProcNum) + 1);
     double* mass = new double[stolb];
     std::map<int, double> map;
     MPI_Status Status;
@@ -59,8 +61,8 @@ std::vector<double> Get_max_parallel(double** matrix, int stolb, int stroka) {
         }
         for (int i = 1; i < ProcNum; i++) {
             for (int j = i * offset; (j < i * offset + offset) && (j < stolb); j++) {
-                MPI_Recv(&g, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD,&Status);
-                MPI_Recv(&ProcSum, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD,&Status);
+                MPI_Recv(&g, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &Status);
+                MPI_Recv(&ProcSum, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &Status);
                 mass[g] = ProcSum;
             }
         }
@@ -84,7 +86,7 @@ double** Matrix(int stolb, int stroka) {
     malloc2d(&ptrarray, stroka, stolb);
     for (int count_row = 0; count_row < stroka; count_row++)
         for (int count_column = 0; count_column < stolb; count_column++)
-            ptrarray[count_row][count_column] = (rand() % 10 + 1.0) / double((rand() % 10 + 1.0));
+            ptrarray[count_row][count_column] = (rand_r() % 10 + 1.0) / static_cast<double>((rand_r() % 10 + 1.0));
     return ptrarray;
 }
 
