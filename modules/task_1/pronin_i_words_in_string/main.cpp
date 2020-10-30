@@ -4,11 +4,28 @@
 #include <gtest/gtest.h> 
 #include "pronin_i_words_in_string.h"
 
-TEST(Parallel_Operations_MPI, Line_Size_100)
+TEST(Parallel_Operations_MPI, Line_Size_101)
 {
 	int rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	const int size = 100;
+	const int size = 101;
+	string str = "";
+	if (rank == 0)
+	{
+		str = RandomString(size);
+	}
+	int parallel = ParallelOperations(str, size);
+	if (rank == 0)
+	{
+		int sequential = SequentialOperations(str);
+		ASSERT_EQ(sequential, parallel);
+	}
+}
+TEST(Parallel_Operations_MPI, Line_Size_200)
+{
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	const int size = 200;
 	string str = "";
 	if (rank == 0)
 	{
