@@ -3,7 +3,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include "./min_in_rows.h"
+#include "../../../modules/task_1/paranicheva_a_min_in_rows/min_in_rows.h"
 
 TEST(Parallel_Operations_MPI, Matrix_10x10) {
     int rank;
