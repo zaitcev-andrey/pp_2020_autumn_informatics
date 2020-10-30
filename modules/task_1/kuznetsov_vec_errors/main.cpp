@@ -4,7 +4,41 @@
 #include <vector>
 #include "./vec_mpi.h"
 
-TEST(VEC_MPI, Successful_normalize_10_elem) {
+TEST(VEC_MPI, THROW_WHEN_SIZE_IS_LOWER_THAN_0) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> vec;
+    const int vec_size = -10;
+    if (rank == 0) {
+        ASSERT_ANY_THROW(vec = randV(vec_size));
+    }
+}
+
+TEST(VEC_MPI, THROW_WHEN_SIZE_IS_0) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> vec;
+    const int vec_size = 0;
+    if (rank == 0) {
+        ASSERT_ANY_THROW(vec = randV(vec_size));
+    }
+}
+
+TEST(VEC_MPI, THROW_WHEN_SIZE_IS_INCORRECT) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> vec;
+    const int vec_size = 10;
+    if (rank == 0) {
+        vec = randV(vec_size);
+        vec = vecNormalize(vec);
+    }
+    if (rank == 0) {
+        ASSERT_ANY_THROW(int res = parallelVector(vec, vec_size + 2));
+    }
+}
+
+TEST(VEC_MPI, SUCCESSFUL_SWAP_10_ELEM) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> vec;
@@ -19,7 +53,7 @@ TEST(VEC_MPI, Successful_normalize_10_elem) {
     }
 }
 
-TEST(VEC_MPI, Successful_normalize_500_elem) {
+TEST(VEC_MPI, SUCCESSFUL_SWAP_500_ELEM) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> vec;
@@ -34,7 +68,7 @@ TEST(VEC_MPI, Successful_normalize_500_elem) {
     }
 }
 
-TEST(VEC_MPI, Successful_normalize_1000_elem) {
+TEST(VEC_MPI, SUCCESSFUL_SWAP_1000_ELEM) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> vec;
@@ -49,7 +83,22 @@ TEST(VEC_MPI, Successful_normalize_1000_elem) {
     }
 }
 
-TEST(VEC_MPI, With_errors) {
+TEST(VEC_MPI, SUCCESSFUL_SWAP_10000_ELEM) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> vec;
+    const int vec_size = 10000;
+    if (rank == 0) {
+        vec = randV(vec_size);
+        vec = vecNormalize(vec);
+    }
+    int res = parallelVector(vec, vec_size);
+    if (rank == 0) {
+        ASSERT_EQ(res, 0);
+    }
+}
+
+TEST(VEC_MPI, COUNT_ERROR_NOT_A_NULL) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> vec;
