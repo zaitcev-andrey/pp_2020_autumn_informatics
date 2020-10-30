@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <random>
+#include <utility>
 #include "../../../modules/task_1/kuznetsov_vec_errors/vec_mpi.h"
 
 std::vector<int> randV(int size) {
