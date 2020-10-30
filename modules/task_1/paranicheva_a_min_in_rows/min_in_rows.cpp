@@ -5,7 +5,7 @@
 #include <random>
 #include <iostream>
 #include <vector>
-#include "./min_in_rows.h"
+#include "../../../modules/task_1/belik_j_integration_trapez/IntegrationTrapez.h"
 
 std::vector<int> getRandomMatrix(int rows, int cols) {
     std::mt19937 gen;
