@@ -83,8 +83,7 @@ int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_glob
 
         local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
 
-    }
-    else {
+    } else {
         str1_local = new char[delta + 1];
         str2_local = new char[delta + 1];
         MPI_Status status;
