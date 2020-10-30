@@ -27,7 +27,7 @@ int getSequentialOperations(std::vector<char> vec, int n) {
     t_1 = MPI_Wtime();
     for (int i = 0; i < n; ++i) {
         bool tmp = vec[i] == '.' || vec[i] == '?' || vec[i] == '!';
-        for (; tmp && (i + 1) < n && (vec[i + 1] == '.' || vec[i + 1] == '?' || vec[i + 1] == '!'); ++i);
+        for (; tmp && (i + 1) < n && (vec[i + 1] == '.' || vec[i + 1] == '?' || vec[i + 1] == '!'); ++i){}
         counter += static_cast<int>(tmp);
     }
     t_2 = MPI_Wtime();
@@ -71,10 +71,10 @@ int getParallelOperations(std::vector<char> global_vec, int count_size_vector) {
         MPI_Status status;
         MPI_Recv(local_string, n, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
-    
     for (int i = 0; i < n; ++i) {
         bool tmp = (local_string[i] == '.' || local_string[i] == '?' || local_string[i] == '!');
-        for (; tmp && (i + 1) < n && (local_string[i + 1] == '.' || local_string[i + 1] == '?' || local_string[i + 1] == '!'); ++i);
+        for (; tmp && (i + 1) < n && 
+            (local_string[i + 1] == '.' || local_string[i + 1] == '?' || local_string[i + 1] == '!'); ++i){}
         local_res += static_cast<int>(tmp);
     }
 

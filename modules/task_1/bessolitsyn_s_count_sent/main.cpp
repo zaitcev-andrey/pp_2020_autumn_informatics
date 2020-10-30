@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 #include <stdio.h>
 #include <random>
-#include "./count_sent.h"
+#include <vector>
+#include "../../../modules/task_1/bessolitsyn_s_count_sent/count_sent.h"
 
 TEST(Parallel_Operations_MPI, Test_Size_30) {
     int rank;
@@ -16,6 +17,7 @@ TEST(Parallel_Operations_MPI, Test_Size_30) {
     int global_res = getParallelOperations(global_vec, count_size_vector);
     if (rank == 0) {
         int reference_res = getSequentialOperations(global_vec, count_size_vector);
+        std::cout << global_res << " " << reference_res << std::endl;
         ASSERT_EQ(reference_res, global_res);
     }
 }
@@ -31,6 +33,7 @@ TEST(Parallel_Operations_MPI, Test_Size_200) {
     int global_res = getParallelOperations(global_vec, count_size_vector);
     if (rank == 0) {
         int reference_res = getSequentialOperations(global_vec, count_size_vector);
+        std::cout << global_res << " " << reference_res << std::endl;
         ASSERT_EQ(reference_res, global_res);
     }
 }
@@ -46,6 +49,7 @@ TEST(Parallel_Operations_MPI, Test_Size_1000) {
     int global_res = getParallelOperations(global_vec, count_size_vector);
     if (rank == 0) {
         int reference_res = getSequentialOperations(global_vec, count_size_vector);
+        std::cout << global_res << " " << reference_res << std::endl;
         ASSERT_EQ(reference_res, global_res);
     }
 }
@@ -66,7 +70,7 @@ TEST(Parallel_Operations_MPI, Test_Size_1003) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Test_Size_3541) {  // Простое число
+TEST(Parallel_Operations_MPI, Test_Size_3541) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<char> global_vec;
