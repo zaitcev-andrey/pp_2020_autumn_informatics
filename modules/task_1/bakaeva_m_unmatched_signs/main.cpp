@@ -1,4 +1,4 @@
-//Copyright 2020 Bakaeva Maria
+// Copyright 2020 Bakaeva Maria
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./unmached_signs.h"
@@ -44,7 +44,6 @@ TEST(UnmatchedSigns, RandomStrings) {
     int parallelCount = getParallelUnmachedSignsCount(generateString(length), generateString(length));
 
     ASSERT_EQ(0, parallelCount);
-
 }
 
 TEST(UnmatchedSigns, differentLength) {
@@ -52,7 +51,6 @@ TEST(UnmatchedSigns, differentLength) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     ASSERT_ANY_THROW(getParallelUnmachedSignsCount("abcdopop", "abcd"));
     ASSERT_ANY_THROW(getSequentialUnmachedSignsCount("abcdopop", "abcd"));
-
 }
 
 int main(int argc, char** argv) {

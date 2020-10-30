@@ -1,12 +1,9 @@
-//Copyright 2020 Bakaeva Maria
+// Copyright 2020 Bakaeva Maria
 #include <mpi.h>
 #include <ctime>
-#include <iostream>
-#include <math.h>
-#include <algorithm>
 #include <random>
 #include <stdexcept>
-#include "unmached_signs.h"
+#include "../../../modules/test_tasks/test_mpi/unmached_signs.h"
 
 char* generateString(int length) {
     std::mt19937 gen;
@@ -54,9 +51,9 @@ int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_glob
     int length = (int)strlen(str1_global);
 
     //Длина промежутка для каждого процесса
-    const int delta = (length) / size;
+    const int delta = static_cast<int>(length / size);
     //Длина остатка от всей строки
-    const int remainder = (length) % size;
+    const int remainder = static_cast<int>(length % size);
 
     if (rank == 0) {
         for (int process = 1; process < size; process++) {
@@ -82,7 +79,6 @@ int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_glob
         str2_local[delta + remainder] = '\0';
 
         local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
-
     } else {
         str1_local = new char[delta + 1];
         str2_local = new char[delta + 1];
