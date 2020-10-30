@@ -3,8 +3,8 @@
 #include <ctime>
 #include <random>
 #include <stdexcept>
-#include "./unmached_signs.h"
 #include <cstring>
+#include "./unmached_signs.h"
 
 char* generateString(int length) {
     std::mt19937 gen;
