@@ -18,7 +18,7 @@ char* generateString(int length) {
 
     str[length] = '\0';
     return str;
-};
+}
 
 int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
     if (strlen(str1) != strlen(str2)) {
@@ -48,7 +48,7 @@ int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_glob
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     int local_diff = 0, global_diff = 0;
-    int length = (int)strlen(str1_global);
+    int length = static_cast<int>(strlen(str1_global));
 
     //Длина промежутка для каждого процесса
     const int delta = static_cast<int>(length / size);
