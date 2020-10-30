@@ -80,7 +80,7 @@ TEST(Parallel_Operations_MPI, Matrix_3x13) {
     }
 }
 
-int main(int argc, char* argv[]) { 
+int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
