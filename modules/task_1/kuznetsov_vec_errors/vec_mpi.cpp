@@ -28,8 +28,6 @@ std::vector<int> vecNormalize(std::vector<int> a) {
 }
 
 int parallelVector(const std::vector<int>& a, int n) {
-  if (n != a.size())
-    throw - 1;
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
