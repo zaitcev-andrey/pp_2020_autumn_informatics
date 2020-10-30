@@ -4,6 +4,7 @@
 #include <random>
 #include <stdexcept>
 #include "./unmached_signs.h"
+#include <cstring>
 
 char* generateString(int length) {
     std::mt19937 gen;

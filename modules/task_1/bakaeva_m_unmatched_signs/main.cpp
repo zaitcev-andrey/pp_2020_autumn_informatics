@@ -37,15 +37,6 @@ TEST(UnmatchedSigns, equalsStrings) {
     }
 }
 
-TEST(UnmatchedSigns, RandomStrings) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int length = 5;
-    int parallelCount = getParallelUnmachedSignsCount(generateString(length), generateString(length));
-
-    ASSERT_EQ(0, parallelCount);
-}
-
 TEST(UnmatchedSigns, differentLength) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
