@@ -1,7 +1,7 @@
 // Copyright 2020 Pronin Igor
 #include <mpi.h>
-#include <gtest-mpi-listener.hpp> 
-#include <gtest/gtest.h> 
+#include <gtest-mpi-listener.hpp>
+#include <gtest/gtest.h>
 #include <string>
 #include "./pronin_i_words_in_string.h"
 
@@ -33,8 +33,7 @@ TEST(Parallel_Operations_MPI, Line_Size_200) {
         ASSERT_EQ(sequential, parallel);
     }
 }
-TEST(Parallel_Operations_MPI, Line_Size_1000)
-{
+TEST(Parallel_Operations_MPI, Line_Size_1000){
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     const int size = 1000;
