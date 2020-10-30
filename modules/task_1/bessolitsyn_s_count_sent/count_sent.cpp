@@ -56,9 +56,9 @@ int getParallelOperations(std::vector<char> global_vec, int count_size_vector) {
         for (int proc = 1; proc < size; ++proc) {
             if (proc <= rem) {
                 MPI_Send(&global_vec[0] + proc * delta + proc - 1,
-                    delta + 1, MPI_INT, proc, 0, MPI_COMM_WORLD);
+                    delta + 1, MPI_CHAR, proc, 0, MPI_COMM_WORLD);
             } else {
-                MPI_Send(&global_vec[0] + proc * delta + rem, delta, MPI_INT, proc, 0, MPI_COMM_WORLD);
+                MPI_Send(&global_vec[0] + proc * delta + rem, delta, MPI_CHAR, proc, 0, MPI_COMM_WORLD);
             }
         }
     }
@@ -69,7 +69,7 @@ int getParallelOperations(std::vector<char> global_vec, int count_size_vector) {
         }
     } else {
         MPI_Status status;
-        MPI_Recv(local_string, n, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(local_string, n, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
     for (int i = 0; i < n; ++i) {
         bool tmp = (local_string[i] == '.' || local_string[i] == '?' || local_string[i] == '!');
