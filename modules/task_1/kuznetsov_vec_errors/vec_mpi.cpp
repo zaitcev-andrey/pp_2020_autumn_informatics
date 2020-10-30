@@ -7,6 +7,8 @@
 
 std::vector<int> randV(int size) {
   std::mt19937 rand_vec;
+  if (size <= 0)
+    throw - 1;
   std::vector<int> tmp(size);
   rand_vec.seed(static_cast<unsigned int>(time(0)));
   for (int i = 0; i < static_cast<int>(tmp.size()); i++)
@@ -18,9 +20,7 @@ std::vector<int> vecNormalize(std::vector<int> a) {
   for (int i = 0; i < static_cast<int>(a.size()) - 1; i++) {
     for (int j = 0; j < static_cast<int>(a.size()) - i - 1; j++) {
       if (a[j] > a[j + 1]) {
-        int tmp = a[j];
-        a[j] = a[j + 1];
-        a[j + 1] = tmp;
+        std::swap(a[j], a[j + 1]);
       }
     }
   }
@@ -28,6 +28,8 @@ std::vector<int> vecNormalize(std::vector<int> a) {
 }
 
 int parallelVector(const std::vector<int>& a, int n) {
+  if (n != a.size())
+    throw - 1;
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
