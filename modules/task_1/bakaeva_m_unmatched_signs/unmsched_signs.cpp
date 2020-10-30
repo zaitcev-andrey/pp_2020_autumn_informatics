@@ -18,13 +18,13 @@ char* generateString(int length) {
     for (int i = 0; i < length; i++) {
         str[i] = alpNum[gen() % (sizeof(alpNum) - 1)];
     }
-    
+
     str[length] = '\0';
     return str;
 };
 
 int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
-    if(strlen(str1) != strlen(str2)){
+    if (strlen(str1) != strlen(str2)) {
         throw "Error: Vectors have different length";
     }
     int diff = 0;
@@ -39,63 +39,64 @@ int getSequentialUnmachedSignsCount(const char* str1, const char* str2) {
 }
 
 int getParallelUnmachedSignsCount(const char* str1_global, const char* str2_global) {
-    if(strlen(str1_global) != strlen(str2_global)){
+    if (strlen(str1_global) != strlen(str2_global)) {
         throw "Error: Vectors have different length";
     }
-    
+
     int size, rank;
-    
-    //×èñëî çàäåéñòâîâàííûõ ïðîöåññîâ
-    MPI_Comm_size(MPI_COMM_WORLD, &size); 
-    //Ïîëó÷åíèå íîìåðà òåêóùåãî ïðîöåññà â ðàìêàõ êîììóíèêàòîðà
+
+    //Ð§Ð¸ÑÐ»Ð¾ Ð·Ð°Ð´ÐµÐ¹ÑÑ‚Ð²Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð²
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    //ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð½Ð¾Ð¼ÐµÑ€Ð° Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ° Ð² Ñ€Ð°Ð¼ÐºÐ°Ñ… ÐºÐ¾Ð¼Ð¼ÑƒÐ½Ð¸ÐºÐ°Ñ‚Ð¾Ñ€Ð°
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     int local_diff = 0, global_diff = 0;
     int length = (int)strlen(str1_global);
-    
-    //Äëèíà ïðîìåæóòêà äëÿ êàæäîãî ïðîöåññà
+
+    //Ð”Ð»Ð¸Ð½Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚ÐºÐ° Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ°
     const int delta = (length) / size;
-    //Äëèíà îñòàòêà îò âñåé ñòðîêè
+    //Ð”Ð»Ð¸Ð½Ð° Ð¾ÑÑ‚Ð°Ñ‚ÐºÐ° Ð¾Ñ‚ Ð²ÑÐµÐ¹ ÑÑ‚Ñ€Ð¾ÐºÐ¸
     const int remainder = (length) % size;
 
     if (rank == 0) {
-            for (int process = 1; process < size; process++) {
-                MPI_Send(&str1_global[0] + process * delta + remainder, delta,
-                    MPI_CHAR, process, 0, MPI_COMM_WORLD);
-                MPI_Send(&str2_global[0] + process * delta + remainder, delta,
-                    MPI_CHAR, process, 1, MPI_COMM_WORLD);
-            }
+        for (int process = 1; process < size; process++) {
+            MPI_Send(&str1_global[0] + process * delta + remainder, delta,
+                MPI_CHAR, process, 0, MPI_COMM_WORLD);
+            MPI_Send(&str2_global[0] + process * delta + remainder, delta,
+                MPI_CHAR, process, 1, MPI_COMM_WORLD);
+        }
     }
-    
+
     char* str1_local;
     char* str2_local;
 
     if (rank == 0) {
-            str1_local = new char[delta + remainder + 1];
-            str2_local = new char[delta + remainder + 1];
-            for (int i = 0; i < (delta + remainder); i++) {
-                str1_local[i] = str1_global[i];
-                str2_local[i] = str2_global[i];
-            }
-            
-            str1_local[delta + remainder] = '\0';
-            str2_local[delta + remainder] = '\0';
+        str1_local = new char[delta + remainder + 1];
+        str2_local = new char[delta + remainder + 1];
+        for (int i = 0; i < (delta + remainder); i++) {
+            str1_local[i] = str1_global[i];
+            str2_local[i] = str2_global[i];
+        }
 
-            local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
+        str1_local[delta + remainder] = '\0';
+        str2_local[delta + remainder] = '\0';
 
-    } else {
+        local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
+
+    }
+    else {
         str1_local = new char[delta + 1];
         str2_local = new char[delta + 1];
         MPI_Status status;
         MPI_Recv(&str1_local[0], delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         MPI_Recv(&str2_local[0], delta, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
-        
+
         str1_local[delta] = '\0';
         str2_local[delta] = '\0';
-        
+
         local_diff = getSequentialUnmachedSignsCount(str1_local, str2_local);
     }
-    
+
     delete[] str1_local;
     delete[] str2_local;
 
