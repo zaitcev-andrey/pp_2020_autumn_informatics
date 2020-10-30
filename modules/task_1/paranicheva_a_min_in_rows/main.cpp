@@ -12,7 +12,7 @@ TEST(Parallel_Operations_MPI, Matrix_10x10)
     int rows = 10;
     int cols = 10;
     std::vector<int> arr;
-    if (rank == 0) 
+    if (rank == 0)
         arr = getRandomMatrix(rows, cols);
     std::vector<int> mins1 = getParallMin(arr, rows, cols);
     if (rank == 0) {
@@ -31,7 +31,7 @@ TEST(Parallel_Operations_MPI, Matrix_12x21)
     if (rank == 0)
         arr = getRandomMatrix(rows, cols);
     std::vector<int> mins1 = getParallMin(arr, rows, cols);
-    if (rank == 0){
+    if (rank == 0) {
         std::vector<int> mins2 = getSequentialMin(arr, rows, cols);
         ASSERT_EQ(mins1, mins2);
     }
@@ -47,7 +47,7 @@ TEST(Parallel_Operations_MPI, Matrix_100x100)
     if (rank == 0)
         arr = getRandomMatrix(rows, cols);
     std::vector<int> mins1 = getParallMin(arr, rows, cols);
-    if (rank == 0){
+    if (rank == 0) {
         std::vector<int> mins2 = getSequentialMin(arr, rows, cols);
         ASSERT_EQ(mins1, mins2);
     }
@@ -63,7 +63,7 @@ TEST(Parallel_Operations_MPI, Matrix_1x5)
     if (rank == 0)
         arr = getRandomMatrix(rows, cols);
     std::vector<int> mins1 = getParallMin(arr, rows, cols);
-    if (rank == 0){
+    if (rank == 0) {
         std::vector<int> mins2 = getSequentialMin(arr, rows, cols);
         ASSERT_EQ(mins1, mins2);
     }
@@ -79,7 +79,7 @@ TEST(Parallel_Operations_MPI, Matrix_3x13)
     if (rank == 0)
         arr = getRandomMatrix(rows, cols);
     std::vector<int> mins1 = getParallMin(arr, rows, cols);
-    if (rank == 0){
+    if (rank == 0) {
         std::vector<int> mins2 = getSequentialMin(arr, rows, cols);
         ASSERT_EQ(mins1, mins2);
     }
