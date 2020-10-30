@@ -18,12 +18,9 @@ std::vector<int> getRandomMatrix(int rows, int cols)
 int getMinInRow(std::vector<int> array, int cols, int num)
 {
     int min = array[num * cols];
-    for (int i = num * cols + 1; i < (num + 1) * cols; i++)
-    {
+    for (int i = num * cols + 1; i < (num + 1) * cols; i++){
         if (array[i] < min)
-        {
             min = array[i];
-        }
     }
     return min;
 }
@@ -32,9 +29,7 @@ std::vector<int> getSequentialMin(std::vector<int> arr, int rows, int cols)
 {
     std::vector<int> minsarr(rows);
     for (int i = 0; i < rows; i++)
-    {
         minsarr[i] = getMinInRow(arr, cols, i);
-    }
     return minsarr;
 }
 
@@ -46,8 +41,7 @@ std::vector<int> getParallMin(std::vector<int> arr, int rows, int cols)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int count = rows / size;
     int rem = rows % size;
-    if (rank == 0)
-    {
+    if (rank == 0){
         for (int i = 1; i < size; i++)
             MPI_Send(arr.data() + (i * count + rem) * cols, count * cols, MPI_INT, i, 0, MPI_COMM_WORLD);
         std::vector<int> tmparr((count + rem) * cols);
@@ -56,19 +50,15 @@ std::vector<int> getParallMin(std::vector<int> arr, int rows, int cols)
         std::vector<int> tmpmins = getSequentialMin( tmparr, count + rem, cols);
         for (int i = 0; i < count + rem; i++)
             minsarr[i] = tmpmins[i];
-    }
-    else
-    {
+    } else {
         std::vector<int> tmparr(count * cols);
         MPI_Status status;
         MPI_Recv(tmparr.data(), count * cols, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
         std::vector<int> tmpmins = getSequentialMin(tmparr, count, cols);
         MPI_Send(tmpmins.data(), count, MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
-    if (rank == 0)
-    {
-        for (int i = 1; i < size; i++)
-        {
+    if (rank == 0){
+        for (int i = 1; i < size; i++){
             MPI_Status status;
             MPI_Recv(minsarr.data() + rem + count * i, count, MPI_INT, i, 0, MPI_COMM_WORLD, &status);
         }
