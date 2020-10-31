@@ -9,7 +9,7 @@
 
 
 int RandomValue(int min, int max) {
-    return (min + rand_r() % (max - min));
+    return (min + rand() % (max - min));
 }
 
 int funcF(int x) {
