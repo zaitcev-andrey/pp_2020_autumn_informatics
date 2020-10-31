@@ -65,7 +65,6 @@ TEST(Parallel_Operations, Test_Vecint5000) {
     }
 }
 int main(int argc, char** argv) {
-    int res = 0;
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
@@ -73,7 +72,6 @@ int main(int argc, char** argv) {
     lst.Release(lst.default_result_printer());
     lst.Release(lst.default_xml_generator());
     lst.Append(new GTestMPIListener::MPIMinimalistPrinter);
-    res = RUN_ALL_TESTS();
-    return res;
+    return RUN_ALL_TESTS();
 }
 
