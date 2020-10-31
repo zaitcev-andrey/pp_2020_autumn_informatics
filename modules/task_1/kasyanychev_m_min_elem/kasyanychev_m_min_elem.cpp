@@ -2,6 +2,7 @@
 #include <mpi.h>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 #include "../../../modules/task_1/kasyanychev_m_min_elem/kasyanychev_m_min_elem.h"
 
 std::vector<int> RandomVector(int n) {
@@ -10,7 +11,7 @@ std::vector<int> RandomVector(int n) {
     srand(time(0));
     std::vector<int> res(n);
     for (int i = 0; i < n; i++) {
-        res.push_back(rand());
+        res.push_back(rand_r());
     }
     return res;
 }
