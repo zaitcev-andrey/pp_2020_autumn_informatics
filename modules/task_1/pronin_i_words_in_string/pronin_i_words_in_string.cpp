@@ -9,7 +9,7 @@
 std::string RandomString(int n) {
     if (n < 0)
         throw "Wrong size";
-    srand(time(0));
+	srand((unsigned)time(NULL));
     const char s[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .!,?";
     const int strLen = strlen(s);
     std::string ss = "";
@@ -19,7 +19,7 @@ std::string RandomString(int n) {
 }
 int SequentialOperations(std::string a) {
     int count = 0;
-    for (int i = 0; i < a.size(); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
         if (a[i] == ' ')
             count++;
     }
