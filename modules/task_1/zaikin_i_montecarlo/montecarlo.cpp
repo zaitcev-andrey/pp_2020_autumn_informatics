@@ -36,7 +36,6 @@ float MonteCarloParallelMethod(double b, double a, int n, double(*func)(double))
     int numprocs;
     float res;
     double startwtime = 0.0, endwtime;
-    int namelen;
     float x;
     float y = 0;
     float Integral;
