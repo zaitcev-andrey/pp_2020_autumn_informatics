@@ -6,9 +6,11 @@
 #include <cstring>
 #include "./unmached_signs.h"
 
+static int offset = 0;
+
 char* generateString(int length) {
     std::mt19937 gen;
-    gen.seed(static_cast<unsigned int>(time(0)) + clock());
+    gen.seed(static_cast<unsigned int>(time(0)) + (offset += 10));
     char* str = new char[length + 1];
     const char alpNum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
