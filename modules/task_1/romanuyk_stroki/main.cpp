@@ -3,8 +3,8 @@
 #include <gtest/gtest.h>
 #include"./lex_str.h"
 TEST(Parallel_Operations_MPI, Test1) {
-    const_cast<char*>(str1) = "1";
-    const_cast<char*>(str2) = "abcde";
+    char str1[] = "1";
+    char str2[] = "abcde";
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int res2 = getParallelComprasion(str1, str2);
@@ -14,8 +14,8 @@ TEST(Parallel_Operations_MPI, Test1) {
     }
 }
 TEST(Parallel_Operations_MPI, Test2) {
-    const_cast<char*>(str1) = "abcdz";
-    const_cast<char*>(str2) = "abcde";
+    char str1[] = "abcdz";
+    char str2[] = "abcde";
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int res2 = getParallelComprasion(str1, str2);
@@ -25,8 +25,8 @@ TEST(Parallel_Operations_MPI, Test2) {
     }
 }
 TEST(Parallel_Operations_MPI, Test3) {
-    const_cast<char*>(str1) = "aaabaaa";
-    const_cast<char*>(str2) = "aaacaaa";
+    char str1[] = "aaabaaa";
+    char str2[] = "aaacaaa";
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int res2 = getParallelComprasion(str1, str2);
@@ -36,8 +36,8 @@ TEST(Parallel_Operations_MPI, Test3) {
     }
 }
 TEST(Parallel_Operations_MPI, Test4) {
-    const_cast<char*>(str1) = "kzzzzzzz";
-    const_cast<char*>(str2) = "zaaaaaaa";
+    char str1[] = "kzzzzzzz";
+    char str2[] = "zaaaaaaa";
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int res2 = getParallelComprasion(str1, str2);
@@ -47,8 +47,8 @@ TEST(Parallel_Operations_MPI, Test4) {
     }
 }
 TEST(Parallel_Operations_MPI, Test5) {
-    const_cast<char*>(str1) = "FFFFFF";
-    const_cast<char*>(str2) = "x";
+    char str1[] = "FFFFFF";
+    char str2[] = "x";
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int res2 = getParallelComprasion(str1, str2);
