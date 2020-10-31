@@ -9,7 +9,7 @@
 std::string RandomString(int n) {
     if (n < 0)
         throw "Wrong size";
-	srand((unsigned)time(NULL));
+    srand((unsigned)time(NULL));
     const char s[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .!,?";
     const int strLen = strlen(s);
     std::string ss = "";
