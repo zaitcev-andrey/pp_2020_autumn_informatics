@@ -1,18 +1,20 @@
+//Copyright 2020 Gysarova Daria
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./min_in_matr.h"
-TEST(Parallel_Operations_MPI, Test_3x3){
+#include <vector>
+TEST(Parallel_Operations_MPI, Test_3x3) {
     int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int str = 3;
     int st = 3;
     std::vector<std::vector<int>> B(str*st);
-    B=RandMatr(str, st);
+    B = RandMatr(str, st);
     std::vector<int> A = MatrInArr(B, str, st);
     int min;
     int real_min = MinInArr(A);
-    min=ParMin(A);
-    if(rank==0){
+    min = ParMin(A);
+    if (rank == 0) {
         ASSERT_EQ(real_min, min);
     }
 }
@@ -76,7 +78,7 @@ TEST(Parallel_Operations_MPI, Test_100x100) {
         ASSERT_EQ(real_min, min);
     }
 }
-int main (int argc, char**argv){
+int main(int argc, char**argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
