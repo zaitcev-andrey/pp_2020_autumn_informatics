@@ -17,7 +17,7 @@ double getIntegral(double a, double b, int n, const std::function<double(double)
     if (0 == n) {
         return result;
     }
-    for (size_t i = 1; i < n; ++i) {
+    for (int i = 1; i < n; ++i) {
         result += f(a + i * h);
     }
     result += (f(a) + f(b)) * 0.5;
