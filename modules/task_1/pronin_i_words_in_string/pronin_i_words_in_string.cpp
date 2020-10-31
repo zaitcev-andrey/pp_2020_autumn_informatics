@@ -4,6 +4,7 @@
 #include <ctime>
 #include <vector>
 #include <string>
+#include <cstring>
 #include "../../../modules/task_1/pronin_i_words_in_string/pronin_i_words_in_string.h"
 std::string RandomString(int n) {
     if (n < 0)
