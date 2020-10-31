@@ -23,7 +23,6 @@ void getOperations(double(*func)(double), double* x, double* y, double* top, dou
     std::mt19937 gen(time(0));
     std::uniform_real_distribution<> urx(l, r);
     std::uniform_real_distribution<> ury1(0, *top);
-    int count = 0;
     bool alreadyThere;
     for (int i = 0; i < SIZE;) {
         alreadyThere = false;
@@ -64,7 +63,6 @@ double calculating_the_integral(double(*func)(double), double* x, double* y, dou
 }
 double calculating_the_paral_integral(double(*func)(double), double* x, double* y, double* Spar) {
     int size, rank;
-    double ans = 0.0, res = 0.0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int delta = SIZE / size;
@@ -82,7 +80,6 @@ double calculating_the_paral_integral(double(*func)(double), double* x, double* 
         }
     }
     if (rank == 0) {
-        int local_res = 0;
         for (int i = 0; i < delta + ost; i++) {
             if (y[i] < func(x[i])) {
                 global_res_zero++;
