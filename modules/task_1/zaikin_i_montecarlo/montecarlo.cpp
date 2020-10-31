@@ -1,8 +1,9 @@
-﻿// Copyright 2020 Zaikin Ilya  
-#include "mpi.h"
+﻿//  Copyright 2019 Zaikin Ilya
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <time.h>
+#include <mpi.h>
+#include <cmath>
 #include <iostream>
 #include <ctime>
 #include <random>
@@ -14,12 +15,14 @@ float MonteCarloNotParallelMethod(double b, double a, int n, double(*func)(doubl
     float Integral;
     float koef = static_cast<float>(b) - a;
     float te;
-    srand(time(0));
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+    std::uniform_int_distribution<unsigned int> distrib(0,RAND_MAX);
     if (n == 0) {
         throw - 1;
     } else {
         for (int i = 0; i < n; i++) {
-            te = (static_cast<float>(rand()) / RAND_MAX);
+            te = static_cast<float>(distrib(gen)/RAND_MAX);
             x = a + te * (b - a);
             y += func(x);
         }
@@ -46,9 +49,11 @@ float MonteCarloParallelMethod(double b, double a, int n, double(*func)(double))
         throw - 1;
     } else {
         y = 0.0;
-        srand(time(0));
+        std::mt19937 gen;
+        gen.seed(static_cast<unsigned int>(time(0)));
+        std::uniform_int_distribution<unsigned int> distrib(0, RAND_MAX);
         for (int i = myid + 1; i <= n; i += numprocs) {
-            te = (static_cast<float>(rand()) / RAND_MAX);
+            te = static_cast<float>(distrib(gen) / RAND_MAX);
             x = a + te * (b - a);
             y += func(x);
         }
