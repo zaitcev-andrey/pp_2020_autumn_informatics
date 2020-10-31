@@ -15,7 +15,6 @@ std::vector<int> CreateVector(int size) {
 }
 int GetSequentialDifference(std::vector<int> v, int size) {
     int max = abs(v[1] - v[0]);
-    int num = 0;
     for (int i = 0; i < size - 1; i++) {
         int v1 = abs(v[i] - v[i + 1]);
        if (v1 > max) {
