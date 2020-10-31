@@ -1,4 +1,4 @@
-﻿//  Copyright 2019 Zaikin Ilya
+﻿// Copyright 2020 Zaikin Ilya
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -17,7 +17,7 @@ float MonteCarloNotParallelMethod(double b, double a, int n, double(*func)(doubl
     float te;
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::uniform_int_distribution<unsigned int> distrib(0,RAND_MAX);
+    std::uniform_int_distribution<unsigned int> distrib(0, RAND_MAX);
     if (n == 0) {
         throw - 1;
     } else {

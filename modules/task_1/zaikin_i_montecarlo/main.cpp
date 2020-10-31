@@ -1,4 +1,4 @@
-// Copyright 2019 Zaikin Ilya
+// Copyright 2020 Zaikin Ilya
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <cmath>
