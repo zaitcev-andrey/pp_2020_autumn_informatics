@@ -1,5 +1,6 @@
 // Copyright 2020 Emelkhovsky Ekaterina
 #include <mpi.h>
+#include <stdlib.h>
 #include <vector>
 #include <random>
 #include <ctime>
@@ -8,9 +9,6 @@
 #include "../../../modules/task_1/emelkhovsky_k_integration_monte_carlo/integration_monte_carlo.h"
 
 
-int RandomValue(int min, int max) {
-    return (min + rand() % (max - min));
-}
 
 int funcF(int x) {
     return x + 1;
@@ -19,8 +17,10 @@ int funcF(int x) {
 
 double EasyFunc(int N, int a, int b) {
     double y = 0;
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     for (int i = 1; i < N; i++) {
-        int dot = RandomValue(a, b);
+        int dot = a + gen() % (b - a);
         y += funcF(dot);
     }
     double dop = static_cast<double>(b - a) / N;
@@ -46,9 +46,10 @@ double ParallelFunc(int N, int a, int b) {
     }
 
     int dot, y = 0;
-
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     for (int i = 1; i < count_dot; i++) {
-        dot = RandomValue(a, b);
+        dot = a + gen() % (b - a);
         y += funcF(dot);
     }
     int global_sum;

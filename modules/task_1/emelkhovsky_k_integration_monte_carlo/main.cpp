@@ -39,14 +39,14 @@ TEST(Parallel_Operations_MPI, Test3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int a, b, N;
-    a = 1;
-    b = 100;
-    N = 100;
+    a = -3;
+    b = -1;
+    N = 1000;
     double dop = static_cast<double>(b - a) / N;
     double parallel_result = ParallelFunc(N, a, b) * dop;
     if (rank == 0) {
         double easy_result = EasyFunc(N, a, b);
-        ASSERT_NEAR(parallel_result, easy_result, 900);
+        ASSERT_NEAR(parallel_result, easy_result, 2);
     }
 }
 
@@ -76,7 +76,7 @@ TEST(Parallel_Operations_MPI, Test5) {
     double parallel_result = ParallelFunc(N, a, b) * dop;
     if (rank == 0) {
         double easy_result = EasyFunc(N, a, b);
-        ASSERT_NEAR(parallel_result, easy_result, 3);
+        ASSERT_NEAR(parallel_result, easy_result, 10);
     }
 }
 
