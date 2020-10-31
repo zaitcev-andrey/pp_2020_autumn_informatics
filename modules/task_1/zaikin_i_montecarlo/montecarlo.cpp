@@ -1,13 +1,10 @@
-﻿//  Copyright 2020 Zaikin Ilya
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+﻿// Copyright 2020 Zaikin Ilya
+
 #include <mpi.h>
-#include <cmath>
 #include <iostream>
-#include <ctime>
 #include <random>
 #include "../../../modules/task_1/zaikin_i_montecarlo/montecarlo.h"
+
 
 float MonteCarloNotParallelMethod(double b, double a, int n, double(*func)(double)) {
     float x;
