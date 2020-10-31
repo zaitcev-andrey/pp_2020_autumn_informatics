@@ -1,10 +1,10 @@
 // Copyright 2020 Gapon Andrey
 
 #include <mpi.h>
-#include <vector>
-#include <random>
 #include <ctime>
 #include <cmath>
+#include <vector>
+#include <random>
 #include <exception>
 #include "../../../modules/task_1/gapon_a_max_diff/max_diff.h"
 
@@ -30,7 +30,7 @@ int sequential_search(std::vector<int> vec) {
     return diff;
 }
 
-int parallel_search(std::vector<int> vec){
+int parallel_search(std::vector<int> vec) {
     int vector_size = static_cast<int>(vec.size());
     if (vector_size < 2) {
         throw "Error size vector";
