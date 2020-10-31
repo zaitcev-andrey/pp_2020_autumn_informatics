@@ -1,8 +1,8 @@
-//Copyright 2020 Gysarova Daria
+// Copyright 2020 Gysarova Daria
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include "./min_in_matr.h"
 #include <vector>
+#include "./min_in_matr.h"
 TEST(Parallel_Operations_MPI, Test_3x3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);

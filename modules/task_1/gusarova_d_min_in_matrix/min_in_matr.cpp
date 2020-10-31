@@ -1,11 +1,11 @@
-﻿//Copyright 2020 Gysarova Daria
-#include "../../../modules/task_1/gusarova_d_min_in_matrix/min_in_matr.h"
+﻿// Copyright 2020 Gysarova Daria
 #include <mpi.h>
 #include <vector>
 #include <random>
 #include<algorithm>
-#include <limits>
 #include <ctime>
+#include <limits>
+#include "../../../modules/task_1/gusarova_d_min_in_matrix/min_in_matr.h"
 std::vector<std::vector<int>> RandMatr(int str, int st) {
     std::vector<std::vector<int>> B(str*st);
     std::vector<int> tmp(st);
