@@ -18,7 +18,7 @@ std::vector<int> RandomVector(int n) {
 
 int SequentialOperations(std::vector<int> x) {
     int min = x[0];
-    for (long i = 1; i < x.size(); i++) {
+    for (size_t i = 1; i < x.size(); i++) {
         if (x[i] < min)
             min = x[i];
     }
