@@ -59,7 +59,7 @@ double calculating_the_integral(double(*func)(double), double* x, double* y, dou
             count++;
         }
     }
-    double integral = ((count * (*Spar)) / static_cast<double>SIZE);
+    double integral = ((count * (*Spar)) / static_cast<double>(SIZE));
     return integral;
 }
 double calculating_the_paral_integral(double(*func)(double), double* x, double* y, double* Spar) {
@@ -104,6 +104,6 @@ double calculating_the_paral_integral(double(*func)(double), double* x, double* 
         MPI_Reduce(&local_res, &global_res, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     }
     global_res += global_res_zero;
-    double integral = ((global_res * (*Spar)) / static_cast<double>SIZE);
+    double integral = ((global_res * (*Spar)) / static_cast<double>(SIZE));
     return integral;
 }
