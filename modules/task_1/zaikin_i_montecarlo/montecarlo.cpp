@@ -1,11 +1,13 @@
-﻿#include "mpi.h"
+﻿// Copyright 2020 Zaikin Ilya  
+#include "mpi.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
 #include <ctime>
-#include "montecarlo.h"
-using namespace std;
+#include <random>
+#include "../../../modules/task_1/zaikin_i_montecarlo/montecarlo.h"
+
 float MonteCarloNotParallelMethod(double b, double a, int n, double(*func)(double)) {
     float x;
     float y = 0;
@@ -54,8 +56,8 @@ float MonteCarloParallelMethod(double b, double a, int n, double(*func)(double))
         MPI_Reduce(&Integral, &res, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
         if (myid == 0) {
             endwtime = MPI_Wtime();
-            cout << endwtime - startwtime << endl;
+            std::cout << endwtime - startwtime << std::endl;
         }
-    }   
+    }
     return res;
 }

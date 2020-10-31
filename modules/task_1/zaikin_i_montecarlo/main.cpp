@@ -1,7 +1,8 @@
+// Copyright 2020 Zaikin Ilya  
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <cmath>
-#include "montecarlo.h"
+#include "./montecarlo.h"
 
 double example1(double x) {
     return sin(x);
@@ -20,7 +21,7 @@ double example4(double x) {
 }
 
 TEST(int_montecarlo, throws_when_n_points_is_zero) {
-    ASSERT_ANY_THROW(MonteCarloNotParallelMethod(5, 2,0, example1););
+    ASSERT_ANY_THROW(MonteCarloNotParallelMethod(5, 2, 0, example1));
 }
 
 TEST(int_montecarlo, integral_of_example1_with_100000_points) {
