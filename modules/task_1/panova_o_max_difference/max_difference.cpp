@@ -35,7 +35,7 @@ int GetParallelDifference(std::vector<int> vec, int vec_size) {
     const int r = (vec_size-1) % p_size;
     if (p_rank == 0) {
         if (d != 0) {
-            for (int dest = 1; dest < p_size; dest++) 
+            for (int dest = 1; dest < p_size; dest++)
                 MPI_Send(&vec[0] + d * dest + r, d + 1, MPI_INT, dest, 0, MPI_COMM_WORLD);
         }
     }
@@ -44,13 +44,11 @@ int GetParallelDifference(std::vector<int> vec, int vec_size) {
             v.resize(d + r + 1);
             v.assign(vec.begin(), vec.begin() + d + r + 1);
             m = GetSequentialDifference(v, v.size());
-        }
-        else {
+        } else {
             m = GetSequentialDifference(vec, vec_size);
         }
-    }
-    else if (d != 0) {
-        v.resize(d + 1);                                                      
+    } else if (d != 0) {
+        v.resize(d + 1);
         MPI_Recv(&v[0], d + 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
         m = GetSequentialDifference(v, v.size());
     }
