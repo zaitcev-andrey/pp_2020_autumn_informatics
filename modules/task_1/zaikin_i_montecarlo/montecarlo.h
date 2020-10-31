@@ -1,3 +1,4 @@
+// Copyright 2020 Zaikin Ilya
 #pragma once
 #ifndef MODULES_TASK_1_ZAIKIN_I_MONTECARLO_MONTECARLO_H_
 #define MODULES_TASK_1_ZAIKIN_I_MONTECARLO_MONTECARLO_H_
@@ -11,4 +12,5 @@ float MonteCarloNotParallelMethod(double b, double a, int n, double(*func)(doubl
 float MonteCarloParallelMethod(double b, double a, int n, double(*func)(double));
 
 
-#endif
+#endif  // MODULES_TASK_1_ZAIKIN_I_MONTECARLO_MONTECARLO_H_
+	
