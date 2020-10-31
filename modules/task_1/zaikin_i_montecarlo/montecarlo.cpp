@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Zaikin Ilya  
+﻿// Copyright 2020 Zaikin Ilya
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

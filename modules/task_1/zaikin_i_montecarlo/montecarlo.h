@@ -1,4 +1,4 @@
-// Copyright 2020 Zaikin Ilya  
+// Copyright 2020 Zaikin Ilya
 #ifndef MODULES_TASK_1_ZAIKIN_I_MONTECARLO_MONTECARLO_H_
 #define MODULES_TASK_1_ZAIKIN_I_MONTECARLO_MONTECARLO_H_
 
