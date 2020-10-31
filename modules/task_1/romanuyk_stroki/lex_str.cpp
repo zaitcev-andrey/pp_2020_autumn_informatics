@@ -41,7 +41,6 @@ return -1;
 } else if (len1 > len2) {
 return 1;
 }
-int loc_res = 0;
 len_size = strlen(str1);
 int tmp = len_size % size;
 int delta = len_size / size;
@@ -83,7 +82,6 @@ MPI_Recv(&check[j], 1, MPI_INT, j, 0, MPI_COMM_WORLD, &status);
 }
 delete[] str1_local;
 delete[] str2_local;
-int result = 0;
 for (int i = 0; i < size; i++) {
 if (check[i] == 1) {
 return 1;
