@@ -11,7 +11,7 @@ std::vector<int> RandomVector(int n) {
     srand(time(0));
     std::vector<int> res(n);
     for (int i = 0; i < n; i++) {
-        res.push_back(rand_r());
+        res.push_back(std::rand());
     }
     return res;
 }
