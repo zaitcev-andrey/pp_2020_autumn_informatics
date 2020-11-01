@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <map>
 #include <algorithm>
-#include "../../../modules/task_1/molotkova_s_max_in_rows/Max.h"
+#include "../../../modules/task_1/molotkova_s_max_in_cols/Max.h"
 
 double findmax(int stolbnum, double** arr, int N) {
     double max = 0;
