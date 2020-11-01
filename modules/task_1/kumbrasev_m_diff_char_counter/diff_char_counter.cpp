@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
-#include "../../../modules/task_1/kumbrasev_m_diff_char_count/diff_char_counter.h"
+#include "../../../modules/task_1/kumbrasev_m_diff_char_counter/diff_char_counter.h"
 
 std::string get_random_string() {
     std::mt19937 random;
