@@ -14,8 +14,7 @@ double integralSeqential(std::function<double(double)> integrable_function, doub
 }
 
 double integralParallel(std::function<double(double)> integrable_function, double a, double b, size_t count) {
-    if (count == 0)
-    {
+    if (count == 0) {
         throw std::runtime_error("Zero rectangles count");
     }
     int rank, process_count;
