@@ -39,7 +39,7 @@ TEST(Parallel_Operations_MPI, equal_strings) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
-        int exp = 3
+        int exp = 3;
             ASSERT_EQ(par_res, exp);
     }
 }
@@ -61,7 +61,6 @@ TEST(Parallel_Operations_MPI, random_strings) {
     std::string str1 = get_random_string();
     std::string str2 = get_random_string();
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int seq_res = difference_count(seq_policy{}, str1, str2);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
         int exp = 0;
