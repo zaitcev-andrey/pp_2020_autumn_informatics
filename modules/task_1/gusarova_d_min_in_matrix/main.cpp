@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "./min_in_matr.h"
+
 TEST(Parallel_Operations_MPI, Test_3x3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
