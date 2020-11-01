@@ -56,6 +56,7 @@ TEST(max_value, Test_matrix10x10) {
         parallelFind({{}}, 0, 0);
     }
 }
+
 TEST(max_value, Test_matrix100x100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -71,6 +72,7 @@ TEST(max_value, Test_matrix100x100) {
         parallelFind({{}}, 0, 0);
     }
 }
+
 TEST(max_value, Test_matrix1000x1000) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -87,42 +89,6 @@ TEST(max_value, Test_matrix1000x1000) {
     }
 }
 
-
-
-
-/*
-TEST(max_value, Test_OneColumn) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if (rank == 0) {
-        const int rows = 5;
-        const int cols = 1;
-        vector<vector<int>> matrix = {
-            {56},
-            {4},
-            {742},
-            {3},
-            {71}
-        };
-        int max = parallelFind(matrix, rows, cols);
-        ASSERT_EQ(max, 742);
-    }
-}
-
-TEST(max_value, Test_OneRow) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if (rank == 0) {
-        const int rows = 1;
-        const int  cols = 5;
-        vector<vector<int>> matrix = {
-            {56, 4, 742, 3, 71}
-        };
-        int max = parallelFind(matrix, rows, cols);
-        ASSERT_EQ(max, 742);
-    }
-}
-*/
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);

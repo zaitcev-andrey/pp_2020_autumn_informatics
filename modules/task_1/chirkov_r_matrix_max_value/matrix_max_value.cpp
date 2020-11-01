@@ -59,7 +59,6 @@ int parallelFind(std::vector<int> matrix, int rows, int cols) {
     if (rank != 0) {
         matrix = {123};
     }
-    //cout << "rank = " << rank << endl;
     MPI_Scatterv(rank == 0 ? &matrix[0] : 0, sendcounts, displs, MPI_INT,
         recvbuf, recvcount, MPI_INT, 0, MPI_COMM_WORLD);
 
