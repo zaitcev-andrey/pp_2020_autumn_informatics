@@ -7,9 +7,9 @@
 #include "../../../modules/task_1/kumbrasev_m_diff_char_counter/diff_char_counter.h"
 
 std::string get_random_string() {
-    std::mt19937 random;
+    static std::mt19937 random;
     std::string str{};
-    for (std::size_t k = 0; k < 1000; k++) {
+    for (std::size_t k = 0; k < 10000; k++) {
         str += static_cast<char>('a' + random() % 20);
     }
     return str;
@@ -18,9 +18,7 @@ std::string get_random_string() {
 std::size_t difference_count(seq_policy, const std::string& str_lhs, const std::string& str_rhs) {
     std::size_t counter{};
     for (std::size_t i = 0; i < str_lhs.size(); i++) {
-        if (str_lhs[i] != str_rhs[i]) {
-        counter++;
-        }
+        counter += str_lhs[i] != str_rhs[i];
     }
 
     return counter;
@@ -53,11 +51,12 @@ std::size_t difference_count(par_policy, std::string str_lhs, std::string str_rh
     }
 
     MPI_Bcast(&locSize, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
     char *locstr = reinterpret_cast<char *>(malloc(locSize * 2 * sizeof(char)));
     MPI_Scatter(str, locSize * 2, MPI_CHAR, locstr, locSize * 2, MPI_CHAR, 0, MPI_COMM_WORLD);
-    locstr[locSize * 2] = '\0';
+
     for (int i = 0; i < locSize; i++)
-        locdiff += str[i] != str[i + locSize];
+        locdiff += locstr[i] != locstr[i + locSize];
     MPI_Reduce(&locdiff, &sumdiff, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     return sumdiff + diff;
