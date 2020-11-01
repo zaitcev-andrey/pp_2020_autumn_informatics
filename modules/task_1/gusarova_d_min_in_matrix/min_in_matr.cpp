@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Gysarova Daria
+// Copyright 2020 Gysarova Daria
 #include <mpi.h>
 #include <vector>
 #include <random>
