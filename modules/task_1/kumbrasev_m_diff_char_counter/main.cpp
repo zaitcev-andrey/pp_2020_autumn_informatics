@@ -16,7 +16,7 @@ TEST(Parallel_Operations_MPI, empty_strings) {
     int seq_res = difference_count(seq_policy{}, str1, str2);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
-        ASSERT_NE(par_res, seq_res);
+        ASSERT_EQ(par_res, seq_res);
     }
 }
 
@@ -28,7 +28,7 @@ TEST(Parallel_Operations_MPI, equal_strings) {
     int seq_res = difference_count(seq_policy{}, str1, str2);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
-        ASSERT_NE(par_res, seq_res);
+        ASSERT_EQ(par_res, seq_res);
     }
 }
 
@@ -40,7 +40,7 @@ TEST(Parallel_Operations_MPI, different_strings) {
     int seq_res = difference_count(seq_policy{}, str1, str2);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
-        ASSERT_NE(par_res, seq_res);
+        ASSERT_EQ(par_res, seq_res);
     }
 }
 
@@ -52,7 +52,7 @@ TEST(Parallel_Operations_MPI, random_strings) {
     int seq_res = difference_count(seq_policy{}, str1, str2);
     int par_res = difference_count(par_policy{}, str1, str2);
     if (rank == 0) {
-        ASSERT_NE(par_res, seq_res);
+        ASSERT_EQ(par_res, seq_res);
     }
 }
 
