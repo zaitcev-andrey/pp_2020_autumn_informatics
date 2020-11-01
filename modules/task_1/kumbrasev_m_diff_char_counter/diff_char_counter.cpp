@@ -17,7 +17,7 @@ std::string get_random_string() {
 
 std::size_t difference_count(seq_policy, const std::string& str_lhs, const std::string& str_rhs) {
     std::size_t counter{};
-    for (int i = 0; i < str_lhs.size(); i++) {
+    for (std::size_t i = 0; i < str_lhs.size(); i++) {
         counter += str_lhs[i] != str_rhs[i];
     }
 
@@ -45,7 +45,7 @@ std::size_t difference_count(par_policy, std::string str_lhs, std::string str_rh
         for (int i = 0; i < newSize; i += locSize)
             buf += str_lhs.substr(i, locSize) + str_rhs.substr(i, locSize);
 
-        for (std::size_t i = 0; i < newSize * 2 + 1; ++i) {
+        for (int i = 0; i < newSize * 2 + 1; ++i) {
             str[i] = buf[i];
         }
     }
