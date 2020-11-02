@@ -1,4 +1,4 @@
-﻿ // Copyright 2020 Mishina Nadezhda
+// Copyright 2020 Mishina Nadezhda
 #include <mpi.h>
 #include <vector>
 #include <random>
