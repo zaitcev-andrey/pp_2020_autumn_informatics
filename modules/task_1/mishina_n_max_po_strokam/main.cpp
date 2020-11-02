@@ -2,6 +2,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
+#include <algorithm>
 #include "./max_po_strokam.h"
 
 TEST(Parallel_Operations_MPI, Test_3_str_3_stb) {
