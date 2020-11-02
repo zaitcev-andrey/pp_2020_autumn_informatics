@@ -5,7 +5,7 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
-#include "./sum_of_values_by_matrix_rows.h"
+#include "../../../modules/task_1/yurin_s_sum_of_values_by_matrix_rows/sum_of_values_by_matrix_rows.h"
 
 std::vector<int> getSequentialSumOfMatrixRows(std::vector<int> matrix, int number_of_rows) {
     int matrix_size = matrix.size();
@@ -15,23 +15,22 @@ std::vector<int> getSequentialSumOfMatrixRows(std::vector<int> matrix, int numbe
     if (number_of_rows == 0) {
         result_vector.resize(1, 0);
         return result_vector;
-    }
-    else if (matrix_size == 0) {
+    } else if (matrix_size == 0) {
         result_vector.resize(number_of_rows, 0);
         return result_vector;
     }
 
-    if ((matrix_size % number_of_rows) == 0)
+    if ((matrix_size % number_of_rows) == 0) {
         number_of_elements_in_one_row  = matrix_size / number_of_rows;
-    else {
+    } else {
         number_of_elements_in_one_row  = (matrix_size / number_of_rows) + 1;
-        matrix.resize(number_of_elements_in_one_row * number_of_rows, 0);  
+        matrix.resize(number_of_elements_in_one_row * number_of_rows, 0);
     }
 
     for (int  i = 0; i < number_of_rows; i++) {
         result_vector[i] =
                 getSumOfOneRow(std::vector<int>(matrix.begin() + (i * number_of_elements_in_one_row),
-                                                (matrix.begin() + (i * number_of_elements_in_one_row)) + 
+                                                (matrix.begin() + (i * number_of_elements_in_one_row)) +
                                                                         number_of_elements_in_one_row));
     }
 
@@ -65,7 +64,7 @@ std::vector<int> getSumOfOneProc(std::vector<int> row, int number_of_elements_in
     for (int  i = 0; i < number_of_rows_in_one_proc; i++) {
         return_vec_of_one_proc[i] =
                 getSumOfOneRow(std::vector<int>(row.begin() + (i * number_of_elements_in_one_row),
-                                                (row.begin() + (i * number_of_elements_in_one_row)) + 
+                                                (row.begin() + (i * number_of_elements_in_one_row)) +
                                                                     number_of_elements_in_one_row));
     }
 
@@ -85,8 +84,7 @@ std::vector<int> getParallelSumOfMatrixRows(std::vector<int> matrix,
     if (number_of_rows == 0) {
         result_vector.resize(1, 0);
         return result_vector;
-    }
-    else if (matrix_size == 0) {
+    } else if (matrix_size == 0) {
         result_vector.resize(number_of_rows, 0);
         return result_vector;
     }
@@ -96,9 +94,9 @@ std::vector<int> getParallelSumOfMatrixRows(std::vector<int> matrix,
 
 
 
-    if ((matrix_size % number_of_rows) == 0)
+    if ((matrix_size % number_of_rows) == 0) {
         number_of_elements_in_one_row  = matrix_size / number_of_rows;
-    else { 
+    } else {
         number_of_elements_in_one_row  = (matrix_size / number_of_rows) + 1;
 
         matrix.resize(number_of_elements_in_one_row * number_of_rows, 0);
@@ -126,7 +124,7 @@ std::vector<int> getParallelSumOfMatrixRows(std::vector<int> matrix,
 
     std::vector<int> rows_for_one_proc(sendcounts[rank]);
 
-    MPI_Scatterv(   &matrix[0], &sendcounts[0], &displs_for_scatterv[0], MPI_INT,
+    MPI_Scatterv(&matrix[0], &sendcounts[0], &displs_for_scatterv[0], MPI_INT,
                     &rows_for_one_proc[0], sendcounts[rank], MPI_INT,
                     0, MPI_COMM_WORLD);
 
