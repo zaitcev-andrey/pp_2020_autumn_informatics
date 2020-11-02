@@ -107,7 +107,7 @@ TEST(Sum_Of_Values_By_Matrix_Rows, Result_Vec_Size_Is_Equal_Number_Of_Rows) {
     std::vector<int> result_vector_parallel = getParallelSumOfMatrixRows(matrix, number_of_rows);
 
     if (rank == 0) {
-        ASSERT_EQ(result_vector_parallel.size(), number_of_rows);
+        ASSERT_EQ((int)result_vector_parallel.size(), number_of_rows);
     }
 }
 
