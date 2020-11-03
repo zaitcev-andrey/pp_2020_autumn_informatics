@@ -18,7 +18,7 @@ std::vector<int> getRandomVector(int size) {
   return vec;
 }
 
-int maxVectorValue(std::vector<int> vec) { 
+int maxVectorValue(std::vector<int> vec) {
   int size = vec.size();
   if (size <= 0) {
     throw std::runtime_error("Vector size must be positive");
@@ -27,16 +27,16 @@ int maxVectorValue(std::vector<int> vec) {
   return *std::max_element(vec.begin(), vec.end());
 }
 
-int maxVectorValueParallel(std::vector<int> globalVector){
+int maxVectorValueParallel(std::vector<int> globalVector) {
   int sizeVector = globalVector.size();
   if (sizeVector <= 0) {
     throw std::runtime_error("Vector size must be positive");
   }
 
   int size, rank;
-  MPI_Comm_size(MPI_COMM_WORLD, &size); //кол-во процессов
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank); //номер процесса
-  const int delta = sizeVector / size; 
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  const int delta = sizeVector / size;
   const int remainder = sizeVector % size;
 
   int localMax = 0, globalMax = 0;
@@ -51,8 +51,8 @@ int maxVectorValueParallel(std::vector<int> globalVector){
   if (rank == 0) {
       if (delta != 0) {
         localVector = std::vector<int>(globalVector.begin(), globalVector.begin() + delta + remainder);
-		localMax = maxVectorValue(localVector);
-	  } else {
+        localMax = maxVectorValue(localVector);
+      } else {
         localMax = maxVectorValue(globalVector);
       }
 

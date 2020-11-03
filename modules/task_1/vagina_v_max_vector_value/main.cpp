@@ -10,7 +10,6 @@ TEST(Parallel_maxVectorValue, TestAverageSize) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   const int sizeVector = 100;
   std::vector<int> globalVector(sizeVector);
-  
 
   if (rank == 0) {
     globalVector = getRandomVector(sizeVector);
