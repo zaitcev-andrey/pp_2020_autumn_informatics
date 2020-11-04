@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "./matrix_sum.h"
+
 TEST(Parallel_Sum_MPI, Test_Matrix_Sum) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);

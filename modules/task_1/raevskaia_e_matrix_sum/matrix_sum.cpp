@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <ctime>
 #include "../../../modules/task_1/raevskaia_e_matrix_sum/matrix_sum.h"
+
 int getParallelSum(std::vector<int> matrix, int matrix_size_n, int matrix_size_m) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -26,8 +27,7 @@ int getParallelSum(std::vector<int> matrix, int matrix_size_n, int matrix_size_m
             if (number_of_elems_remainder > 0) {
                 number_of_elems_remainder--;
                 send_size = number_of_elems + 1;
-            }
-            else {
+            } else {
                 send_size = number_of_elems;
             }
             MPI_Send(&send_size, 1, MPI_INT, proc_num, 0, MPI_COMM_WORLD);
@@ -35,8 +35,7 @@ int getParallelSum(std::vector<int> matrix, int matrix_size_n, int matrix_size_m
             index += send_size;
         }
         local_sum = getSequentialSum(std::vector<int>(matrix.begin(), matrix.begin() + number_of_elems));
-    }
-    else {
+    } else {
         MPI_Status status;
         MPI_Recv(&number_of_elems, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
         if (number_of_elems == -1)
