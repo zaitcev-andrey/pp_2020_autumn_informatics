@@ -1,3 +1,4 @@
+// Copyright 2020 Raevskaia Ekaterina
 #include <mpi.h>
 #include <random>
 #include <vector>

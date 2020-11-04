@@ -1,3 +1,4 @@
+// Copyright 2020 Raevskaia Ekaterina
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
