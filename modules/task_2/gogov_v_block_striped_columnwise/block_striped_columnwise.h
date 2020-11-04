@@ -10,7 +10,7 @@ void printMatrix(const std::vector<int>& vec, int rows, int cols);
 Matrix createRandomMatrix(int rows, int cols);
 
 void arraysDistribution(int* sendNum, int* sendInd, int n, int procNum, int remain, int cols);
-std::vector<int> sumMatrixByRows(const std::vector<int>& vec, int rows, int cols);
+std::vector<int> sumMatrixByCols(const std::vector<int>& vec, int rows, int cols);
 
 std::vector<int> multMatrixByVectorSequential(const Matrix& matirx, int rows, int cols,
                                             const std::vector<int>& vec, int vecSize);

@@ -56,7 +56,7 @@ void arraysDistribution(int* sendNum, int* sendInd, int n, int procNum, int rema
     }
 }
 
-std::vector<int> sumMatrixByRows(const std::vector<int>& vec, int rows, int cols) {
+std::vector<int> sumMatrixByCols(const std::vector<int>& vec, int rows, int cols) {
     std::vector<int> result(cols, 0);
     for (int i = 0; i < cols; i++) {
         int temp = 0;
@@ -123,7 +123,7 @@ std::vector<int> multMatrixByVectorParallel(const Matrix& matrix, int rows, int 
     // Суммирование столбцов
     std::vector<int> resultVector(0);
     if (procRank == 0) {
-        resultVector = sumMatrixByRows(tempMatrix, procNum, rows);
+        resultVector = sumMatrixByCols(tempMatrix, procNum, rows);
     }
 
     for (int i = 0; i < countType; i++)
