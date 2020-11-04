@@ -11,15 +11,18 @@ TEST(Parallel_Symbol_Count_MPI, Test_Empty_Symbols_String) {
     const int count_size_string = 0;
     std::string global_string;
 
+    int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
+
     if (rank == 0) {
-        ASSERT_ANY_THROW(getParallelSymbolsCount(global_string, count_size_string, 'A'));
+        int reference_sum = calculateSymbolsCountSequental(global_string, 'A');
+        ASSERT_EQ(reference_sum, global_sum);
     }
 }
 
-TEST(Parallel_Symbol_Count_MPI, Test_10_Same_Symbols_String) {
+TEST(Parallel_Symbol_Count_MPI, Test_11_Same_Symbols_String) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 10;
+    const int count_size_string = 11;
     std::string global_string(count_size_string, 'A');
 
     int global_sum = getParallelSymbolsCount(global_string, count_size_string, 'A');
