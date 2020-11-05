@@ -1,4 +1,5 @@
 // Copyright 2020 Ikromov Inom
+#include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
@@ -12,13 +13,10 @@ TEST(Sum_Col_MPI, Square_Matrix) {
     vector<vector<int>> global_mat;
     const int rows = 5;
     const int cols = rows;
-
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
     }
-
     vector<int> global_sum = summColumns(global_mat);
-
     if (rank == 0) {
         vector<int> reference_sum = summColumnsOneProc(global_mat);
         ASSERT_EQ(reference_sum, global_sum);
@@ -30,13 +28,10 @@ TEST(Sum_Col_Multi_Process_MPI, One_Row) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     vector<vector<int>> global_mat;
     const int rows = 1, cols = 9;
-
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
     }
-
     vector<int> global_sum = summColumns(global_mat);
-
     if (rank == 0) {
         vector<int> reference_sum = summColumnsOneProc(global_mat);
         ASSERT_EQ(reference_sum, global_sum);
@@ -48,13 +43,10 @@ TEST(Sum_Col_Multi_Process_MPI, One_Column) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     vector<vector<int>> global_mat;
     const int rows = 9, cols = 1;
-
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
     }
-
     vector<int> global_sum = summColumns(global_mat);
-
     if (rank == 0) {
         vector<int> reference_sum = summColumnsOneProc(global_mat);
         ASSERT_EQ(reference_sum, global_sum);
@@ -66,13 +58,10 @@ TEST(Sum_Col_Multi_Process_MPI, Rectangle_Matrix) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     vector<vector<int>> global_mat;
     const int rows = 9, cols = 5;
-
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
     }
-
     vector<int> global_sum = summColumns(global_mat);
-
     if (rank == 0) {
         vector<int> reference_sum = summColumnsOneProc(global_mat);
         ASSERT_EQ(reference_sum, global_sum);
@@ -85,7 +74,6 @@ TEST(Sum_Col_Multi_Process_MPI, Triangle_Matrix) {
     vector<vector<int>> global_mat;
     const int rows = 9;
     const int cols = rows;
-
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
         for (int i = 0; i < rows; ++i) {
@@ -96,7 +84,6 @@ TEST(Sum_Col_Multi_Process_MPI, Triangle_Matrix) {
     }
 
     vector<int> global_sum = summColumns(global_mat);
-
     if (rank == 0) {
         vector<int> reference_sum = summColumnsOneProc(global_mat);
         ASSERT_EQ(reference_sum, global_sum);

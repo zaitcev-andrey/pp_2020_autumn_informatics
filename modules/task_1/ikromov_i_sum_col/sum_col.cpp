@@ -1,9 +1,8 @@
 // Copyright 2020 Ikromov Inom
-#include "../../../modules/task_1/ikromov_i_sum_col/sum_col.h"
 #include <mpi.h>
 #include <vector>
 #include <algorithm>
-
+#include "../../../modules/task_1/ikromov_i_sum_col/sum_col.h"
 using std::vector;
 using std::copy;
 
@@ -102,7 +101,5 @@ vector<int> summColumns(vector<vector<int>> matrix) {
 
     MPI_Reduce(localSum.data(), result.data(), cols, MPI_INT,
         MPI_SUM, 0, MPI_COMM_WORLD);
-
-
     return result;
 }
