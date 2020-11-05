@@ -2,7 +2,7 @@
 
 #include <mpi.h>
 
-#include "../../../lattice_torus.h"
+#include "../../../modules/task_2/zoreev_m_lattice_torus/lattice_torus.h"
 
 int main(int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
