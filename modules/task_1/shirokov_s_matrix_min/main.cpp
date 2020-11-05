@@ -7,17 +7,19 @@
 TEST(Parallel_Matrix_Max_MPI, Size_0x0) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int sizel = 0, sizec = 0, max = 0;
-    if (procRank == 0)
+    int sizel = 0, sizec = 0, max;
+    if (procRank == 0) {
         ASSERT_ANY_THROW(max = maxElementMatrix(sizel, sizec));
+    }
 }
 
 TEST(Parallel_Matrix_Max_MPI, Size_100x100) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int sizel = 100, sizec = 100;
-    if (procRank == 0)
+    if (procRank == 0) {
         ASSERT_TRUE(sizel == 100 && sizec == 100);
+    }
 }
 
 TEST(Parallel_Matrix_Max_MPI, Size_ProcNum) {
@@ -25,16 +27,18 @@ TEST(Parallel_Matrix_Max_MPI, Size_ProcNum) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     int sizel = 10;
-    if (procRank == 0)
+    if (procRank == 0) {
         ASSERT_TRUE(procNum == sizel || sizel < procNum);
+    }
 }
 
 TEST(Parallel_Matrix_Max_MPI, Size_1x25) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int sizel = 1, sizec = 25;
-    if (procRank == 0)
-       ASSERT_TRUE(sizel == 1 && sizec == 25);
+    if (procRank == 0) {
+        ASSERT_TRUE(sizel == 1 && sizec == 25);
+    }
 }
 
 TEST(Parallel_Matrix_Max_MPI, Size_35x35) {
