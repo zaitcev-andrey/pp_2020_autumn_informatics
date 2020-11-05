@@ -1,6 +1,6 @@
 // Copyright 2020 Zoreev Mikhail
 
-#include "mpi/mpi.h"
+#include <mpi.h>
 
 #include "../../../lattice_torus.h"
 

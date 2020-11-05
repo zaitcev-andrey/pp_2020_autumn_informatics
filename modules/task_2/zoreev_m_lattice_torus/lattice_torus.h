@@ -2,7 +2,7 @@
 #ifndef MODULES_TASK_2_ZOREEV_M_LATTICE_TORUS_LATTICE_TORUS_H_
 #define MODULES_TASK_2_ZOREEV_M_LATTICE_TORUS_LATTICE_TORUS_H_
 
-#include "mpi/mpi.h"
+#include <mpi.h>
 
 MPI_Comm createLatticeTorus(MPI_Comm comunicator, int dimensions_count);
 
