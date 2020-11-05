@@ -9,6 +9,7 @@ using std::copy;
 vector<vector<int>> getRandomMatrix(const int rows,
     const int cols) {
     vector<vector<int>> res(rows);
+
     for (vector<int>& i : res) {
         i.resize(cols);
     }
@@ -17,11 +18,13 @@ vector<vector<int>> getRandomMatrix(const int rows,
             res[i][j] = i + j;
         }
     }
+
     return res;
 }
 
 vector<int> summColumnsOneProc(vector<vector<int>> matrix) {
     vector<int> result(matrix[0].size());
+
     for (const vector<int>& i : matrix) {
         for (unsigned int j = 0; j < i.size(); ++j) {
             result[j] += i[j];
@@ -45,6 +48,7 @@ vector<int> summColumns(vector<vector<int>> matrix) {
     if (rank == root) {
         rows = matrix.size();
         cols = matrix[0].size();
+
         delta = rows / size;
         if (delta * size != rows) {
             delta += 1;
@@ -64,14 +68,17 @@ vector<int> summColumns(vector<vector<int>> matrix) {
     result.resize(cols);
 
     locals.resize(delta);
+
     for (vector<int>& i : locals) {
         i.resize(cols);
     }
+
     if (rank == root) {
         for (int i = 0; i < delta; ++i) {
             copy(matrix[i].begin(), matrix[i].end(),
                 locals[i].begin());
         }
+
         for (int i = 1; i < size; ++i) {
             for (int j = delta * i; j < delta * (i + 1); ++j) {
                 MPI_Send(matrix[j].data(), cols, MPI_INT,
@@ -86,6 +93,7 @@ vector<int> summColumns(vector<vector<int>> matrix) {
                 root, 0, MPI_COMM_WORLD, &status);
         }
     }
+
     for (const vector<int>& i : locals) {
         for (int j = 0; j < cols; ++j) {
             localSum[j] += i[j];
