@@ -18,6 +18,7 @@ vector<vector<int>> getRandomMatrix(const int rows,
             res[i][j] = i + j;
         }
     }
+
     return res;
 }
 
@@ -29,6 +30,7 @@ vector<int> summColumnsOneProc(vector<vector<int>> matrix) {
             result[j] += i[j];
         }
     }
+
     return result;
 }
 
