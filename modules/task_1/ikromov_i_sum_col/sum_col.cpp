@@ -9,6 +9,7 @@ using std::copy;
 vector<vector<int>> getRandomMatrix(const int rows,
     const int cols) {
     vector<vector<int>> res(rows);
+
     for (vector<int>& i : res) {
         i.resize(cols);
     }
@@ -43,6 +44,7 @@ vector<int> summColumns(vector<vector<int>> matrix) {
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     if (rank == root) {
         rows = matrix.size();
         cols = matrix[0].size();
