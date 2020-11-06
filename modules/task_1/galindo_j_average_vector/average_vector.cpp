@@ -1,11 +1,10 @@
 // Copyright 2020 Galindo Buitrago Julio Cesar
 
-#include<random>
+#include<mpi.h>
 #include<vector>
 #include <ctime>
-#include<mpi.h>
+#include<random>
 #include<iostream>
-
 
 std::vector<int> VectorAleatorio(int n) {
     std::mt19937 gen;
@@ -40,11 +39,9 @@ double IntermedioSigma(std::vector<int> vectorial) {
 
 
 double VectorMedia(std::vector<int> vectorial, int n) {
-    
     int size, rango;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rango);
-    
     int delta = n / size;
     int s = n - delta * size;
     if (rango == 0) {
@@ -56,10 +53,9 @@ double VectorMedia(std::vector<int> vectorial, int n) {
     std::vector<int> VectorialInterno;
     if (rango == 0) {
         VectorialInterno = std::vector<int>(delta + s);
-    }
-    else
+    } else {
          VectorialInterno = std::vector<int>(delta);
-
+    }
     if (rango == 0) {
          VectorialInterno = std::vector<int>(vectorial.begin(), vectorial.begin() + delta+s);
     } else {
