@@ -1,9 +1,9 @@
 // Copyright 2020 Kulandin Denis
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include <mpi.h>
+#include <vector>
+#include <algorithm>
 #include "./quick_sort.h"
-#include <stdio.h>
 
 TEST(Parallel_MPI, Test_1) {
     int rank, size;
@@ -22,7 +22,7 @@ TEST(Parallel_MPI, Test_1) {
     if (rank == 0) {
         double timeSequential = MPI_Wtime();
         std::sort(globalMas.begin(), globalMas.end());
-        //quickSort(globalMas, 0, N - 1);
+        // quickSort(globalMas, 0, N - 1);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(parallelRes, globalMas);
         printf("Size of array = %d\n", N);
@@ -103,9 +103,7 @@ TEST(Parallel_MPI, Test_4) {
     }
 }
 
-int main(int argc, char** argv) {   
-    setvbuf( stdout, NULL, _IOLBF, BUFSIZ );
-    setvbuf( stderr, NULL, _IOLBF, BUFSIZ ); 
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
