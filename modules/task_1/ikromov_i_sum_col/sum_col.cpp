@@ -44,7 +44,7 @@ vector<int> summColumns(vector<vector<int>> matrix) {
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
+    
     if (rank == root) {
         rows = matrix.size();
         cols = matrix[0].size();
@@ -85,8 +85,7 @@ vector<int> summColumns(vector<vector<int>> matrix) {
                     i, 0, MPI_COMM_WORLD);
             }
         }
-    }
-    else {
+    } else {
         MPI_Status status;
         for (int i = 0; i < delta; ++i) {
             MPI_Recv(locals[i].data(), cols, MPI_INT,
