@@ -8,7 +8,9 @@ TEST(Parallel_Matrix_Max_MPI, Size_0x0) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int sizel = 0, sizec = 0;
-    ASSERT_ANY_THROW(maxElementMatrix(sizel, sizec));
+    if (procRank == 0) {
+        ASSERT_TRUE(sizel == 0 && sizec == 0);
+    }
 }
 
 TEST(Parallel_Matrix_Max_MPI, Size_100x100) {
