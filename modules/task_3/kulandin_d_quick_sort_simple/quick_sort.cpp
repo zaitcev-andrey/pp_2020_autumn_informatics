@@ -89,9 +89,7 @@ std::vector<int> parallelQuickSort(const std::vector<int> &a) {
     }
     // printf("%d %d %d\n", rank, l, r);
     quickSort(&part, l, r);
-
     // MPI_Barrier(MPI_COMM_WORLD);
-
     leftP = (rightProc + leftProc) / 2;
     while (leftP > leftProc) {
         int start;
