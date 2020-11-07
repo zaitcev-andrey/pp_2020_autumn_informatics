@@ -11,7 +11,7 @@ TEST(Sum_Col_MPI, Square_Matrix) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     vector<vector<int>> global_mat;
-    const int rows = 5;
+    const int rows = 6;
     const int cols = rows;
     if (rank == 0) {
         global_mat = getRandomMatrix(rows, cols);
