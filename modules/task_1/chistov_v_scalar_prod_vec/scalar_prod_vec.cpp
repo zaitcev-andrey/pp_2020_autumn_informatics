@@ -32,8 +32,6 @@ int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
 int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
     int i, ProcNum, ProcRank;
     int n = a.size();
-    int sum = 0;
-    int loc_sum = 0;
 
     if (n == 0) {
         return 0;
@@ -62,6 +60,8 @@ int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
         MPI_Recv(&loc_b[0], delta, MPI_INT, 0, 1, MPI_COMM_WORLD, &status);
     }
 
+    int sum = 0;
+    int loc_sum = 0;
     loc_sum = CalcSumSequential(loc_a, loc_b);
 
     MPI_Reduce(&loc_sum, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
