@@ -20,6 +20,18 @@ TEST(Parallel_Operations_MPI, empty_strings) {
     }
 }
 
+TEST(Parallel_Operations_MPI, one_empty_string) {
+    int rank;
+    int exp = 5;
+    std::string str1 = "";
+    std::string str2 = "abcde";
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int par_res = difference_count(par_policy{}, str1, str2);
+    if (rank == 0) {
+        ASSERT_EQ(par_res, exp);
+    }
+}
+
 TEST(Parallel_Operations_MPI, equal_strings) {
     int rank;
     std::string str1 = "abcde";
