@@ -49,14 +49,17 @@ int parallelFind(std::vector<int> matrix, int rows, int cols) {
         sum+=sendcounts[i];
     }
 
-    int recvcount = sendcounts[rank];
+    int recvcount = rows * cols / size;
+    if (rank == size - 1) {
+        recvcount+=rows * cols % size;
+    }
 
     int* recvbuf = new int[recvcount];
 
     MPI_Scatterv(rank == 0 ? &matrix[0] : 0, sendcounts, displs, MPI_INT,
         recvbuf, recvcount, MPI_INT, 0, MPI_COMM_WORLD);
 
-    int partMax = INT_MIN;
+    int partMax = -2147483648;
     for (int i = 0; i < recvcount; i++) {
         if (recvbuf[i] > partMax) {
             partMax = recvbuf[i];
