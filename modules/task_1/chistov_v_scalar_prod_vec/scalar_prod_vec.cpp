@@ -30,7 +30,7 @@ int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
 }
 
 int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
-    int i, ProcNum, ProcRank;
+    int ProcNum, ProcRank;
     int n = a.size();
 
     if (n == 0) {
