@@ -18,8 +18,6 @@ std::vector<int> GenRandVec(int size) {
 
 int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
     int size = a.size();
-    int sum = 0;
-    int loc_sum = 0;
     if (size == 0) {
         return 0;
     }
@@ -34,6 +32,8 @@ int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
 int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
     int i, ProcNum, ProcRank;
     int n = a.size();
+    int sum = 0;
+    int loc_sum = 0;
 
     if (n == 0) {
         return 0;
