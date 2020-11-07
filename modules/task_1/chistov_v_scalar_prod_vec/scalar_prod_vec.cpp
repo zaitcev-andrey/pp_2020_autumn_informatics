@@ -18,6 +18,8 @@ std::vector<int> GenRandVec(int size) {
 
 int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
     int size = a.size();
+    int sum = 0;
+    int loc_sum = 0;
     if (size == 0) {
         return 0;
     }
@@ -31,8 +33,6 @@ int CalcSumSequential(std::vector<int> a, std::vector<int> b) {
 
 int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
     int i, ProcNum, ProcRank;
-    int sum = 0;
-    int loc_sum = 0;
     int n = a.size();
 
     if (n == 0) {
@@ -62,9 +62,7 @@ int CalcSumParallel(std::vector<int> a, std::vector<int> b) {
         MPI_Recv(&loc_b[0], delta, MPI_INT, 0, 1, MPI_COMM_WORLD, &status);
     }
 
-    for (i = 0; i < n; i++) {
-        loc_sum += a[i] * b[i];
-    }
+    loc_sum = CalcSumSequential(loc_a, loc_b);
 
     MPI_Reduce(&loc_sum, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return sum;
