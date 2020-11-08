@@ -10,7 +10,7 @@
 bool assertVectors(const std::vector<double>& vec1, const std::vector<double>& vec2) {
     if (vec1.size() != vec2.size())
         throw "Different size";
-    for (int i = 0; i < static_cast<int>(vec1.size()); i++) {
+    for (size_t i = 0; i < vec1.size(); i++) {
         if ((std::fabs(vec1[i] - vec2[i]) >= std::numeric_limits<double>::epsilon() * 1000000.0))
             return false;
     }
@@ -40,7 +40,7 @@ Matrix createRandomMatrix(int rows, int cols) {
     Matrix matrix(rows * cols);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            matrix[i * cols + j] = static_cast<double>((urd(mersenne) * 1000.0) / 1000.0);
+            matrix[i * cols + j] = static_cast<double>(urd(mersenne));
         }
     }
     return matrix;
