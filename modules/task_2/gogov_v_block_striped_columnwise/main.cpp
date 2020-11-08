@@ -10,7 +10,7 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_10x20_10) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 10, cols = 20, vecSize = 10;
     Matrix matrix;
-    std::vector<int> vec;
+    std::vector<double> vec;
     if (procRank == 0) {
         matrix = createRandomMatrix(rows, cols);
         vec = createRandomMatrix(vecSize, 1);
@@ -23,7 +23,7 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_10x10_10) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 10, cols = 10, vecSize = 10;
     Matrix matrix;
-    std::vector<int> vec;
+    std::vector<double> vec;
     if (procRank == 0) {
         matrix = createRandomMatrix(rows, cols);
         vec = createRandomMatrix(vecSize, 1);
@@ -31,17 +31,17 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_10x10_10) {
     double startTime, endTime;
     if (procRank == 0)
         startTime = MPI_Wtime();
-    std::vector<int> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
+    std::vector<double> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         endTime = MPI_Wtime();
         std::cout << "Time parallel: " << endTime - startTime << std::endl;
     }
     if (procRank == 0) {
         startTime = MPI_Wtime();
-        std::vector<int> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
+        std::vector<double> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
         endTime = MPI_Wtime();
         std::cout << "Time sequential: " << endTime - startTime << std::endl;
-        ASSERT_EQ(resultParallel, resultSequential);
+        ASSERT_TRUE(assertVectors(resultParallel, resultSequential));
     }
 }
 
@@ -50,7 +50,7 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_100x100_100) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 100, cols = 100, vecSize = 100;
     Matrix matrix;
-    std::vector<int> vec;
+    std::vector<double> vec;
     if (procRank == 0) {
         matrix = createRandomMatrix(rows, cols);
         vec = createRandomMatrix(vecSize, 1);
@@ -58,17 +58,18 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_100x100_100) {
     double startTime, endTime;
     if (procRank == 0)
         startTime = MPI_Wtime();
-    std::vector<int> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
+    std::vector<double> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         endTime = MPI_Wtime();
         std::cout << "Time parallel: " << endTime - startTime << std::endl;
     }
     if (procRank == 0) {
         startTime = MPI_Wtime();
-        std::vector<int> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
+        std::vector<double> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
         endTime = MPI_Wtime();
         std::cout << "Time sequential: " << endTime - startTime << std::endl;
-        ASSERT_EQ(resultParallel, resultSequential);
+        std::cout << "Test status: ";
+        ASSERT_TRUE(assertVectors(resultParallel, resultSequential));
     }
 }
 
@@ -77,7 +78,7 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_460x570_570) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 460, cols = 570, vecSize = 570;
     Matrix matrix;
-    std::vector<int> vec;
+    std::vector<double> vec;
     if (procRank == 0) {
         matrix = createRandomMatrix(rows, cols);
         vec = createRandomMatrix(vecSize, 1);
@@ -85,17 +86,17 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_460x570_570) {
     double startTime, endTime;
     if (procRank == 0)
         startTime = MPI_Wtime();
-    std::vector<int> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
+    std::vector<double> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         endTime = MPI_Wtime();
         std::cout << "Time parallel: " << endTime - startTime << std::endl;
     }
     if (procRank == 0) {
         startTime = MPI_Wtime();
-        std::vector<int> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
+        std::vector<double> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
         endTime = MPI_Wtime();
         std::cout << "Time sequential: " << endTime - startTime << std::endl;
-        ASSERT_EQ(resultParallel, resultSequential);
+        ASSERT_TRUE(assertVectors(resultParallel, resultSequential));
     }
 }
 
@@ -104,7 +105,7 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_333x444_444) {
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 333, cols = 444, vecSize = 444;
     Matrix matrix;
-    std::vector<int> vec;
+    std::vector<double> vec;
     if (procRank == 0) {
         matrix = createRandomMatrix(rows, cols);
         vec = createRandomMatrix(vecSize, 1);
@@ -112,17 +113,17 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_333x444_444) {
     double startTime, endTime;
     if (procRank == 0)
         startTime = MPI_Wtime();
-    std::vector<int> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
+    std::vector<double> resultParallel = multMatrixByVectorParallel(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         endTime = MPI_Wtime();
         std::cout << "Time parallel: " << endTime - startTime << std::endl;
     }
     if (procRank == 0) {
         startTime = MPI_Wtime();
-        std::vector<int> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
+        std::vector<double> resultSequential = multMatrixByVectorSequential(matrix, rows, cols, vec, vecSize);
         endTime = MPI_Wtime();
         std::cout << "Time sequential: " << endTime - startTime << std::endl;
-        ASSERT_EQ(resultParallel, resultSequential);
+        ASSERT_TRUE(assertVectors(resultParallel, resultSequential));
     }
 }
 
