@@ -5,7 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <functional>
-#include "./integral.h"
+#include "./Integral.h"
 
 TEST(Parallel_Operations_MPI, Test_Square) {
     int rank;
