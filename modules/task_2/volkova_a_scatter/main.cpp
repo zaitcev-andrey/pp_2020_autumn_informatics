@@ -14,7 +14,6 @@ TEST(MY_SCATTER, INT_ERROR_COUNT) {
     int aSize = k * size;
     std::vector<int> a(aSize);
     int b1[61];
-    int b2[61];
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) a[i] = i + 18 * i;
     }
