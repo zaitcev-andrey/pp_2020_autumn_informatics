@@ -1,5 +1,6 @@
 // Copyright 2020 Volkova Anastasia
 #include <mpi.h>
+#include <cstring>
 #include "../../../modules/task_2/volkova_a_scatter/scatter_mpi.h"
 
 int MY_Scatter(void* sendBuf, int sendCount,
@@ -44,7 +45,7 @@ int MY_Scatter(void* sendBuf, int sendCount,
         }
         int lolo = sendCount * sizeTypeSend;
         int k = rank * lolo;
-        memcpy(recvBuf, static_cast<char*>(sendBuf) + k, lolo);
+        std::memcpy(recvBuf, static_cast<char*>(sendBuf) + k, lolo);
     } else {
         MPI_Status STATUS;
         MPI_Recv(recvBuf, recvCount, recvType, ROOT, tag, COMM, &STATUS);
