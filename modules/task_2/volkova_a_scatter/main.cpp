@@ -10,7 +10,7 @@ TEST(MY_SCATTER, INT_ERROR_COUNT) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 61;
-    int ROOT = 3;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
     int b1[61];
@@ -27,7 +27,7 @@ TEST(MY_SCATTER, DOUBLE_ERROR_RANK) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 16;
-    int ROOT = 3;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<double> a(aSize);
     double b1[6];
@@ -44,7 +44,7 @@ TEST(MY_SCATTER, INT_ERROR_BUFFER) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 61;
-    int ROOT = 3;
+    int ROOT = 0;
     std::vector<int> a;
     int b1[61];
     if (rank == ROOT) {
@@ -57,7 +57,7 @@ TEST(MY_SCATTER, INT) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 6;
-    int ROOT = 1;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
     int b1[6];
@@ -90,7 +90,7 @@ TEST(MY_SCATTER, DOUBLE) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 7;
-    int ROOT = 4;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<double> a(aSize);
     double b1[7];
@@ -123,7 +123,7 @@ TEST(MY_SCATTER, FLOAT) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 5;
-    int ROOT = 1;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<float> a(aSize);
     float b1[5];
@@ -156,7 +156,7 @@ TEST(MY_SCATTER, CHAR) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 20;
-    int ROOT = 1;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<char> a(aSize);
     char b1[20];
@@ -195,7 +195,7 @@ TEST(MY_SCATTER, INT_SCATTER_GATHER) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 6;
-    int ROOT = 3;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
     std::vector<int> ans(aSize);
@@ -258,7 +258,7 @@ TEST(MY_SCATTER, CHAR_SCATTER_GATHER) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int k = 20;
-    int ROOT = 1;
+    int ROOT = 0;
     int aSize = k * size;
     std::vector<char> a(aSize);
     std::vector<char> ans(aSize);
