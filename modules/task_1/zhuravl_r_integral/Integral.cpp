@@ -2,7 +2,7 @@
 #include <mpi.h>
 #include <cmath>
 #include <functional>
-#include "../../../modules/task_1/zhuravl_r_integral/integral.h"
+#include "../../../modules/task_1/zhuravl_r_integral/Integral.h"
 
 double getSequentialIntegration(const std::function<double(double)>& f, double a, double b, int n) {
     double sum = 0;
