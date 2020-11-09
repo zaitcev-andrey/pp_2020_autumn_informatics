@@ -1,6 +1,7 @@
 // Copyright 2020 Volkova Anastasia
 #include <mpi.h>
 #include <cstring>
+#include <iostream>
 #include "../../../modules/task_2/volkova_a_scatter/scatter_mpi.h"
 
 int MY_Scatter(void* sendBuf, int sendCount,
@@ -14,7 +15,6 @@ int MY_Scatter(void* sendBuf, int sendCount,
     int size;
     int rank;
     int sizeTypeSend;
-    int sizeTypeRecv;
     int tag = 15;
 
     if (MPI_Comm_size(MPI_COMM_WORLD, &size) != MPI_SUCCESS) {
@@ -29,18 +29,15 @@ int MY_Scatter(void* sendBuf, int sendCount,
         MPI_Status stat;
         return stat.MPI_ERROR;
     }
-    if (MPI_Type_size(recvType, &sizeTypeRecv) != MPI_SUCCESS) {
-        MPI_Status stat;
-        return stat.MPI_ERROR;
-    }
 
     if (ROOT >= size || ROOT < 0)return MPI_ERR_ROOT;
 
+    int sizeTypeCount = sendCount * sizeTypeSend;
     if (rank == ROOT) {
-        for (int i = 0; i < size; ++i) {
-            if (i != ROOT) {
-                int qq = i * sendCount * sizeTypeSend;
-                MPI_Send(static_cast<char*>(sendBuf) + qq, sendCount, sendType, i, tag, COMM);
+        for (int proc = 0; proc < size; ++proc) {
+            if (proc != ROOT) {
+                int pos = proc * sendCount * sizeTypeSend;
+                MPI_Send(static_cast<char*>(sendBuf) + pos, sendCount, sendType, proc, tag, COMM);
             }
         }
         int lolo = sendCount * sizeTypeSend;
@@ -50,7 +47,6 @@ int MY_Scatter(void* sendBuf, int sendCount,
         MPI_Status STATUS;
         MPI_Recv(recvBuf, recvCount, recvType, ROOT, tag, COMM, &STATUS);
     }
-
     return MPI_SUCCESS;
 }
 

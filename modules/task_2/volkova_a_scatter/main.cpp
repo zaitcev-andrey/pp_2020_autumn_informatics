@@ -5,6 +5,7 @@
 #include <vector>
 #include "./scatter_mpi.h"
 
+
 TEST(MY_SCATTER, INT_ERROR_COUNT) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -13,7 +14,7 @@ TEST(MY_SCATTER, INT_ERROR_COUNT) {
     int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
-    int b1[61];
+    int b1[961];
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) a[i] = i + 18 * i;
     }
@@ -26,7 +27,7 @@ TEST(MY_SCATTER, DOUBLE_ERROR_RANK) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
-    int k = 16;
+    int k = 6;
     int ROOT = 0;
     int aSize = k * size;
     std::vector<double> a(aSize);
@@ -67,7 +68,7 @@ TEST(MY_SCATTER, INT) {
     }
 
     double myScatterStart = MPI_Wtime();
-    MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
@@ -80,8 +81,12 @@ TEST(MY_SCATTER, INT) {
         }
     }
     if (rank == 0) {
-        std::cout << "my scatter :   " << myScatterEnd - myScatterStart << std::endl;
-        std::cout << "mpi scatter :   " << mpiScatterEnd - mpiScatterStart << std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "my scatter :    " << myScatterEnd - myScatterStart <<
+            std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "mpi scatter :   " << mpiScatterEnd - mpiScatterStart <<
+            std::endl;
     }
 }
 
@@ -100,7 +105,7 @@ TEST(MY_SCATTER, DOUBLE) {
     }
 
     double myScatterStart = MPI_Wtime();
-    MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
@@ -113,8 +118,12 @@ TEST(MY_SCATTER, DOUBLE) {
         }
     }
     if (rank == 0) {
-        std::cout << "my scatter :   " << myScatterEnd - myScatterStart << std::endl;
-        std::cout << "mpi scatter :   " << mpiScatterEnd - mpiScatterStart << std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "my scatter :    " << myScatterEnd - myScatterStart <<
+            std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "mpi scatter :   " << mpiScatterEnd - mpiScatterStart <<
+            std::endl;
     }
 }
 
@@ -133,7 +142,7 @@ TEST(MY_SCATTER, FLOAT) {
     }
 
     double myScatterStart = MPI_Wtime();
-    MY_Scatter(&a[0], k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
@@ -146,8 +155,12 @@ TEST(MY_SCATTER, FLOAT) {
         }
     }
     if (rank == 0) {
-        std::cout << "my scatter :   " << myScatterEnd - myScatterStart << std::endl;
-        std::cout << "mpi scatter :   " << mpiScatterEnd - mpiScatterStart << std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "my scatter :    " << myScatterEnd - myScatterStart <<
+            std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "mpi scatter :   " << mpiScatterEnd - mpiScatterStart <<
+            std::endl;
     }
 }
 
@@ -172,7 +185,7 @@ TEST(MY_SCATTER, CHAR) {
     }
 
     double myScatterStart = MPI_Wtime();
-    MY_Scatter(&a[0], k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
@@ -185,8 +198,12 @@ TEST(MY_SCATTER, CHAR) {
         }
     }
     if (rank == 0) {
-        std::cout << "my scatter :   " << myScatterEnd - myScatterStart << std::endl;
-        std::cout << "mpi scatter :   " << mpiScatterEnd - mpiScatterStart << std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "my scatter :    " << myScatterEnd - myScatterStart <<
+            std::endl;
+        std::cout << std::fixed << std::setprecision(20) <<
+            "mpi scatter :   " << mpiScatterEnd - mpiScatterStart <<
+            std::endl;
     }
 }
 
@@ -204,7 +221,7 @@ TEST(MY_SCATTER, INT_SCATTER_GATHER) {
         for (int i = 0; i < aSize; ++i) a[i] = i + 18 * i;
     }
 
-    MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     MPI_Gather(&b1[0], k, MPI_INT, &ans[0], k, MPI_INT, ROOT, MPI_COMM_WORLD);
     if (rank == ROOT) {
         EXPECT_EQ(a, ans);
@@ -225,7 +242,7 @@ TEST(MY_SCATTER, DOUBLE_SCATTER_GATHER) {
         for (int i = 0; i < aSize; ++i) a[i] = i + 0.1 * (i + 1);
     }
 
-    MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     MPI_Gather(&b1[0], k, MPI_DOUBLE, &ans[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     if (rank == ROOT) {
         EXPECT_EQ(a, ans);
@@ -246,7 +263,7 @@ TEST(MY_SCATTER, FLOAT_SCATTER_GATHER) {
         for (int i = 0; i < aSize; ++i) a[i] = i + 0.1 * (i + 1);
     }
 
-    MY_Scatter(&a[0], k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     MPI_Gather(&b1[0], k, MPI_FLOAT, &ans[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD);
     if (rank == ROOT) {
         EXPECT_EQ(a, ans);
@@ -273,7 +290,7 @@ TEST(MY_SCATTER, CHAR_SCATTER_GATHER) {
         }
     }
 
-    MY_Scatter(&a[0], k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD);
+    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     MPI_Gather(&b1[0], k, MPI_CHAR, &ans[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD);
     if (rank == ROOT) {
         EXPECT_EQ(a, ans);
