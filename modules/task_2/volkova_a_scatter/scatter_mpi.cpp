@@ -36,13 +36,12 @@ int MY_Scatter(void* sendBuf, int sendCount,
     if (rank == ROOT) {
         for (int proc = 0; proc < size; ++proc) {
             if (proc != ROOT) {
-                int pos = proc * sendCount * sizeTypeSend;
+                int pos = proc * sizeTypeCount;
                 MPI_Send(static_cast<char*>(sendBuf) + pos, sendCount, sendType, proc, tag, COMM);
             }
         }
-        int lolo = sendCount * sizeTypeSend;
-        int k = rank * lolo;
-        std::memcpy(recvBuf, static_cast<char*>(sendBuf) + k, lolo);
+        int k = rank * sizeTypeCount;
+        std::memcpy(recvBuf, static_cast<char*>(sendBuf) + k, sizeTypeCount);
     } else {
         MPI_Status STATUS;
         MPI_Recv(recvBuf, recvCount, recvType, ROOT, tag, COMM, &STATUS);
