@@ -5,9 +5,9 @@
 #include "../../../modules/task_2/volkova_a_scatter/scatter_mpi.h"
 
 int MY_Scatter(void* sendBuf, int sendCount,
-               MPI_Datatype sendType, void* recvBuf,
-               int recvCount, MPI_Datatype recvType,
-               int ROOT, MPI_Comm COMM) {
+    MPI_Datatype sendType, void* recvBuf,
+    int recvCount, MPI_Datatype recvType,
+    int ROOT, MPI_Comm COMM) {
     if (sendCount != recvCount)return MPI_ERR_COUNT;
     if (sendCount <= 0) return MPI_ERR_COUNT;
     if (recvCount <= 0) return MPI_ERR_COUNT;
@@ -40,6 +40,8 @@ int MY_Scatter(void* sendBuf, int sendCount,
                 MPI_Send(static_cast<char*>(sendBuf) + pos, sendCount, sendType, proc, tag, COMM);
             }
         }
+    }
+    if (rank == ROOT) {
         int k = rank * sizeTypeCount;
         std::memcpy(recvBuf, static_cast<char*>(sendBuf) + k, sizeTypeCount);
     } else {
