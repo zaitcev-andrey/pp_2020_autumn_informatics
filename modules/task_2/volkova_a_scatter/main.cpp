@@ -6,6 +6,27 @@
 #include "./scatter_mpi.h"
 
 
+TEST(MY_SCATTER, INT_ERROR_COMM) {
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int k = 8;
+    int ROOT = 0;
+    int aSize = k * size;
+    std::vector<int> a(aSize);
+    int b1[8];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+    if (rank == ROOT) {
+        for (int i = 0; i < aSize; ++i) {
+            a[i] = gen() % 100;
+        }
+    }
+    if (rank == ROOT) {
+        EXPECT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_NULL), MPI_ERR_COMM);
+    }
+}
+
 TEST(MY_SCATTER, INT_ERROR_COUNT) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -14,10 +35,12 @@ TEST(MY_SCATTER, INT_ERROR_COUNT) {
     int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
-    int b1[961];
+    int b1[61];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i + 18 * i;
+            a[i] = gen()%100;
         }
     }
     if (rank == ROOT) {
@@ -34,9 +57,11 @@ TEST(MY_SCATTER, DOUBLE_ERROR_RANK) {
     int aSize = k * size;
     std::vector<double> a(aSize);
     double b1[6];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i * 0.5 + i * 0.1 / 3;
+            a[i] = static_cast<double>((gen()%100) + (i+11) * 0.1194);
         }
     }
     if (rank == ROOT) {
@@ -65,11 +90,13 @@ TEST(MY_SCATTER, INT) {
     int ROOT = 0;
     int aSize = k * size;
     std::vector<int> a(aSize);
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     int b1[6];
     int b2[6];
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i + 18 * i+122;
+            a[i] = gen()%1000;
         }
     }
 
@@ -106,9 +133,11 @@ TEST(MY_SCATTER, DOUBLE1) {
     std::vector<double> a(aSize);
     double b1[7];
     double b2[7];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i + 0.1 * (i + 1);
+            a[i] = static_cast<double>((gen() % 100) + i * 0.114);
         }
     }
 
@@ -143,11 +172,13 @@ TEST(MY_SCATTER, DOUBLE2) {
     int ROOT = 0;
     int aSize = k * size;
     std::vector<double> a(aSize);
-    double b1[7];
-    double b2[7];
+    double b1[1];
+    double b2[1];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i + 0.7 * (i + 12);
+            a[i] = static_cast<double>((gen() % 100) + (i+11) * 0.774);
         }
     }
 
@@ -178,15 +209,17 @@ TEST(MY_SCATTER, FLOAT) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
-    int k = 5;
+    int k = 100;
     int ROOT = 0;
     int aSize = k * size;
     std::vector<float> a(aSize);
-    float b1[5];
-    float b2[5];
+    float b1[100];
+    float b2[100];
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     if (rank == ROOT) {
         for (int i = 0; i < aSize; ++i) {
-            a[i] = i + 0.1 * (i + 1);
+            a[i] = static_cast<float>((gen() % 100) /(i * i*100+99));
         }
     }
 

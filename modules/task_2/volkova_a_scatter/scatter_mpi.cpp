@@ -16,7 +16,9 @@ int MY_Scatter(void* sendBuf, int sendCount,
     int rank;
     int sizeTypeSend;
     int tag = 15;
-
+    if (COMM == MPI_COMM_NULL) {
+        return MPI_ERR_COMM;
+    }
     if (MPI_Comm_size(MPI_COMM_WORLD, &size) != MPI_SUCCESS) {
         MPI_Status stat;
         return stat.MPI_ERROR;
