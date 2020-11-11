@@ -7,7 +7,6 @@
 #include <random>
 #include <algorithm>
 #include "../../../modules/task_2/belik_j_ribbon_horiz/RibbonHoriz.h"
-
 std::vector<double> Get_sequestional(std::vector<double> matrix, int rows, int cols, std::vector<double> vect) {
     std::vector<double> vec(cols);
     for (int i = 0; i < cols; i++) {
@@ -18,8 +17,7 @@ std::vector<double> Get_sequestional(std::vector<double> matrix, int rows, int c
     }
     return vec;
 }
-double skal(int i, std::vector<double> matrix, int rows, std::vector<double> vect)
-{
+double skal(int i, std::vector<double> matrix, int rows, std::vector<double> vect) {
     double sum = 0;
     for (int j = 0; j < rows; j++)
         sum += matrix[j + i * rows] * vect[j];
@@ -39,8 +37,7 @@ std::vector<double> Get_parallel(std::vector<double> matrix, int rows, int cols,
         }
         for (int i = 0; i < countint * rows; i++)
             locmatrix[i] = matrix[i];
-    }
-    else {
+    } else {
         MPI_Recv(locmatrix.data(), countint * rows, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &Status);
     }
     std::vector<double> mult(rank == 0 ? cols : countint);
@@ -54,8 +51,7 @@ std::vector<double> Get_parallel(std::vector<double> matrix, int rows, int cols,
         for (int i = 1; i < size; i++) {
             MPI_Recv(rmult.data() + i * countint, countint, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &Status);
         }
-    }
-    else {
+    } else {
         MPI_Send(mult.data(), countint, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }
     if (rank == 0) {

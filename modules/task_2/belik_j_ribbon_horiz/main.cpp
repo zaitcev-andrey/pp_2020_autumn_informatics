@@ -4,10 +4,10 @@
 #include <mpi.h>
 #include <algorithm>
 #include <functional>
+#include <vector>
 #include "./RibbonHoriz.h"
 
-TEST(Parallel_Operations_MPI, 6x6)
-{
+TEST(Parallel_Operations_MPI, 6x6) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -25,8 +25,7 @@ TEST(Parallel_Operations_MPI, 6x6)
     }
 }
 
-TEST(Parallel_Operations_MPI, 1x7)
-{
+TEST(Parallel_Operations_MPI, 1x7) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -44,8 +43,7 @@ TEST(Parallel_Operations_MPI, 1x7)
     }
 }
 
-TEST(Parallel_Operations_MPI, 8x1)
-{
+TEST(Parallel_Operations_MPI, 8x1) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -63,8 +61,7 @@ TEST(Parallel_Operations_MPI, 8x1)
     }
 }
 
-TEST(Parallel_Operations_MPI, 3x3)
-{
+TEST(Parallel_Operations_MPI, 3x3) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -82,8 +79,7 @@ TEST(Parallel_Operations_MPI, 3x3)
     }
 }
 
-TEST(Parallel_Operations_MPI, 16x16)
-{
+TEST(Parallel_Operations_MPI, 16x16) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
@@ -101,8 +97,7 @@ TEST(Parallel_Operations_MPI, 16x16)
     }
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
