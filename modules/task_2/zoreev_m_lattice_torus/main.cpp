@@ -44,8 +44,7 @@ TEST(Lattice_Torus_MPI, Lattice_Torus_Send_Recv) {
     if ((coordinates[0] == 0) && (coordinates[1] == 0)) {
         int dest_coordinates[] = {dimensions[0] - 1, dimensions[1] - 1};
         LatticeTorusSend(&out_messange, 1, MPI_INT, dest_coordinates, 0, communicator);
-    }
-    else if ((coordinates[0] == dimensions[0] - 1) && (coordinates[1] == dimensions[1] - 1)) {
+    } else if ((coordinates[0] == dimensions[0] - 1) && (coordinates[1] == dimensions[1] - 1)) {
         MPI_Status status;
         int source_coordinates[] = {0, 0};
         LatticeTorusRecv(&in_messange, 1, MPI_INT, source_coordinates, 0, communicator, &status);
