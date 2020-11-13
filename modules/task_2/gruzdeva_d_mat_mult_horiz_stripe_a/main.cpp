@@ -126,11 +126,11 @@ TEST(Parallel_Operations_MPI, MATRICES_100x50_AND_50x12) {
     }
 }
 
-TEST(Parallel_Operations_MPI, MATRICES_1000x1000) {
+TEST(Parallel_Operations_MPI, MATRICES_240x240) {
     int rank;
     std::vector<double> a;
     std::vector<double> b;
-    int aRows = 1000, aCols = 1000, bRows = 1000, bCols = 1000;
+    int aRows = 240, aCols = 240, bRows = 240, bCols = 240;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     a = getRandomMatrix(aRows, aCols, time(0));
     b = getRandomMatrix(bRows, bCols, time(0) + 1);
