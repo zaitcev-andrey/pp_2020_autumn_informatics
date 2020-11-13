@@ -83,10 +83,14 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
     std::cout << "[Debug] 4 (" << rank << ")" << std::endl;
     int localResult = sequentialIsLexicographicOrder(localString1, localString2);
 
-    std::vector<int> results;
+    std::vector<int> results(1);
 
     if (rank == 0)
+    {
         results.resize(size);
+        //std::cout << "[Debug] size: " << results.size() << std::endl;
+    }
+        
     std::cout << "[Debug] 5 (" << rank << ")" << std::endl;
     MPI_Gather(&localResult, 1, MPI_INT, &results[0], 1, MPI_INT, 0, MPI_COMM_WORLD);
     std::cout << "[Debug] 6 (" << rank << ")" << std::endl;
