@@ -82,7 +82,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
 
     if (rank == 0)
         results.resize(size);
-        
+
     MPI_Gather(&localResult, 1, MPI_INT, &results[0], 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
