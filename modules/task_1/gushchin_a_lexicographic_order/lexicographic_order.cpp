@@ -89,7 +89,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
         results.resize(size);
     std::cout << "[Debug] 5 (" << rank << ")" << std::endl;
     MPI_Gather(&localResult, 1, MPI_INT, &results[0], 1, MPI_INT, 0, MPI_COMM_WORLD);
-
+    std::cout << "[Debug] 6 (" << rank << ")" << std::endl;
     if (rank == 0) {
         bool result = false, equalBegginnings = true;
 
@@ -110,7 +110,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
                 break;
             }
         }
-        std::cout << "[Debug] 6 (" << rank << ")" << std::endl;
+        std::cout << "[Debug] 7 (" << rank << ")" << std::endl;
         // 0 - string1 > string2, 1 - string1 < string2, 2 - string1 == string2
         if (equalBegginnings) {
             if (length1 > length2)
