@@ -3,11 +3,14 @@
 #define MODULES_TASK_2_GRUZDEVA_D_MAT_MULT_HORIZ_STRIPE_A_MAT_MULT_HORIZ_STRIPE_A_H_
 
 #include <mpi.h>
-#include <random>  
+#include <random>
 #include <ctime>
+#include <vector>
 
-int** getRandomMatrix(int width, int height, time_t seed);
-int** getSequentialMultiplication(int** matrixA, int** matrixB, int matrixAHeight, int matrixAWidth, int matrixBWidth);
-int** getParalleMultiplication(int** matrixA, int** matrixB, int matrixAHeight, int matrixAWidth, int matrixBWidth);
+std::vector<double> getRandomMatrix(int width, int height, time_t seed);
+std::vector<double> getSequentialMultiplication(std::vector<double> matrixA, std::vector<double> matrixB,
+                                    int matrixARows, int matrixACols, int matrixBCols);
+std::vector<double> getParalleMultiplication(std::vector<double> matrixA, std::vector<double> matrixB,
+                                    int matrixARows, int matrixACols, int matrixBRows, int matrixBCols);
 
 #endif  // MODULES_TASK_2_GRUZDEVA_D_MAT_MULT_HORIZ_STRIPE_A_MAT_MULT_HORIZ_STRIPE_A_H_
