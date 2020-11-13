@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 #include "../../../modules/task_1/gushchin_a_lexicographic_order/lexicographic_order.h"
 
 std::string getRandomString(size_t length) {
@@ -63,6 +64,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
         localString1 = string1.substr(0, delta + reminder);
         localString2 = string2.substr(0, delta + reminder);
     } else {
+        assert(delta);
         std::vector<char> buffer(delta);
         localString1.resize(delta);
         localString1.resize(delta);
