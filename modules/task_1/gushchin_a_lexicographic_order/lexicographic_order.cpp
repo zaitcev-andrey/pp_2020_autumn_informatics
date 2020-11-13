@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 #include "../../../modules/task_1/gushchin_a_lexicographic_order/lexicographic_order.h"
 
 std::string getRandomString(size_t length) {
@@ -60,15 +61,18 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
     std::string localString1;
     std::string localString2;
 
+    std::cout << "[Debug] 1 (" << rank << ")" << std::endl;
+
     if (rank == 0) {
         localString1 = string1.substr(0, delta + reminder);
         localString2 = string2.substr(0, delta + reminder);
     } else {
         assert(delta);
+        std::cout << "[Debug] 2 (" << rank << ")" << std::endl;
         std::vector<char> buffer(delta);
         localString1.resize(delta);
         localString1.resize(delta);
-
+        std::cout << "[Debug] 3 (" << rank << ")" << std::endl;
         MPI_Status status;
         MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         localString1.assign(buffer.begin(), buffer.end());
@@ -76,14 +80,14 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
         MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
         localString2.assign(buffer.begin(), buffer.end());
     }
-
+    std::cout << "[Debug] 4 (" << rank << ")" << std::endl;
     int localResult = sequentialIsLexicographicOrder(localString1, localString2);
 
     std::vector<int> results;
 
     if (rank == 0)
         results.resize(size);
-
+    std::cout << "[Debug] 5 (" << rank << ")" << std::endl;
     MPI_Gather(&localResult, 1, MPI_INT, &results[0], 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
@@ -106,7 +110,7 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
                 break;
             }
         }
-
+        std::cout << "[Debug] 6 (" << rank << ")" << std::endl;
         // 0 - string1 > string2, 1 - string1 < string2, 2 - string1 == string2
         if (equalBegginnings) {
             if (length1 > length2)
