@@ -69,8 +69,10 @@ void oddEvenParallelSort(int* arr, int arr_size) {
     displs[0] = 0;
     std::vector<int> part_vector(rank == 0 ? elements_part_count + remainder : elements_part_count);
     if (procCount > elements_count) {
-        for (int i = 0; i < arr_size; i++) {
-            part_vector[i] = arr[i];
+        if (rank == 0) {
+            for (int i = 0; i < arr_size; i++) {
+                part_vector[i] = arr[i];
+            }
         }
     } else {
         for (int i = 1; i < procCount; i++) {
@@ -131,7 +133,11 @@ void oddEvenParallelSort(int* arr, int arr_size) {
     MPI_Gatherv(&part_vector[0], revcount[rank], MPI_INT,
     arr, revcount, displs, MPI_INT, 0, MPI_COMM_WORLD);
 } else {
-    arr = part_vector.data();
+    if (rank == 0) {
+            for (int i = 0; i < arr_size; i++) {
+                arr[i] = part_vector[i];
+            }
+    }
 }
     if (rank == 0) {
         double endT = MPI_Wtime();

@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <vector>
-#include "odd_even_sort.h"
+#include "../../../modules/task_2/shagov_m_odd_even_sort/odd_even_sort.h"
 
 TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_10) {
     int rank;
