@@ -97,10 +97,10 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_113) {
     }
 }
 
-TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1234) {
+TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1235) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 1234;
+    const int count_size_string = 1235;
     std::vector<int> global_array_1(count_size_string);
     std::vector<int> global_array_2(count_size_string);
 
