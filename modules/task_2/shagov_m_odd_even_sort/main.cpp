@@ -2,6 +2,8 @@
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <vector>
 #include "odd_even_sort.h"
 
 TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_10) {
@@ -106,7 +108,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_90000) {
         global_array_1 = createRandomVector(count_size_string);
         global_array_2 = global_array_1;
     }
-    
+
     oddEvenParallelSort(global_array_1);
 
     if (rank == 0) {
@@ -117,7 +119,6 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_90000) {
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }
-
 
 int main(int argc, char** argv) {
    ::testing::InitGoogleTest(&argc, argv);

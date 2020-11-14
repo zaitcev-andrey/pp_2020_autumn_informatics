@@ -1,18 +1,17 @@
 // Copyright 2020 Shagov Maksim
 #include <mpi.h>
 #include <iostream>
-#include "../../../modules/task_2/shagov_m_odd_even_sort/odd_even_sort.h"
 #include <ctime>
 #include <random>
 #include <algorithm>
+#include "../../../modules/task_2/shagov_m_odd_even_sort/odd_even_sort.h"
 
 std::vector<int> createRandomVector(int  sz) {
     std::vector<int> result(sz);
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    for (int i = 0; i < sz; i++ )
-    {
-        result[i] =  rand() % 100;
+    for (int i = 0; i < sz; i++ ) {
+        result[i] =  rand_r() % 100;
     }
     return result;
 }
@@ -61,20 +60,20 @@ void oddEvenParallelSort(std::vector<int> &arr) {
             if (rank % 2 == 1) {
                 if (rank < procCount - 1) {
                     elements_part_count = part_vector.size();
-                    MPI_Send (&elements_part_count, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
-                    MPI_Send (&part_vector[0], elements_part_count, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
-                    MPI_Recv (&m, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Send(&elements_part_count, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+                    MPI_Send(&part_vector[0], elements_part_count, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+                    MPI_Recv(&m, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
                     sub.resize(m);
-                    MPI_Recv (&sub[0], m, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Recv(&sub[0], m, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
                     blockMergeArrays(part_vector, sub);
             }
             } else {
                 if (rank > 0) {
-                    MPI_Send (&elements_part_count, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
-                    MPI_Send (&part_vector[0], elements_part_count, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
-                    MPI_Recv (&m, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Send(&elements_part_count, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
+                    MPI_Send(&part_vector[0], elements_part_count, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
+                    MPI_Recv(&m, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
                     sub.resize(m);
-                    MPI_Recv (&sub[0], m, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Recv(&sub[0], m, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
                     blockMergeArrays(sub, part_vector);
                 }
             }
@@ -82,20 +81,20 @@ void oddEvenParallelSort(std::vector<int> &arr) {
             if (rank % 2 == 0) {
                 if (rank < procCount - 1) {
                     elements_part_count = part_vector.size();
-                    MPI_Send (&elements_part_count, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
-                    MPI_Send (&part_vector[0], elements_part_count, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
-                    MPI_Recv (&m, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Send(&elements_part_count, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+                    MPI_Send(&part_vector[0], elements_part_count, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+                    MPI_Recv(&m, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
                     sub.resize(m);
-                    MPI_Recv (&sub[0], m, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Recv(&sub[0], m, MPI_INT, rank + 1, 0, MPI_COMM_WORLD, &status);
                     blockMergeArrays(part_vector, sub);
                 }
             } else {
                 if (rank > 0) {
-                    MPI_Send (&elements_part_count, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
-                    MPI_Send (&part_vector[0], elements_part_count, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
-                    MPI_Recv (&m, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);;
+                    MPI_Send(&elements_part_count, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
+                    MPI_Send(&part_vector[0], elements_part_count, MPI_INT, rank - 1, 0, MPI_COMM_WORLD);
+                    MPI_Recv(&m, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);;
                     sub.resize(m);
-                    MPI_Recv (&sub[0], m, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+                    MPI_Recv(&sub[0], m, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
                     blockMergeArrays(sub, part_vector);
             }
         }
