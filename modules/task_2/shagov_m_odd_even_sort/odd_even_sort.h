@@ -5,6 +5,6 @@
 #include <algorithm>
 
 std::vector<int> createRandomVector(int  sz);
-void blockMergeArrays(std::vector<int> &arr1, std::vector<int> &arr2);
-void oddEvenParallelSort(std::vector<int> &arr);
+void blockMergeArrays(int *arr1, int *arr2, int size1, int size2);
+void oddEvenParallelSort(int *arr, int arr_size);
 #endif  // MODULES_TASK_2_SHAGOV_M_ODD_EVEN_SORT_ODD_EVEN_SORT_H_

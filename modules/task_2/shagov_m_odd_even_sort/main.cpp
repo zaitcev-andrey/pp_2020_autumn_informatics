@@ -17,7 +17,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_10) {
         global_array_1 = createRandomVector(count_size_string);
         global_array_2 = global_array_1;
     }
-    oddEvenParallelSort(global_array_1);
+    oddEvenParallelSort(global_array_1.data(), count_size_string);
 
     if (rank == 0) {
         double startT = MPI_Wtime();
@@ -40,7 +40,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_30) {
         global_array_2 = global_array_1;
     }
 
-    oddEvenParallelSort(global_array_1);
+    oddEvenParallelSort(global_array_1.data(), count_size_string);
 
     if (rank == 0) {
         double startT = MPI_Wtime();
@@ -63,7 +63,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1000) {
         global_array_2 = global_array_1;
     }
 
-    oddEvenParallelSort(global_array_1);
+    oddEvenParallelSort(global_array_1.data(), count_size_string);
 
     if (rank == 0) {
         double startT = MPI_Wtime();
@@ -86,7 +86,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_113) {
         global_array_2 = global_array_1;
     }
 
-    oddEvenParallelSort(global_array_1);
+    oddEvenParallelSort(global_array_1.data(), count_size_string);
 
     if (rank == 0) {
         double startT = MPI_Wtime();
@@ -97,10 +97,10 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_113) {
     }
 }
 
-TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_90000) {
+TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_50000) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 12345;
+    const int count_size_string = 50000;
     std::vector<int> global_array_1(count_size_string);
     std::vector<int> global_array_2(count_size_string);
 
@@ -109,7 +109,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_90000) {
         global_array_2 = global_array_1;
     }
 
-    oddEvenParallelSort(global_array_1);
+    oddEvenParallelSort(global_array_1.data(), count_size_string);
 
     if (rank == 0) {
         double startT = MPI_Wtime();
@@ -121,7 +121,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_90000) {
 }
 
 int main(int argc, char** argv) {
-   ::testing::InitGoogleTest(&argc, argv);
+    ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
