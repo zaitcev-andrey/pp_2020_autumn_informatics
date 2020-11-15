@@ -17,10 +17,9 @@ int* getRandomVector(int size) {
 
 MPI_Comm create_comm(MPI_Comm comm) {
 	int size;
-
+	
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm graphcomm;
-
 	int* index = new int[size];
 	int* edges = new int[2 * (size - 1)];
 	int reorder = 0;
@@ -74,14 +73,14 @@ int* send_recv(int* buf, int count, MPI_Datatype type, int dest, int tag, MPI_Co
 				} else {
 					MPI_Send(&local_buf[0], count, type, neighbors[1], 0, comm);
 				}
-			} else
-				if (ProcRank == proc + 1) {
-					if (ProcRank == size - 1) {
-						MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
-					} else {
-						MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
-					}
+			}
+			else if (ProcRank == proc + 1) {
+				if (ProcRank == size - 1) {
+					MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
+				} else {
+					MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
 				}
+			}
 		}
 	}
 
@@ -93,14 +92,13 @@ int* send_recv(int* buf, int count, MPI_Datatype type, int dest, int tag, MPI_Co
 				} else {
 					MPI_Send(&local_buf[0], count, type, neighbors[0], 0, comm);
 				}
-			} else
-				if (ProcRank == proc - 1) {
-					if (ProcRank == 0) {
-						MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
-					} else {
-						MPI_Recv(&local_buf[0], count, type, neighbors[1], 0, comm, &status);
-					}
+			} else if (ProcRank == proc - 1) {
+				if (ProcRank == 0) {
+					MPI_Recv(&local_buf[0], count, type, neighbors[0], 0, comm, &status);
+				} else {
+					MPI_Recv(&local_buf[0], count, type, neighbors[1], 0, comm, &status);
 				}
+			}
 		}
 	}
 
