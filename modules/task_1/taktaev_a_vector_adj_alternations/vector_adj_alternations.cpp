@@ -14,7 +14,7 @@ std::vector<int> createRandomVector(int vec_size) {
 }
 
 int calculateAdjAlternationsSequential(const std::vector<int> &vec, int inc, int start_index) {
-    if (vec.size() == 0) return 0;
+    if (vec.empty()) return 0;
     int count = 0;
     int size = static_cast<int>(vec.size());
     for (int i = start_index; i < size; i = i + inc)
