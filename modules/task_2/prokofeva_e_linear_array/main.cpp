@@ -55,11 +55,11 @@ TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last) {
     int size_vec = 10;
     int* message = new int[size_vec];
     message = getRandomVector(size_vec);
-    
-    if ((size > 1) && (rank_s >= 0) && (rank_r >= 0) && (rank_s <= size - 1) && (rank_r <= size - 1) && (rank_s != rank_r)) {
-        int* result_message = send_recv(message, size_vec, MPI_INT, rank_r, 0, communicator, rank_s, rank);
-        if (rank == rank_r) {
-            ASSERT_TRUE(0 == std::memcmp(message, result_message, size_vec));
+
+    int* result_message = send_recv(message, size_vec, MPI_INT, rank_r, 0, communicator, rank_s, rank);
+    if (rank == rank_r) {
+        for (int i = 0; i < size_vec; i++) {
+            ASSERT_EQ(message[i], result_message[i]);
         }
     }
 }
@@ -77,10 +77,10 @@ TEST(Lin_Topology_MPI, test_send_recv_from_last_to_first) {
     int* message = new int[size_vec];
     message = getRandomVector(size_vec);
 
-    if ((size > 1) && (rank_s >= 0) && (rank_r >= 0) && (rank_s <= size - 1) && (rank_r <= size - 1) && (rank_s != rank_r)) {
-        int* result_message = send_recv(message, size_vec, MPI_INT, rank_r, 0, communicator, rank_s, rank);
-        if (rank == rank_r) {
-            ASSERT_TRUE(0 == std::memcmp(message, result_message, size_vec));
+    int* result_message = send_recv(message, size_vec, MPI_INT, rank_r, 0, communicator, rank_s, rank);
+    if (rank == rank_r) {
+        for (int i = 0; i < size_vec; i++) {
+                ASSERT_EQ(message[i], result_message[i]);
         }
     }
 }
