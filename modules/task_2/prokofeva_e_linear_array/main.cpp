@@ -24,7 +24,7 @@ TEST(Lin_Topology_MPI, test_graph) {
     MPI_Graphdims_get(communicator, &nodes, &edges);
 
     ASSERT_EQ(nodes, size);
-    ASSERT_EQ(edges, 2*(size - 1));
+    ASSERT_EQ(edges, 2 * (size - 1));
 }
 
 TEST(Lin_Topology_MPI, test_graph_neighbors) {
@@ -32,15 +32,16 @@ TEST(Lin_Topology_MPI, test_graph_neighbors) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm communicator = create_comm(MPI_COMM_WORLD);
     MPI_Comm_rank(communicator, &rank);
-    
     int count_neighbors;
-	if ((rank == 0) || (rank == size - 1)) {
-		MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
+
+    if ((rank == 0) || (rank == size - 1)) {
+        MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
         ASSERT_EQ(count_neighbors, 1);
-	} else {
-		MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
+    }
+    else {
+        MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
         ASSERT_EQ(count_neighbors, 2);
-	}
+    }
 }
 
 TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last) {
