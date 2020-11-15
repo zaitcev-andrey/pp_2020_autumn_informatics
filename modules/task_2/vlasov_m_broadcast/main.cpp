@@ -114,8 +114,9 @@ TEST(Bcast_Impl_MPI, Pi_calculating_problem__Comp_with_sequential) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     double parallel = pi_calc::my_bcast(10000000);
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_LE(fabs(parallel - pi_calc::sequential(10000000)), pi_calc::EPSILON);
+    }
 }
 
 TEST(Bcast_Impl_MPI, Pi_calculating_problem__Comp_with_vendor) {
@@ -140,8 +141,9 @@ TEST(Bcast_Impl_MPI, Performance_Vector500) {
         std::cout << "my_bcast: " << (t2 - t1) << std::endl;
     }
     for (int i = 0; i < size; i++)
-        if (v[i] != value)
+        if (v[i] != value) {
             FAIL();
+        }
     if (rank == 0) {
         t1 = MPI_Wtime();
     }
