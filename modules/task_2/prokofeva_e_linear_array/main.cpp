@@ -37,8 +37,7 @@ TEST(Lin_Topology_MPI, test_graph_neighbors) {
     if ((rank == 0) || (rank == size - 1)) {
         MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
         ASSERT_EQ(count_neighbors, 1);
-    }
-    else {
+    } else {
         MPI_Graph_neighbors_count(communicator, rank, &count_neighbors);
         ASSERT_EQ(count_neighbors, 2);
     }
