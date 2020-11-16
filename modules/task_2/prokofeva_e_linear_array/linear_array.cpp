@@ -21,6 +21,7 @@ MPI_Comm create_comm(MPI_Comm comm) {
     int size;
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
     MPI_Comm graphcomm;
 
     int* index = new int[size];
