@@ -4,7 +4,7 @@
 #include <iostream>
 #include "./linear_array.h"
 
-TEST(Lin_Topology_MPI, test_graph) {
+TEST(Lin_Topology_MPI, Test_Graph) {
     int size;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
@@ -21,7 +21,7 @@ TEST(Lin_Topology_MPI, test_graph) {
     ASSERT_EQ(edges, 2 * (size - 1));
 }
 
-TEST(Lin_Topology_MPI, test_graph_neighbors) {
+TEST(Lin_Topology_MPI, Test_Graph_Neighbors) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
@@ -41,7 +41,7 @@ TEST(Lin_Topology_MPI, test_graph_neighbors) {
     }
 }
 
-TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last) {
+TEST(Lin_Topology_MPI, Test_Send_Recv_From_First_To_Last) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
@@ -68,7 +68,7 @@ TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last) {
     }
 }
 
-TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last_big_size) {
+TEST(Lin_Topology_MPI, Test_Send_Recv_From_First_To_Last_Big_Size) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
@@ -95,7 +95,7 @@ TEST(Lin_Topology_MPI, test_send_recv_from_first_to_last_big_size) {
     }
 }
 
-TEST(Lin_Topology_MPI, test_send_recv_from_last_to_first) {
+TEST(Lin_Topology_MPI, Test_Send_Recv_From_Last_To_First) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
@@ -122,7 +122,7 @@ TEST(Lin_Topology_MPI, test_send_recv_from_last_to_first) {
     }
 }
 
-TEST(Lin_Topology_MPI, test_send_recv_from_last_to_first_big_size) {
+TEST(Lin_Topology_MPI, Test_Send_Recv_From_Last_To_First_Big_Size) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
