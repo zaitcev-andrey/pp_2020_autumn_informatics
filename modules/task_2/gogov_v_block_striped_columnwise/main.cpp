@@ -99,10 +99,10 @@ TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_333x444_444) {
     }
 }
 
-TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_500x501_501) {
+TEST(Parallel_Mult_Matrix_By_Vector_MPI, Size_500x500_500) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 500, cols = 501, vecSize = 501;
+    int rows = 500, cols = 500, vecSize = 500;
     Matrix matrix, transponMatrix;
     std::vector<double> vec;
     if (procRank == 0) {
