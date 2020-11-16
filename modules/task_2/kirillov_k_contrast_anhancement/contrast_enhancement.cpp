@@ -53,8 +53,8 @@ Matrix getParallelContrast(Matrix mat, int rows, int cols, double alpha, int bet
     std::vector<int>recvbuf(sendcounts[procRank]);
     MPI_Scatterv(&sendbuf[0], sendcounts, displs, MPI_INT, &recvbuf[0], sendcounts[procRank],
     MPI_INT, 0, MPI_COMM_WORLD);
-    std::vector<int>local_result(recvbuf.size()*cols);
-    for (int i = 0 ; i < recvbuf.size() ; i++) {
+    std::vector<int>local_result(cols*recvbuf.size());
+    for (int i = 0 ; i < sendcounts[procRank] ; i++) {
         for (int j =0; j < cols; j++) {
             local_result[i*cols+j] = getSequentialContrast(mat, recvbuf[i], j, alpha, beta);
         }
@@ -63,7 +63,7 @@ Matrix getParallelContrast(Matrix mat, int rows, int cols, double alpha, int bet
     int *sendcountsG = new int[procNum];
     int *displsG = new int[procNum];
     for (int i = 0; i < procNum; i++) {
-        sendcountsG[i] = recvbuf.size()*cols;
+        sendcountsG[i] = cols*recvbuf.size();
     }
     int k1 = 0;
     for (int i = 0; i < procNum; i++) {
