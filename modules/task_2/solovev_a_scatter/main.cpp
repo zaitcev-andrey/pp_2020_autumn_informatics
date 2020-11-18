@@ -111,8 +111,8 @@ TEST(MPI_Scatter, double) {
     std::vector<double> data1(12 * 2);
     std::vector<double> data2(12 * 2);
     std::vector<double> scatter;
-	std::vector<double> recv;
-	
+    std::vector<double> recv;
+
     for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
         double& i = *it;
         i = ++k;
@@ -133,7 +133,6 @@ TEST(MPI_Scatter, double) {
         ASSERT_EQ(data1, data2);
     }
 }
-
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
