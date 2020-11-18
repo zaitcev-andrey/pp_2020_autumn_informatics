@@ -26,10 +26,10 @@ int My_Scatter(void* send_data, int send_count, MPI_Datatype send_datatype, void
     MPI_Type_size(recv_datatype, &elemSizer);
 
     if (rank == root) {
-        memcpy(recv_data, reinterpret_cast<char*>(send_data) + root * send_count * elemSizer, send_count * elemSizes);
+        memcpy(recv_data, reinterpret_cast<int8_t*>(send_data) + root * send_count * elemSizer, send_count * elemSizes);
         for (int i = 0; i < size; i++) {
             if (i != root)
-                MPI_Send(reinterpret_cast<char*>(send_data) + i * send_count * elemSizes,
+                MPI_Send(reinterpret_cast<int8_t*>(send_data) + i * send_count * elemSizes,
                 send_count, send_datatype, i, 0, communicator);
         }
     } else {

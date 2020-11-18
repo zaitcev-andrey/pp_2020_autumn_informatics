@@ -17,9 +17,10 @@ TEST(MPI_Scatter, int_to_int) {
     std::vector<int> data2(20);
     std::vector<int> recv(data.size() / size);
     std::vector<int> scatter(data.size() / size);
-    for (int& i : data) {
-        i = ++k;
-    }
+    for (std::vector<int>::iterator it = data.begin(); it!= data.end(); ++it) {
+		int& i = *it;
+		i = ++k;
+	}
     My_Scatter(data.data(), data.size() / size, MPI_INT, recv.data(),
                data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
     MPI_Scatter(data.data(), data.size() / size, MPI_INT, scatter.data(),
@@ -48,9 +49,10 @@ TEST(MPI_Scatter, double_to_float) {
     std::vector<float> recv((data.size() / size) * (sizeof(double) / sizeof(float)));
     std::vector<float> scatter(recv.size());
 
-    for (double& i : data) {
-        i = ++k;
-    }
+    for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
+		double& i = *it;
+		i = ++k;
+	}
 
 
     My_Scatter(data.data(), data.size() / size, MPI_DOUBLE, recv.data(),
@@ -91,9 +93,10 @@ TEST(MPI_Scatter, char_to_int) {
     std::vector<int> recv;
     std::vector<int> scatter;
 
-    for (char& i : data) {
-        i = ++k;
-    }
+    for (std::vector<char>::iterator it = data.begin(); it!= data.end(); ++it) {
+		char& i = *it;
+		i = ++k;
+}
 
     recv.resize((data.size() / size) / 4);
     scatter.resize(recv.size());
@@ -122,9 +125,10 @@ TEST(MPI_Scatter, double_to_int) {
     std::vector<int> recv;
     std::vector<int> scatter;
 
-    for (double& i : data) {
-        i = ++k;
-    }
+    for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
+  double& i = *it;
+  i = ++k;
+}
 
     recv.resize((data.size() / size) * (sizeof(double) / sizeof(int)));
     scatter.resize(recv.size());
@@ -154,9 +158,10 @@ TEST(MPI_Scatter, int_to_char) {
     std::vector<char> recv;
     std::vector<char> scatter;
 
-    for (int& i : data) {
-        i = ++k;
-    }
+    for (std::vector<int>::iterator it = data.begin(); it!= data.end(); ++it) {
+  int& i = *it;
+  i = ++k;
+}
 
     recv.resize((data.size() / size) * (sizeof(int) / sizeof(char)));
     scatter.resize(recv.size());
