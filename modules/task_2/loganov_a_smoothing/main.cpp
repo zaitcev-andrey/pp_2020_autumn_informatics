@@ -179,7 +179,6 @@ TEST(TEST_PARALEL_MPI, TEST3) {
         globaltest[i] = new int[cols];
     }
     globaltest = ParallelSmoothing(test, cols, rows, radius);
-    bool check = true;
     if (rank == 0) {
         int** localtest;
         localtest = new int* [rows];
@@ -258,7 +257,6 @@ TEST(TEST_PARALEL_MPI, TEST4) {
         globaltest[i] = new int[cols];
     }
     globaltest = ParallelSmoothing(test, cols, rows, radius);
-    bool check = true;
     if (rank == 0) {
         int** localtest;
         localtest = new int* [rows];
@@ -327,7 +325,6 @@ TEST(TEST_PARALEL_MPI, TEST5) {
         globaltest[i] = new int[cols];
     }
     globaltest = ParallelSmoothing(test, cols, rows, radius);
-    bool check = true;
     if (rank == 0) {
         int** localtest;
         localtest = new int* [rows];
