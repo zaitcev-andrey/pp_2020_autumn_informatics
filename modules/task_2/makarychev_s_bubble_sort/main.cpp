@@ -97,13 +97,13 @@ TEST(Parallel_Operations_MPI, Test_1397) {
         ASSERT_EQ(globalVec1, globalVec2);
     }
 }
-TEST(Parallel_Operations_MPI, Test_2049) {
+TEST(Parallel_Operations_MPI, Test_1049) {
     int rank;
     double beginT, endT, timeMPI;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> globalVec1;
     std::vector<int> globalVec2;
-    const int size = 2049;
+    const int size = 1049;
     if (rank == 0) {
         globalVec1 = getRandomVector(size);
         globalVec2 = globalVec1;
