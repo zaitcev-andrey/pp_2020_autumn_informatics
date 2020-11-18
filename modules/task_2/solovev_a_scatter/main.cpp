@@ -162,7 +162,6 @@ TEST(MPI_Scatter, error_count_recv) {
 
     ASSERT_EQ(My_Scatter(data.data(), data_size, MPI_INT, recv.data(),
                -1, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_COUNT);
-
 }
 
 TEST(MPI_Scatter, error_both_count) {
