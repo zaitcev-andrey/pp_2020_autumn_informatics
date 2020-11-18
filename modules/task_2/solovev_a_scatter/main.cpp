@@ -43,11 +43,11 @@ TEST(MPI_Scatter, float) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<float> data(12);
-    std::vector<float> data1(12 * 2);
-    std::vector<float> data2(12 * 2);
-    std::vector<float> recv((data.size() / size) * (sizeof(double) / sizeof(float)));
-    std::vector<float> scatter(recv.size());
+    std::vector<float> data(20);
+    std::vector<float> data1(20);
+    std::vector<float> data2(20);
+    std::vector<float> recv(data.size() / size);
+    std::vector<float> scatter(data.size() / size);
 
     for (std::vector<float>::iterator it = data.begin(); it!= data.end(); ++it) {
         float& i = *it;
@@ -75,11 +75,11 @@ TEST(MPI_Scatter, char) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<char> data(4 * size * size);
-    std::vector<char> data1(4 * size * size / 4);
-    std::vector<char> data2(4 * size * size / 4);
-    std::vector<char> recv;
-    std::vector<char> scatter;
+    std::vector<char> data(20);
+    std::vector<char> data1(20);
+    std::vector<char> data2(20);
+    std::vector<char> recv(data.size() / size);
+    std::vector<char> scatter(data.size() / size);
 
     for (std::vector<char>::iterator it = data.begin(); it!= data.end(); ++it) {
         char& i = *it;
@@ -107,11 +107,11 @@ TEST(MPI_Scatter, double) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<double> data(12);
-    std::vector<double> data1(12 * 2);
-    std::vector<double> data2(12 * 2);
-    std::vector<double> scatter;
-    std::vector<double> recv;
+    std::vector<double> data(20);
+    std::vector<double> data1(20);
+    std::vector<double> data2(20);
+    std::vector<double> recv(data.size() / size);
+    std::vector<double> scatter(data.size() / size);
 
     for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
         double& i = *it;
