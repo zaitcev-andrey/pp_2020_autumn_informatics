@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <random>
 #include <vector>
-#include "scatter.h"
+#include "../../../modules/task_2/solovev_a_scatter/scatter.h"
 
 TEST(MPI_Scatter, int_to_int) {
     const int root = 0;
@@ -45,7 +45,7 @@ TEST(MPI_Scatter, double_to_float) {
     std::vector<double> data(12);
     std::vector<float> data1(12 * 2);
     std::vector<float> data2(12 * 2);
-    std::vector<float> recv(data.size() / size) * (sizeof(double) / sizeof(float));
+    std::vector<float> recv((data.size() / size) * (sizeof(double) / sizeof(float)));
     std::vector<float> scatter(recv.size());
 
     for (double& i : data) {

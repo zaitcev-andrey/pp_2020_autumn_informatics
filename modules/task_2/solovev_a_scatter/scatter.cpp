@@ -11,11 +11,11 @@ int My_Scatter(void* send_data, int send_count, MPI_Datatype send_datatype, void
     if (recv_count <= 0)
         return MPI_ERR_COUNT;
     if (send_count != recv_count)
-        return MPI_ERR_COUNT
+        return MPI_ERR_COUNT;
     if (root < 0)
         return MPI_ERR_ROOT;
     if (send_data == nullptr)
-        return MPI_ERR_DATA;
+        return MPI_ERR_BUFFER;
     int size, rank;
     int elemSizer, elemSizes;
 
