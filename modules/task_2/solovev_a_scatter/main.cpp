@@ -36,21 +36,21 @@ TEST(MPI_Scatter, int_to_int) {
 }
 
 
-TEST(MPI_Scatter, double_to_float) {
+TEST(MPI_Scatter, float) {
     const int root = 0;
     int rank, size;
-    double k = 1.2;
+    float k = 1.2;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<double> data(12);
+    std::vector<float> data(12);
     std::vector<float> data1(12 * 2);
     std::vector<float> data2(12 * 2);
     std::vector<float> recv((data.size() / size) * (sizeof(double) / sizeof(float)));
     std::vector<float> scatter(recv.size());
 
-    for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
-		double& i = *it;
+    for (std::vector<float>::iterator it = data.begin(); it!= data.end(); ++it) {
+		float& i = *it;
 		i = ++k;
 	}
 
@@ -76,11 +76,9 @@ TEST(MPI_Scatter, throw_when_error_count_and_root) {
     std::vector<int> recv;
     std::vector<int> scatter;
 
-    ASSERT_ANY_THROW(My_Scatter(data.data(), data.size() / 3, MPI_INT, recv.data(), data.size() / 3,
-        MPI_INT, root, MPI_COMM_WORLD));
-    ASSERT_ANY_THROW(My_Scatter(data.data(), 0, MPI_INT, recv.data(), 0, MPI_INT, 0, MPI_COMM_WORLD));
+    ASSERT_EQ(MPI_ERR_COUNT);
 }
-TEST(MPI_Scatter, char_to_int) {
+TEST(MPI_Scatter, char) {
     const int root = 0;
     int rank, size;
     char k = 'a';
@@ -88,10 +86,10 @@ TEST(MPI_Scatter, char_to_int) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     std::vector<char> data(4 * size * size);
-    std::vector<int> data1(4 * size * size / 4);
-    std::vector<int> data2(4 * size * size / 4);
-    std::vector<int> recv;
-    std::vector<int> scatter;
+    std::vector<char> data1(4 * size * size / 4);
+    std::vector<char> data2(4 * size * size / 4);
+    std::vector<char> recv;
+    std::vector<char> scatter;
 
     for (std::vector<char>::iterator it = data.begin(); it!= data.end(); ++it) {
 		char& i = *it;
@@ -112,7 +110,7 @@ TEST(MPI_Scatter, char_to_int) {
         ASSERT_EQ(data1, data2);
     }
 }
-TEST(MPI_Scatter, double_to_int) {
+TEST(MPI_Scatter, double) {
     const int root = 0;
     int rank, size;
     double k = 1.2;
@@ -120,10 +118,9 @@ TEST(MPI_Scatter, double_to_int) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     std::vector<double> data(12);
-    std::vector<int> data1(12 * 2);
-    std::vector<int> data2(12 * 2);
-    std::vector<int> recv;
-    std::vector<int> scatter;
+    std::vector<double> data1(12 * 2);
+    std::vector<double> data2(12 * 2);
+    std::vector<double> scatter;
 
     for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
   double& i = *it;
@@ -145,38 +142,7 @@ TEST(MPI_Scatter, double_to_int) {
         ASSERT_EQ(data1, data2);
     }
 }
-TEST(MPI_Scatter, int_to_char) {
-    const int root = 0;
-    int rank, size;
-    int k = 1;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> data(12);
-    std::vector<char> data1(12 * 4);
-    std::vector<char> data2(12 * 4);
-    std::vector<char> recv;
-    std::vector<char> scatter;
-
-    for (std::vector<int>::iterator it = data.begin(); it!= data.end(); ++it) {
-  int& i = *it;
-  i = ++k;
-}
-
-    recv.resize((data.size() / size) * (sizeof(int) / sizeof(char)));
-    scatter.resize(recv.size());
-
-    My_Scatter(data.data(), data.size() / size, MPI_INT, recv.data(), recv.size(), MPI_CHAR, root, MPI_COMM_WORLD);
-    MPI_Scatter(data.data(), data.size() / size, MPI_INT, scatter.data(), recv.size(), MPI_CHAR, root, MPI_COMM_WORLD);
-
-    MPI_Gather(recv.data(), recv.size(), MPI_CHAR,
-        data1.data(), recv.size(), MPI_CHAR, root, MPI_COMM_WORLD);
-    MPI_Gather(scatter.data(), scatter.size(), MPI_CHAR,
-        data2.data(), scatter.size(), MPI_CHAR, root, MPI_COMM_WORLD);
-    if (rank == 0) {
-        ASSERT_EQ(data1, data2);
-    }
-}
 
 
 int main(int argc, char** argv) {
