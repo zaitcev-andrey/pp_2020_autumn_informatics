@@ -19,6 +19,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
     int flagg = 0;
     int readercount = 0;
     int transition = 0;
+    int writing_process = 0;
     int datasize = data.size();
 
     MPI_Comm_size(MPI_COMM_WORLD, &proc_size);
@@ -57,6 +58,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
                         }
                         std::cout<<std::endl;
                         ready_recv = 1;
+                        writing_process++;
 
                     }
                     if (flagg && access == access_R) {
@@ -83,7 +85,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
                     }
                 }
 
-                if ((readercount == 0) && (transition)) {
+                if ((readercount == 0) && (transition == proc_size - writer_count) && (writing_process == (writer_count - 1))) {
                     break;
                 }
             } 
@@ -95,7 +97,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
             MPI_Send(&access, 1, MPI_INT, 0, iden_type_of_access, MPI_COMM_WORLD);
             
             MPI_Recv(&datasize, 1, MPI_INT, 0, 151, MPI_COMM_WORLD, &statusMpi);            //
-            data.resize(datasize);                                                        //
+            data.resize(datasize);                                                          //
             MPI_Recv(&data[0], datasize, MPI_INT, 0, access_W, MPI_COMM_WORLD, &statusMpi); //getting data
 
             data.push_back(proc_rank); // modificate data
