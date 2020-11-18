@@ -20,7 +20,7 @@ TEST(MPI_Scatter, int_to_int) {
     for (std::vector<int>::iterator it = data.begin(); it!= data.end(); ++it) {
         int& i = *it;
         i = ++k;
-	}
+    }
     My_Scatter(data.data(), data.size() / size, MPI_INT, recv.data(),
                data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
     MPI_Scatter(data.data(), data.size() / size, MPI_INT, scatter.data(),
@@ -52,7 +52,7 @@ TEST(MPI_Scatter, float) {
     for (std::vector<float>::iterator it = data.begin(); it!= data.end(); ++it) {
         float& i = *it;
         i = ++k;
-	}
+    }
 
 
     My_Scatter(data.data(), data.size() / size, MPI_DOUBLE, recv.data(),
@@ -94,7 +94,7 @@ TEST(MPI_Scatter, char) {
     for (std::vector<char>::iterator it = data.begin(); it!= data.end(); ++it) {
         char& i = *it;
         i = ++k;
-}
+    }
 
     recv.resize((data.size() / size) / 4);
     scatter.resize(recv.size());
@@ -125,7 +125,7 @@ TEST(MPI_Scatter, double) {
     for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
         double& i = *it;
         i = ++k;
-}
+    }
 
     recv.resize((data.size() / size) * (sizeof(double) / sizeof(int)));
     scatter.resize(recv.size());
