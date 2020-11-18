@@ -144,10 +144,9 @@ TEST(MPI_Scatter, error_count_send) {
     std::vector<int> data(20);
     int data_size = static_cast<int>(data.size());
     std::vector<char> recv(data_size / size);
-    
+
     ASSERT_EQ(My_Scatter(data.data(), -1, MPI_INT, recv.data(),
                data_size / size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_COUNT);
-    
 }
 
 TEST(MPI_Scatter, error_count_recv) {
@@ -160,10 +159,10 @@ TEST(MPI_Scatter, error_count_recv) {
     std::vector<int> data(20);
     int data_size = static_cast<int>(data.size());
     std::vector<char> recv(data_size / size);
-    
+
     ASSERT_EQ(My_Scatter(data.data(), data_size, MPI_INT, recv.data(),
                -1, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_COUNT);
-    
+
 }
 
 TEST(MPI_Scatter, error_both_count) {
@@ -177,10 +176,9 @@ TEST(MPI_Scatter, error_both_count) {
     int data_size = static_cast<int>(data.size());
     std::vector<char> recv(data_size / size);
     int recv_size = static_cast<int>(recv.size());
-    
+
     ASSERT_EQ(My_Scatter(data.data(), data_size, MPI_INT, recv.data(),
                recv_size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_COUNT);
-    
 }
 
 TEST(MPI_Scatter, error_data) {
@@ -194,10 +192,9 @@ TEST(MPI_Scatter, error_data) {
     int data_size = static_cast<int>(data.size());
     std::vector<int> recv(20);
     int recv_size = static_cast<int>(recv.size());
-    
+
     ASSERT_EQ(My_Scatter(nullptr, data_size, MPI_INT, recv.data(),
-               recv_size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_BUFFER);
-    
+               recv_size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_BUFFER);  
 }
 
 int main(int argc, char** argv) {
