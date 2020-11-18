@@ -193,7 +193,7 @@ TEST(MPI_Scatter, error_data) {
     int recv_size = static_cast<int>(recv.size());
 
     ASSERT_EQ(My_Scatter(nullptr, data_size, MPI_INT, recv.data(),
-                recv_size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_BUFFER);  
+                recv_size, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_BUFFER);
 }
 
 int main(int argc, char** argv) {
