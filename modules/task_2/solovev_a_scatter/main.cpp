@@ -20,8 +20,10 @@ TEST(MPI_Scatter, int_to_int) {
     for (int& i : data) {
         i = ++k;
     }
-    My_Scatter(data.data(), data.size() / size, MPI_INT, recv.data(), data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
-    MPI_Scatter(data.data(), data.size() / size, MPI_INT, scatter.data(), data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
+    My_Scatter(data.data(), data.size() / size, MPI_INT, recv.data(),
+	           data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
+    MPI_Scatter(data.data(), data.size() / size, MPI_INT, scatter.data(),
+           	   data.size() / size, MPI_INT, root, MPI_COMM_WORLD);
     MPI_Gather(recv.data(), recv.size(), MPI_INT,
         data1.data(), recv.size(), MPI_INT, root, MPI_COMM_WORLD);
     MPI_Gather(scatter.data(), scatter.size(), MPI_INT,
@@ -51,9 +53,10 @@ TEST(MPI_Scatter, double_to_float) {
     }
 
 
-    My_Scatter(data.data(), data.size() / size, MPI_DOUBLE, recv.data(), recv.size(), MPI_FLOAT, root, MPI_COMM_WORLD);
-    MPI_Scatter(data.data(), data.size() / size, MPI_DOUBLE, scatter.data(), recv.size(), MPI_FLOAT, root, MPI_COMM_WORLD);
-
+    My_Scatter(data.data(), data.size() / size, MPI_DOUBLE, recv.data(),
+	           recv.size(), MPI_FLOAT, root, MPI_COMM_WORLD);
+    MPI_Scatter(data.data(), data.size() / size, MPI_DOUBLE, scatter.data(),
+	            recv.size(), MPI_FLOAT, root, MPI_COMM_WORLD);
     MPI_Gather(recv.data(), recv.size(), MPI_FLOAT,
         data1.data(), recv.size(), MPI_FLOAT, root, MPI_COMM_WORLD);
     MPI_Gather(scatter.data(), scatter.size(), MPI_FLOAT,
