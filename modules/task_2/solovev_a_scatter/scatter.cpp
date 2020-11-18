@@ -1,8 +1,8 @@
 // Copyright 2020 Solovev Aleksandr
-#include "../../../modules/task_2/solovev_a_scatter/scatter.h"
+#include <mpi.h>
 #include <algorithm>
 #include <vector>
-#include <mpi.h>
+#include "../../../modules/task_2/solovev_a_scatter/scatter.h"
 
 int My_Scatter(void* send_data, int send_count, MPI_Datatype send_datatype, void* recv_data,
     int recv_count, MPI_Datatype recv_datatype, int root, MPI_Comm communicator) {
@@ -32,7 +32,7 @@ int My_Scatter(void* send_data, int send_count, MPI_Datatype send_datatype, void
                 MPI_Send(reinterpret_cast<char*>(send_data) + i * send_count * elemSizes,
                 send_count, send_datatype, i, 0, communicator);
         }
-    }else {
+    } else {
         MPI_Status status;
         MPI_Recv(recv_data, recv_count, recv_datatype, root, 0, communicator, &status);
     }
