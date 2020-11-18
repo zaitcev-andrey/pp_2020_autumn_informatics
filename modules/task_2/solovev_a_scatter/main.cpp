@@ -137,7 +137,6 @@ TEST(MPI_Scatter, char_to_char) {
 TEST(MPI_Scatter, error_count_send) {
     const int root = 0;
     int rank, size;
-    int k = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -152,7 +151,6 @@ TEST(MPI_Scatter, error_count_send) {
 TEST(MPI_Scatter, error_count_recv) {
     const int root = 0;
     int rank, size;
-    int k = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -167,7 +165,6 @@ TEST(MPI_Scatter, error_count_recv) {
 TEST(MPI_Scatter, error_both_count) {
     const int root = 0;
     int rank, size;
-    int k = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -183,7 +180,6 @@ TEST(MPI_Scatter, error_both_count) {
 TEST(MPI_Scatter, error_data) {
     const int root = 0;
     int rank, size;
-    int k = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
