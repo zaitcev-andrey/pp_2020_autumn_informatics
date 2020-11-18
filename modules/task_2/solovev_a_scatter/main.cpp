@@ -5,7 +5,7 @@
 #include <vector>
 #include "../../../modules/task_2/solovev_a_scatter/scatter.h"
 
-TEST(MPI_Scatter, int_to_int) {
+TEST(MPI_Scatter, int) {
     const int root = 0;
     int rank, size;
     int k = 0;
@@ -67,17 +67,7 @@ TEST(MPI_Scatter, float) {
         ASSERT_EQ(data1, data2);
     }
 }
-TEST(MPI_Scatter, throw_when_error_count_and_root) {
-    const int root = -1;
 
-    std::vector<int> data(1000);
-    std::vector<int> data1(1000);
-    std::vector<int> data2(1000);
-    std::vector<int> recv;
-    std::vector<int> scatter;
-
-    ASSERT_EQ(MPI_ERR_COUNT);
-}
 TEST(MPI_Scatter, char) {
     const int root = 0;
     int rank, size;
@@ -122,6 +112,7 @@ TEST(MPI_Scatter, double) {
     std::vector<double> data2(12 * 2);
     std::vector<double> scatter;
 	std::vector<double> recv;
+	
     for (std::vector<double>::iterator it = data.begin(); it!= data.end(); ++it) {
         double& i = *it;
         i = ++k;
