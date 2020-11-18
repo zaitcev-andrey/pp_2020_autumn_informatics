@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <random>
 #include <vector>
-#include "./scatter_mpi.h"
+#include "scatter.h"
 
 TEST(MPI_Scatter, int_to_int) {
     const int root = 0;
