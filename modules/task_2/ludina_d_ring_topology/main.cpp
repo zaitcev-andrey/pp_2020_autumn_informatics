@@ -16,8 +16,8 @@ TEST(Topology_Ring, Test_Send_Array) {
   MPI_Comm_rank(ringcomm, &rank);
 
   int size_ar = 5;
-  int rank_source = 1;
-  int rank_dest = 3;
+  int rank_source = 0;
+  int rank_dest = 2;
 
   int* arr = new int[size_ar] { 1, 4, 9, 3, 5 };
 
@@ -35,8 +35,8 @@ TEST(Topology_Ring, Test_Send_Source_less_Dest) {
   MPI_Comm_size(ringcomm, &size);
   MPI_Comm_rank(ringcomm, &rank);
 
-  int size_ar = 7;
-  int rank_source = 1;
+  int size_ar = 8;
+  int rank_source = 0;
   int rank_dest = size - 1;
 
   int* arr = new int[size_ar];
