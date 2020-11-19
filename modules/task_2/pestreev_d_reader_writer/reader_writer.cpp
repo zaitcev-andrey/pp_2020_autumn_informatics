@@ -41,7 +41,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
                         MPI_Send(&datasize, 1, MPI_INT,  statusMpi.MPI_SOURCE, 151, MPI_COMM_WORLD);
                         MPI_Send(&data[0], datasize, MPI_INT, statusMpi.MPI_SOURCE, access_W, MPI_COMM_WORLD);
                         std::cout <<"-------------------------------------"<< std::endl;
-                        std::cout << "Process " << statusMpi.MPI_SOURCE << " is writing" << std::endl;
+                        std::cout << "Process " << statusMpi.MPI_SOURCE << " is writing:" << std::endl;
                         MPI_Recv(&changedata, 1, MPI_INT, MPI_ANY_SOURCE, 66, MPI_COMM_WORLD, &statusMpi);
                         if (changedata) {
                             int i;
@@ -63,7 +63,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
                     if (flagg && access == access_R) {
                         readercount++;
                         std::cout <<"-------------------------------------"<< std::endl;
-                        std::cout << "Process " << statusMpi.MPI_SOURCE << " is reading" << std::endl;
+                        std::cout << "Process " << statusMpi.MPI_SOURCE << " is reading:" << std::endl;
                         std::cout << "data = " << std::endl;
                         MPI_Send(&datasize, 1, MPI_INT,  statusMpi.MPI_SOURCE, 151, MPI_COMM_WORLD);
                         for (int i = 0; i < datasize; i++) {
@@ -80,7 +80,7 @@ int reader_writer(int writer_count, std::vector<int> data) {
                     }
                     if (flagg && access == access_ReadFinish) {
                         readercount--;
-                        std::cout << "Process " << statusMpi.MPI_SOURCE << " finish reading" << std::endl;
+                        std::cout << "Process " << statusMpi.MPI_SOURCE << " finish reading:" << std::endl;
                         std::cout << "Readers count: " << readercount << std::endl;
                         ready_recv = 1;
                     }
