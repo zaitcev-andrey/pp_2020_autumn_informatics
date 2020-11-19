@@ -26,7 +26,9 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
         buffer = new float[count];
     } else if (type == MPI_DOUBLE) {
         buffer = new double[count];
-    } else return MPI_ERR_TYPE;
+    } else {
+        return MPI_ERR_TYPE;
+    }
 
     while (size > 1) {
         int newSize = size / 2;
@@ -91,8 +93,9 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
         size = newSize + deltaSize;
     }
 
-    if (rank == 0 && root != 0) MPI_Send(sendbuf, count, type, root, 0, comm);
-    else if (root != 0 && rank == root) {
+    if (rank == 0 && root != 0) {
+        MPI_Send(sendbuf, count, type, root, 0, comm);
+    } else if (root != 0 && rank == root) {
         MPI_Status status;
         MPI_Recv(recvbuf, count, type, 0, 0, comm, &status);
     } else if (root == 0 && rank == 0)

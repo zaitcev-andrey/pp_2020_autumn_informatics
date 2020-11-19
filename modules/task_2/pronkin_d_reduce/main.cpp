@@ -317,9 +317,10 @@ TEST(Parallel_Operations_MPI, IntArrMax) {
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_INT, MPI_MAX, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_INT, MPI_MAX, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         for (int i = 0; i < count; i++)
             ASSERT_EQ(recvbuf[i], example[i]);
+    }
 }
 
 TEST(Parallel_Operations_MPI, IntArrMin) {
