@@ -29,14 +29,14 @@ MPI_Comm CreateMesh(int ndims) {
 int SendData(void* buf, int count, MPI_Datatype type, int *dest, MPI_Comm test_comm) {
     int res = 0, rank = 0;
     MPI_Request request;
-    MPI_Cart_rank(test_comm, dest, &rank);  // dest - координаты места, откуда будут посланы данные
-    res = MPI_Isend(buf, count, type, rank, 0, test_comm, &request);  // отпрвить из входного buf в rank
+    MPI_Cart_rank(test_comm, dest, &rank);
+    res = MPI_Isend(buf, count, type, rank, 0, test_comm, &request);
     return res;
 }
 int RecvData(void* buf, int count, MPI_Datatype type, int *source, MPI_Comm test_comm, MPI_Status* status) {
     int res = 0, rank = 0;
-    MPI_Cart_rank(test_comm, source, &rank);  // source - координаты места, куда придут данные
-    res = MPI_Recv(buf, count, type, rank, 0, test_comm, status);  // принять из входного buf в rank
+    MPI_Cart_rank(test_comm, source, &rank);
+    res = MPI_Recv(buf, count, type, rank, 0, test_comm, status);
     return res;
 }
 void SendRecvIntData(int s_buf, int ndims, int s_rank, int f_rank, int* f_buf) {
