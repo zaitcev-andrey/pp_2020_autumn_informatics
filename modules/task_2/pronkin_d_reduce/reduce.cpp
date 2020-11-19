@@ -100,11 +100,11 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
         MPI_Recv(recvbuf, count, type, 0, 0, comm, &status);
     } else if (root == 0 && rank == 0) {
         if (type == MPI_INT) {
-            std::memcpy(recvbuf, sendbuf, count * sizeof(int));
+            memcpy(recvbuf, sendbuf, count * sizeof(int));
         } else if (type == MPI_FLOAT) {
-            std::memcpy(recvbuf, sendbuf, count * sizeof(float));
+            memcpy(recvbuf, sendbuf, count * sizeof(float));
         } else if (type == MPI_DOUBLE) {
-            std::memcpy(recvbuf, sendbuf, count * sizeof(double));
+            memcpy(recvbuf, sendbuf, count * sizeof(double));
         }
     }
 
