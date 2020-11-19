@@ -3,6 +3,9 @@
 #include <gtest/gtest.h>
 #include <gtest-mpi-listener.hpp>
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
 #include "../../../modules/task_2/pestreev_d_reader_writer/reader_writer.h"
 
 TEST(Writers_Readers_Problem, writerCountIsInvalidOne) {
@@ -25,7 +28,7 @@ TEST(Writers_Readers_Problem, writerCountIsInvalidTwo) {
     std::vector<int> data(0);
     writer_count = size;
     if (rank == 0)
-      std::cerr << "writer_count cannot be > then (size - 2)\n";
+        std::cerr << "writer_count cannot be > then (size - 2)\n";
     ASSERT_ANY_THROW(reader_writer(writer_count, data));
 }
 
@@ -37,9 +40,9 @@ TEST(Writers_Readers_Problem, writerCountEqual2) {
     writer_count = 2;
     std::vector<int> data(0);
     if (writer_count < size - 2 && writer_count > 0) {
-      ASSERT_GE(reader_writer(writer_count, data), 0);
+        ASSERT_GE(reader_writer(writer_count, data), 0);
     } else {
-      ASSERT_ANY_THROW(reader_writer(writer_count, data));
+        ASSERT_ANY_THROW(reader_writer(writer_count, data));
     }
 }
 
@@ -58,7 +61,7 @@ TEST(Writers_Readers_Problem, dataSizemod) {
       }
 
     } else {
-      ASSERT_ANY_THROW(reader_writer(writer_count, data));
+        ASSERT_ANY_THROW(reader_writer(writer_count, data));
     }
 }
 
@@ -70,9 +73,9 @@ TEST(Writers_Readers_Problem, writerCountEqualNum) {
     writer_count = size / 2;
     std::vector<int> data(0);
     if (writer_count < size - 2 && writer_count > 0) {
-      ASSERT_GE(reader_writer(writer_count, data), 0);
+        ASSERT_GE(reader_writer(writer_count, data), 0);
     } else {
-      ASSERT_ANY_THROW(reader_writer(writer_count, data));
+        ASSERT_ANY_THROW(reader_writer(writer_count, data));
     }
 }
 
