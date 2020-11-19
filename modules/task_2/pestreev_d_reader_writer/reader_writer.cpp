@@ -104,7 +104,8 @@ int reader_writer(int writer_count, std::vector<int> data) {
             MPI_Recv(&data[0], datasize, MPI_INT, 0, access_W, MPI_COMM_WORLD, &statusMpi);  // getting data
 
             data.push_back(proc_rank);  // modificate data
-            if (datasize != data.size()) {
+            int comp = data.size();
+            if (datasize != comp) {
                 changedata = 1;
             } else {
                 changedata = 0;
