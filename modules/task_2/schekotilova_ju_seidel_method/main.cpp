@@ -35,13 +35,13 @@ TEST(Test_Seidel_method, Test_parallel_version) {
   B = { 3, 7, 5, 4};
   std::vector<double> x(n);
   double timeParal = MPI_Wtime();
-  x = getParallelOperations(A, B, 4, 0.001);
+  x = getParallelOperations(A, B, 4, eps);
   timeParal = MPI_Wtime() - timeParal;
 
   if (rank == 0) {
     std::vector<double> res(n);
     res = { 0.035, 0.515, 0.31, 0.256 };
-    ASSERT_NEAR(evklid_norma(res), evklid_norma(x), 0.001);
+    ASSERT_NEAR(evklid_norma(res), evklid_norma(x), eps);
 
     printf("The time: %f seconds\n", timeParal);
   }
@@ -66,20 +66,18 @@ TEST(Test_Seidel_method, Test_compare_time) {
   B = { 110, 86, 123, 131, 90, 102, 91, 100};
   std::vector<double> x(n);
   double timeParal = MPI_Wtime();
-  x = getParallelOperations(A, B, 8, 0.001);
+  x = getParallelOperations(A, B, 8, eps);
   timeParal = MPI_Wtime() - timeParal;
 
   if (rank == 0) {
     std::vector<double> res(n);
     res = { 1.054, 1.031, 0.328, 1.074, 1.062, 0.61, 1.146, 0.531 };
-    ASSERT_NEAR(evklid_norma(res), evklid_norma(x), 0.001);
+    ASSERT_NEAR(evklid_norma(res), evklid_norma(x), eps);
     double timeSeque = MPI_Wtime();
-    xx = getSequentialOperations(A, B, 8, 0.001);
+    xx = getSequentialOperations(A, B, 8, eps);
     timeSeque = MPI_Wtime() - timeSeque;
-    ASSERT_NEAR(evklid_norma(xx), evklid_norma(res), 0.001);
-
+    ASSERT_NEAR(evklid_norma(xx), evklid_norma(res), eps);
     printf("The sequential time: %f seconds\n", timeSeque);
-
     printf("The parallel time  : %f seconds\n", timeParal);
   }
 }
