@@ -7,7 +7,7 @@
 #include <utility>
 
 std::vector<double> randomVector(int sz);
-bool сorrectMatrix(const std::vector<double>* matrix, int n);
+bool correctMatrix(const std::vector<double>* matrix, int n);
 std::pair<bool, std::vector<double>> zeidelSequential(std::vector<double>* a,
                                                       std::vector<double>* b,
                                                       size_t n, double eps);
