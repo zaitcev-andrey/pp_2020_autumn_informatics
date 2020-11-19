@@ -15,7 +15,7 @@ TEST(Transmission, SendDataInt_From1ToLast_Dims2) {
     if (size == 1) {
         ASSERT_EQ(1, 1);
     } else {
-        int s_rank = 1;
+        int s_rank = 0;
         int f_rank = size - 1;
         SendRecvIntData(s_buf, ndims, s_rank, f_rank, f_buf);
         if (rank == f_rank) {
@@ -58,7 +58,7 @@ TEST(Transmission, SendDataPacked_FromLastTo1_Dims2) {
         ASSERT_EQ(1, 1);
     } else {
         bool was = true;
-        int f_rank = 1;
+        int f_rank = 0;
         int s_rank = size - 1;
         SendRecvPackedData(int_data, doub_data, doub_data1, ndims, s_rank, f_rank, was);
         if (rank == f_rank)
@@ -76,7 +76,7 @@ TEST(Transmission, SendDataDouble_From1ToLast_Dims3) {
     if (size == 1) {
         ASSERT_EQ(1, 1);
     } else {
-        int s_rank = 1;
+        int s_rank = 0;
         int f_rank = size - 1;
         SendRecvDoubleData(s_buf, ndims, s_rank, f_rank, f_buf);
         if (rank == f_rank) {
