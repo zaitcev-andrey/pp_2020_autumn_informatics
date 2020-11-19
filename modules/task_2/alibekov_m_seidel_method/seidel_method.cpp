@@ -37,7 +37,7 @@ double d(const std::vector<double>& x, const std::vector<double>& y) {
 
 double parallel_dot_product(const std::vector<double>& x, const std::vector<double>& y) {
     int proc_count, proc_rank, n = x.size();
-    if (n == 0) return 0;
+    if (x.empty()) return 0;
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Comm_size(MPI_COMM_WORLD, &proc_count);
     MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
