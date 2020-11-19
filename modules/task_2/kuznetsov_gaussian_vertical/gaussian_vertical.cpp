@@ -18,7 +18,7 @@ std::vector<double> getMatrix(int x) {
 }
 
 std::vector<double> sequentialMethod(std::vector<double> mat, int x) {
-  if (mat.size() != (x + 1) * x || x <= 0)
+  if (static_cast<int>(mat.size()) != (x + 1) * x || x <= 0)
     throw - 1;
   for (int i = 0; i < x; i++) {
     double tmp = mat[i * (x + 1) + i];
@@ -41,7 +41,7 @@ std::vector<double> sequentialMethod(std::vector<double> mat, int x) {
 }
 
 std::vector<double> parallelMethod(std::vector<double> mat, int x) {
-  if (mat.size() != (x + 1) * x || x <= 0)
+  if (static_cast<int>(mat.size()) != (x + 1) * x || x <= 0)
     throw - 1;
   int size, rank;
   const int y = x + 1;
