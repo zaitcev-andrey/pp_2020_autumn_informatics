@@ -32,8 +32,7 @@ void Reduce(
                 MPI_Send(where_to_send_from, how_much, datatype, (rank - 1) * step, 19, comm);
                 rank *= num;
                 break;
-            }
-            else {
+            } else {
                 if (rank != (num - 1)) {
                     MPI_Recv(where_to_send_to, how_much, datatype, (rank + 1) * step, 19, comm, &status);
                     op(where_to_send_to, where_to_send_from, how_much);

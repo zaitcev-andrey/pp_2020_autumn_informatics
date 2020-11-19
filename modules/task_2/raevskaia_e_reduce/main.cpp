@@ -73,14 +73,12 @@ int Work(int size, std::vector<int> matrix, int choice) {
     if (rank == 0) {
         if (size <= 0) {
             error = 1;
-        }
-        else {
+        } else {
             error = 0;
         }
         for (int proc = 1; proc < p_size; ++proc)
             MPI_Send(&error, 1, MPI_INT, proc, 5, MPI_COMM_WORLD);
-    }
-    else {
+    } else {
         MPI_Recv(&error, 1, MPI_INT, 0, 5, MPI_COMM_WORLD, &status);
     }
     switch (error) {
@@ -100,27 +98,26 @@ int Work(int size, std::vector<int> matrix, int choice) {
     if (rank == 0) {
         recieved.resize(calculate_part + dop);
         recieved = std::vector<int>(matrix.begin(), matrix.begin() + calculate_part + dop);
-    }
-    else if (calculate_part != 0) {
+    } else if (calculate_part != 0) {
         MPI_Recv(&recieved[0], calculate_part, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
     int part_sum = SumOfMatrixElementsPartly(recieved);
     if (calculate_part != 0) {
         switch (choice) {
         case 0:
-            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);  // Сумма
+            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
             break;
         case 1:
             Reduce(&part_sum, &sum_res, 1, MPI_INT, (func)test_add, 0, MPI_COMM_WORLD);
             break;
         case 2:
-            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_PROD, 0, MPI_COMM_WORLD);  // Произведение
+            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_PROD, 0, MPI_COMM_WORLD);
             break;
         case 3:
             Reduce(&part_sum, &sum_res, 1, MPI_INT, (func)test_multiplication, 0, MPI_COMM_WORLD);
             break;
         case 4:
-            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_BAND, 0, MPI_COMM_WORLD);  // Побитовая операция И
+            MPI_Reduce(&part_sum, &sum_res, 1, MPI_INT, MPI_BAND, 0, MPI_COMM_WORLD);
             break;
         case 5:
             Reduce(&part_sum, &sum_res, 1, MPI_INT, (func)test_i, 0, MPI_COMM_WORLD);
@@ -128,8 +125,7 @@ int Work(int size, std::vector<int> matrix, int choice) {
         default:
             break;
         }
-    }
-    else {
+    } else {
         sum_res = part_sum;
     }
 
