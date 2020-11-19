@@ -103,8 +103,9 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
             std::memcpy(recvbuf, sendbuf, count * sizeof(int));
         } else if (type == MPI_FLOAT) {
             std::memcpy(recvbuf, sendbuf, count * sizeof(float));
-        } else if (type == MPI_DOUBLE)
+        } else if (type == MPI_DOUBLE) {
             std::memcpy(recvbuf, sendbuf, count * sizeof(double));
+        }
     }
 
     if (type == MPI_INT)
