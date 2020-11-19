@@ -10,7 +10,6 @@
 
 TEST(Writers_Readers_Problem, writerCountIsInvalidOne) {
     int size, writer_count, rank;
-    int datasize = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> data(0);
@@ -22,7 +21,6 @@ TEST(Writers_Readers_Problem, writerCountIsInvalidOne) {
 
 TEST(Writers_Readers_Problem, writerCountIsInvalidTwo) {
     int size, writer_count, rank;
-    int datasize = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> data(0);
@@ -34,7 +32,6 @@ TEST(Writers_Readers_Problem, writerCountIsInvalidTwo) {
 
 TEST(Writers_Readers_Problem, writerCountEqual2) {
     int size, writer_count, rank;
-    int datasize = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     writer_count = 2;
@@ -48,7 +45,6 @@ TEST(Writers_Readers_Problem, writerCountEqual2) {
 
 TEST(Writers_Readers_Problem, dataSizemod) {
     int size, writer_count, rank;
-    int datasize = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     writer_count = 10;
@@ -66,7 +62,6 @@ TEST(Writers_Readers_Problem, dataSizemod) {
 }
 
 TEST(Writers_Readers_Problem, writerCountEqualNum) {
-    int datasize = 0;
     int size, writer_count, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
