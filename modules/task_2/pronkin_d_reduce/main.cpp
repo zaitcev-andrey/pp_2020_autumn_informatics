@@ -311,7 +311,7 @@ TEST(Parallel_Operations_MPI, IntArrMax) {
     int* recvbuf = new int[count];
     int* example = new int[count];
     const int root = gen() % size;
-    
+
     for (int i = 0; i < count; i++)
         sendbuf[i] = gen() % 100;
 
@@ -335,15 +335,16 @@ TEST(Parallel_Operations_MPI, IntArrMin) {
     int* recvbuf = new int[count];
     int* example = new int[count];
     const int root = gen() % size;
-    
+
     for (int i = 0; i < count; i++)
         sendbuf[i] = gen() % 100;
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_INT, MPI_MIN, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_INT, MPI_MIN, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         for (int i = 0; i < count; i++)
             ASSERT_EQ(recvbuf[i], example[i]);
+    }
 }
 
 TEST(Parallel_Operations_MPI, FloatArrSum) {
@@ -359,15 +360,16 @@ TEST(Parallel_Operations_MPI, FloatArrSum) {
     float* recvbuf = new float[count];
     float* example = new float[count];
     const int root = gen() % size;
-    
+
     for (int i = 0; i < count; i++)
         sendbuf[i] = gen() / 100.0f;
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_FLOAT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_FLOAT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         for (int i = 0; i < count; i++)
             ASSERT_NEAR(recvbuf[i], example[i], EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, DoubleArrSum) {
@@ -383,15 +385,16 @@ TEST(Parallel_Operations_MPI, DoubleArrSum) {
     double* recvbuf = new double[count];
     double* example = new double[count];
     const int root = gen() % size;
-    
+
     for (int i = 0; i < count; i++)
         sendbuf[i] = gen() / 100.0f;
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_DOUBLE, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_DOUBLE, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         for (int i = 0; i < count; i++)
             ASSERT_NEAR(recvbuf[i], example[i], EPSILON);
+    }
 }
 
 

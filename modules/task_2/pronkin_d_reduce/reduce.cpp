@@ -26,8 +26,7 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
         buffer = new float[count];
     } else if (type == MPI_DOUBLE) {
         buffer = new double[count];
-    } else
-        return MPI_ERR_TYPE;
+    } else return MPI_ERR_TYPE;
 
     while (size > 1) {
         int newSize = size / 2;
@@ -47,7 +46,7 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
                         if (static_cast<int*>(sendbuf)[i] > static_cast<int*>(buffer)[i])
                             static_cast<int*>(sendbuf)[i] = static_cast<int*>(buffer)[i];
                 } else if (op == MPI_SUM) {
-                    for (int i = 0; i < count; i++) 
+                    for (int i = 0; i < count; i++)
                         static_cast<int*>(sendbuf)[i] += static_cast<int*>(buffer)[i];
                 } else if (op == MPI_PROD) {
                     for (int i = 0; i < count; i++)
@@ -92,17 +91,16 @@ int Reduce(void *sendbuf, void *recvbuf, int count, MPI_Datatype type, MPI_Op op
         size = newSize + deltaSize;
     }
 
-    if (rank == 0 && root != 0)
-        MPI_Send(sendbuf, count, type, root, 0, comm);
+    if (rank == 0 && root != 0) MPI_Send(sendbuf, count, type, root, 0, comm);
     else if (root != 0 && rank == root) {
         MPI_Status status;
         MPI_Recv(recvbuf, count, type, 0, 0, comm, &status);
     } else if (root == 0 && rank == 0)
         if (type == MPI_INT)
             std::memcpy(recvbuf, sendbuf, count * sizeof(int));
-        else if (type == MPI_FLOAT) 
+        else if (type == MPI_FLOAT)
             std::memcpy(recvbuf, sendbuf, count * sizeof(float));
-        else if (type == MPI_DOUBLE) 
+        else if (type == MPI_DOUBLE)
             std::memcpy(recvbuf, sendbuf, count * sizeof(double));
 
     if (type == MPI_INT)
