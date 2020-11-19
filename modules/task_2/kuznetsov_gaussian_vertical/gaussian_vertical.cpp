@@ -10,8 +10,8 @@ std::vector<double> getMatrix(int x) {
     throw - 1;
   std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
-  std::vector<double> matrix(x * x);
-  for (int i = 0; i < x * x; i++) {
+  std::vector<double> matrix(x * (x + 1));
+  for (int i = 0; i < x * (x + 1); i++) {
     matrix[i] = (gen() % 5) + 1;
   }
   return matrix;
@@ -49,7 +49,6 @@ std::vector<double> parallelMethod(std::vector<double> mat, int x) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   const int del = y / size;
   const int remain = y % size;
-
   std::vector<double> vec;
   if (rank < remain)
     vec.resize((del + 1) * x);
@@ -68,8 +67,8 @@ std::vector<double> parallelMethod(std::vector<double> mat, int x) {
       }
     }
   } else {
-    MPI_Status stat;
-    MPI_Recv(vec.data(), vec.size(), MPI_DOUBLE, 0, 1, MPI_COMM_WORLD, &stat);
+    MPI_Status status;
+    MPI_Recv(vec.data(), vec.size(), MPI_DOUBLE, 0, 1, MPI_COMM_WORLD, &status);
   }
   std::vector<double> tmp_y(x);
   for (int row = 0; row < x; ++row) {
@@ -105,5 +104,6 @@ std::vector<double> parallelMethod(std::vector<double> mat, int x) {
     MPI_Status status;
     MPI_Recv(vec.data(), x, MPI_DOUBLE, (y - 1) % size, 0, MPI_COMM_WORLD, &status);
   }
+  MPI_Barrier(MPI_COMM_WORLD);
   return vec;
 }
