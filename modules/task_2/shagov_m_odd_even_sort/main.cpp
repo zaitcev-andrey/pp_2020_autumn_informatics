@@ -21,9 +21,9 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_10) {
 
     if (rank == 0) {
         double startT = MPI_Wtime();
-        std::sort(global_array_2.begin(), global_array_2.end());
+        bubbleSort(global_array_2.data(), global_array_2.size());
         double endT = MPI_Wtime();
-        std::cout << "std::sort time: " << endT - startT << std::endl;
+        std::cout << "bubbleSort time: " << endT - startT << std::endl;
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }
@@ -44,9 +44,9 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_30) {
 
     if (rank == 0) {
         double startT = MPI_Wtime();
-        std::sort(global_array_2.begin(), global_array_2.end());
+        bubbleSort(global_array_2.data(), global_array_2.size());
         double endT = MPI_Wtime();
-        std::cout << "std::sort time: " << endT - startT << std::endl;
+        std::cout << "bubbleSort time: " << endT - startT << std::endl;
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }
@@ -67,9 +67,9 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1000) {
 
     if (rank == 0) {
         double startT = MPI_Wtime();
-        std::sort(global_array_2.begin(), global_array_2.end());
+        bubbleSort(global_array_2.data(), global_array_2.size());
         double endT = MPI_Wtime();
-        std::cout << "std::sort time: " << endT - startT << std::endl;
+        std::cout << "bubbleSort time: " << endT - startT << std::endl;
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }
@@ -90,9 +90,9 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_113) {
 
     if (rank == 0) {
         double startT = MPI_Wtime();
-        std::sort(global_array_2.begin(), global_array_2.end());
+        bubbleSort(global_array_2.data(), global_array_2.size());
         double endT = MPI_Wtime();
-        std::cout << "std::sort time: " << endT - startT << std::endl;
+        std::cout << "bubbleSort time: " << endT - startT << std::endl;
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }
@@ -100,7 +100,7 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_113) {
 TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1235) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 1235;
+    const int count_size_string = 1234;
     std::vector<int> global_array_1(count_size_string);
     std::vector<int> global_array_2(count_size_string);
 
@@ -113,9 +113,9 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_1235) {
 
     if (rank == 0) {
         double startT = MPI_Wtime();
-        std::sort(global_array_2.begin(), global_array_2.end());
+        bubbleSort(global_array_2.data(), global_array_2.size());
         double endT = MPI_Wtime();
-        std::cout << "std::sort time: " << endT - startT << std::endl;
+        std::cout << "bubbleSort time: " << endT - startT << std::endl;
         ASSERT_EQ(global_array_1, global_array_2);
     }
 }

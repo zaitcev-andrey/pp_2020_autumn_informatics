@@ -18,6 +18,18 @@ std::vector<int> createRandomVector(int  sz) {
     return result;
 }
 
+void bubbleSort(int *arr, int arr_size) {
+     for (int i = 0; i < arr_size - 1; i++) {
+        for (int j = 0; j < arr_size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
 void blockMergeArrays(int *arr1, int *arr2, int size1, int size2) {
     int i1 = 0, i2 = 0, k = 0;
     std::vector<int> result(size1 + size2);
@@ -81,7 +93,7 @@ void oddEvenParallelSort(int* arr, int arr_size) {
         }
         MPI_Scatterv(arr, revcount, displs, MPI_INT, &part_vector[0], revcount[rank], MPI_INT, 0, MPI_COMM_WORLD);
     }
-    std::sort(part_vector.begin(), part_vector.end());
+    bubbleSort(part_vector.data(), part_vector.size());
     int m = 0;
     std::vector<int> sub;
     if (procCount <= elements_count) {
