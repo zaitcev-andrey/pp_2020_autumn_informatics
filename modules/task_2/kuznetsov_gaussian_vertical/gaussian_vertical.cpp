@@ -67,8 +67,7 @@ std::vector<double> parallelMethod(std::vector<double> mat, int x) {
         MPI_Send(vec.data(), index, MPI_DOUBLE, process, 1, MPI_COMM_WORLD);
       }
     }
-  }
-  else {
+  } else {
     MPI_Status stat;
     MPI_Recv(vec.data(), vec.size(), MPI_DOUBLE, 0, 1, MPI_COMM_WORLD, &stat);
   }
@@ -91,8 +90,7 @@ std::vector<double> parallelMethod(std::vector<double> mat, int x) {
       for (int k = 0; k < x; ++k) {
         if (k == row) {
           vec[j * x + k] /= tmp_y[row];
-        }
-        else {
+        } else {
           vec[j * x + k] -= tmp * tmp_y[k] / tmp_y[row];
         }
       }
