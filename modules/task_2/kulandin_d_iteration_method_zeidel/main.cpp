@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <numeric>
+#include <cmath>
 #include "./zeidel.h"
 
 const double EPS = 1e-8;
@@ -148,7 +149,7 @@ TEST(Parallel_MPI, Test_3) {
     }
 }
 
-TEST(Parallel_MPI, Test_5) {
+TEST(Parallel_MPI, Test_4) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
@@ -194,7 +195,7 @@ TEST(Parallel_MPI, Test_5) {
     }
 }
 
-TEST(Parallel_MPI, Test_4) {
+TEST(Parallel_MPI, Test_5) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
