@@ -61,8 +61,9 @@ TEST(Transmission, SendDataPacked_FromLastTo1_Dims2) {
         int f_rank = 0;
         int s_rank = size - 1;
         SendRecvPackedData(int_data, doub_data, doub_data1, ndims, s_rank, f_rank, was);
-        if (rank == f_rank)
+        if (rank == f_rank) {
             ASSERT_EQ(was, true);
+        }
     }
 }
 TEST(Transmission, SendDataDouble_From1ToLast_Dims3) {
