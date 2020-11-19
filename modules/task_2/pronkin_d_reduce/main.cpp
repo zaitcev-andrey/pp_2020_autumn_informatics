@@ -50,7 +50,7 @@ TEST(Parallel_Operations_MPI, MPI_Err_Comm) {
     const int count = 1;
     MPI_Comm comm = MPI_COMM_NULL;
 
-    ASSERT_EQ(Reduce(sendbuf, recvbuf, 1, MPI_INT, MPI_MAX, 0, comm), MPI_ERR_COMM);
+    ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_INT, MPI_MAX, 0, comm), MPI_ERR_COMM);
 }
 
 TEST(Parallel_Operations_MPI, MPI_Err_Type) {
