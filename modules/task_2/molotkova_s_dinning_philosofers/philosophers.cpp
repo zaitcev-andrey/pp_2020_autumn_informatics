@@ -2,7 +2,6 @@
 #include <mpi.h>
 #include <stdio.h>
 #include <time.h>
-#include <Windows.h>
 #include <vector>
 #include <random>
 #include <ctime>
