@@ -6,7 +6,7 @@
 #include <numeric>
 #include <iostream>
 #include <algorithm>
-#include "../../../../modules/task_1/loganov_a_max_element_matrix/matrix_sum_stolb.h"
+#include "../../../../modules/task_1/loganov_a_max_element_matrix/matrix_sumtolb.h"
 
 std::vector<int> getSequentialMaxStolb(std::vector<int>matrixvec, int cols, int rows) {
     std::vector<int> result(cols);
