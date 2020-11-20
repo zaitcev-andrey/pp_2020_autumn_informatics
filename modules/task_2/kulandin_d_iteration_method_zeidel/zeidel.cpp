@@ -10,8 +10,6 @@
 #include <utility>
 #include "../../../modules/task_2/kulandin_d_iteration_method_zeidel/zeidel.h"
 
-const double EPS = 1e-8;
-
 std::vector<double> randomVectorA(const size_t sz) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
