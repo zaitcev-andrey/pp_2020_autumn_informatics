@@ -6,14 +6,11 @@
 #include <vector>
 #include <utility>
 
-std::vector<double> randomVector(int sz);
-bool correctMatrix(const std::vector<double>* matrix, int n);
-std::pair<bool, std::vector<double>> zeidelSequential(std::vector<double>* a,
-                                                      std::vector<double>* b,
-                                                      size_t n, double eps);
-std::pair<bool, std::vector<double>> zeidelParallel(std::vector<double>* a,
-                                                    std::vector<double>* b,
-                                                    size_t n, double eps);
-void makeBeautifulMatrix(std::vector<double>* a, std::vector<double>* b, size_t n);
+std::vector<double> randomVectorA(const size_t sz);
+std::vector<double> randomVectorB(const size_t sz);
+std::pair<bool, std::vector<double> > zeidelSequential(const std::vector<double>& a, const std::vector<double>& b,
+                                                       size_t n, double eps);
+std::pair<bool, std::vector<double> > zeidelParallel(const std::vector<double>& a, const std::vector<double>& b,
+                                                     size_t n, double eps);
 
 #endif  // MODULES_TASK_2_KULANDIN_D_ITERATION_METHOD_ZEIDEL_ZEIDEL_H_
