@@ -4,53 +4,46 @@
 #include <array>
 #include "./Dinning_philosophers.h"
 
-TEST(MPI_Philosofers, Test_ph_10) {
+TEST(MPI_Philosofers, Test_ph_1) {
     int myRank, ProcSize;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 10;
+    int time = 1;
     ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
 }
 
-TEST(MPI_Philosofers, Test_ph_15) {
+TEST(MPI_Philosofers, Test_ph_2) {
     int myRank, ProcSize;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 15;
+    int time = 2;
     ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
 }
 
-TEST(MPI_Philosofers, Test_ph_20) {
+TEST(MPI_Philosofers, Test_ph_3) {
     int myRank, ProcSize;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 20;
+    int time = 3;
     ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
 }
 
-TEST(MPI_Philosofers, Test_ph_30) {
+TEST(MPI_Philosofers, Test_ph_4) {
     int myRank, ProcSize;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 30;
+    int time = 4;
     ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
 }
 
-TEST(MPI_Philosofers, Test_ph_16) {
+TEST(MPI_Philosofers, Test_ph_5) {
     int myRank, ProcSize;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 16;
+    int time = 5;
     ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
 }
 
-TEST(MPI_Philosofers, Test_ph_11) {
-    int myRank, ProcSize;
-    MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
-    MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-    int time = 11;
-    ASSERT_NO_THROW(diningPhilosofers(myRank, ProcSize, time));
-}
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     srand(time(NULL));
