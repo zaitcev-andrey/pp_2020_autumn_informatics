@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Paranicheva Alyona
+// Copyright 2020 Paranicheva Alyona
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
@@ -19,8 +19,7 @@ TEST(Parallel_Lab2_MPI, Test_int) {
         mybuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
     MPI_Gather(vec.data(), num, MPI_INT,
         rbuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
-    if (rank == root)
-    {
+    if (rank == root) {
         ASSERT_EQ(mybuf, rbuf);
     }
 }
@@ -38,8 +37,7 @@ TEST(Parallel_Lab2_MPI, Test_double) {
         mybuf.data(), num, MPI_DOUBLE, root, MPI_COMM_WORLD);
     MPI_Gather(vec.data(), num, MPI_DOUBLE,
         rbuf.data(), num, MPI_DOUBLE, root, MPI_COMM_WORLD);
-    if (rank == root)
-    {
+    if (rank == root) {
         ASSERT_EQ(mybuf, rbuf);
     }
 }
@@ -56,13 +54,12 @@ TEST(Parallel_Lab2_MPI, Test_int_and_time) {
     double mytimes = MPI_Wtime();
     Gather(vec.data(), num, MPI_INT,
         mybuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
-    double mytimef= MPI_Wtime();
+    double mytimef = MPI_Wtime();
     double times = MPI_Wtime();
     MPI_Gather(vec.data(), num, MPI_INT,
         rbuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
     double timef = MPI_Wtime();
-    if (rank == root)
-    {
+    if (rank == root) {
         ASSERT_EQ(mybuf, rbuf);
     }
     if (rank == root) {
@@ -79,8 +76,7 @@ TEST(Parallel_Operations_MPI, Test_er_root) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     std::vector<int> vec = getRandomArrInt(num, rank);
     std::vector<int> mybuf(size * num);
-    if (rank == root)
-    {
+    if (rank == root) {
         ASSERT_EQ(Gather(vec.data(), num, MPI_INT,
             mybuf.data(), num, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_ROOT);
     }
@@ -94,15 +90,13 @@ TEST(Parallel_Operations_MPI, Test_er_count) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     std::vector<int> vec = getRandomArrInt(num, rank);
     std::vector<int> mybuf(size * num);
-    if (rank == root)
-    {
+    if (rank == root) {
         ASSERT_EQ(Gather(vec.data(), 2, MPI_INT,
             mybuf.data(), 5, MPI_INT, root, MPI_COMM_WORLD), MPI_ERR_COUNT);
     }
 }
 
-int main(int argc, char* argv[])
-{ 
+int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
