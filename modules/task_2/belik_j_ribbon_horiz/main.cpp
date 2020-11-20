@@ -11,8 +11,8 @@ TEST(Parallel_Operations_MPI, 6x6) {
     int ProcNum, ProcRank;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-    int rows = 3000;
-    int cols = 3000;
+    int rows = 6;
+    int cols = 6;
     std::vector<double> matrix;
     std::vector<double> tmp_vec;
     if (ProcRank == 0) {
