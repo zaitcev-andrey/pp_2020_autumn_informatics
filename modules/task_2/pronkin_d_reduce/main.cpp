@@ -4,9 +4,10 @@
 #include <vector>
 #include <random>
 #include <ctime>
+#include <iostream>
 #include "./reduce.h"
 
-#define EPSILON 0.000001
+#define EPSILON 0.0001
 
 TEST(Parallel_Operations_MPI, MPI_Err_Buffer) {
     int rank;
@@ -375,7 +376,7 @@ TEST(Parallel_Operations_MPI, FloatArrSum) {
     const int root = gen() % size;
 
     for (int i = 0; i < count; i++)
-        sendbuf[i] = gen() / 100.0f;
+        sendbuf[i] = (gen() % 10) / 1.0f;
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_FLOAT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_FLOAT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
@@ -385,7 +386,7 @@ TEST(Parallel_Operations_MPI, FloatArrSum) {
     }
 }
 
-TEST(Parallel_Operations_MPI, DoubleArrSum) {
+TEST(Parallel_Operations_MPI, DoubleArrProd) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
 
@@ -400,7 +401,7 @@ TEST(Parallel_Operations_MPI, DoubleArrSum) {
     const int root = gen() % size;
 
     for (int i = 0; i < count; i++)
-        sendbuf[i] = gen() / 100.0f;
+        sendbuf[i] = (gen() % 10) / 1.0;
 
     ASSERT_EQ(MPI_Reduce(sendbuf, example, count, MPI_DOUBLE, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
     ASSERT_EQ(Reduce(sendbuf, recvbuf, count, MPI_DOUBLE, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
