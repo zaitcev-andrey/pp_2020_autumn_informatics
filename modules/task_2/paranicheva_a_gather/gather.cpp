@@ -47,7 +47,7 @@ int Gather(void *sbuf, int scount, MPI_Datatype stype,
     if (rcount <= 0)
         return MPI_ERR_COUNT;
     if (rank == root) {
-        memcpy(reinterpret_cast<char*>(rbuf) + rcount * rtype_size * root, 
+        memcpy(reinterpret_cast<char*>(rbuf) + rcount * rtype_size * root,
             sbuf, scount* stype_size);
         for (int i = 0; i < size; i++) {
             if (i != root) {
