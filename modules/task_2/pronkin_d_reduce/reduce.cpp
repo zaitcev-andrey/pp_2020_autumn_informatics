@@ -1,6 +1,6 @@
 // Copyright 2020 Pronkin Dmitry
 #include <mpi.h>
-#include <memory>
+#include <cstring>
 #include <iostream>
 #include "../../../modules/task_2/pronkin_d_reduce/reduce.h"
 

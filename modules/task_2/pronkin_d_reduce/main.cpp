@@ -79,8 +79,9 @@ TEST(Parallel_Operations_MPI, IntMax) {
     const int max = size;
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_INT, MPI_MAX, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_EQ(recvbuf, max);
+    }
 }
 
 TEST(Parallel_Operations_MPI, IntMin) {
@@ -98,8 +99,9 @@ TEST(Parallel_Operations_MPI, IntMin) {
     const int min = 1;
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_INT, MPI_MIN, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_EQ(recvbuf, min);
+    }
 }
 
 TEST(Parallel_Operations_MPI, IntSum) {
@@ -117,8 +119,9 @@ TEST(Parallel_Operations_MPI, IntSum) {
     const int sum = ((1 + size) * size) / 2;
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_EQ(recvbuf, sum);
+    }
 }
 
 TEST(Parallel_Operations_MPI, IntProd) {
@@ -138,8 +141,9 @@ TEST(Parallel_Operations_MPI, IntProd) {
         prod *= i;
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_INT, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_EQ(recvbuf, prod);
+    }
 }
 
 TEST(Parallel_Operations_MPI, FloatMax) {
@@ -157,8 +161,9 @@ TEST(Parallel_Operations_MPI, FloatMax) {
     const float max = static_cast<float>(size);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_FLOAT, MPI_MAX, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, max, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, FloatMin) {
@@ -176,8 +181,9 @@ TEST(Parallel_Operations_MPI, FloatMin) {
     const float min = static_cast<float>(1);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_FLOAT, MPI_MIN, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, min, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, FloatSum) {
@@ -195,8 +201,9 @@ TEST(Parallel_Operations_MPI, FloatSum) {
     const float sum = static_cast<float>(((1 + size) * size) / 2);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_FLOAT, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, sum, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, FloatProd) {
@@ -216,8 +223,9 @@ TEST(Parallel_Operations_MPI, FloatProd) {
         prod *= static_cast<float>(i);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_FLOAT, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, prod, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, DoubleMax) {
@@ -235,8 +243,9 @@ TEST(Parallel_Operations_MPI, DoubleMax) {
     const double max = static_cast<double>(size);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_DOUBLE, MPI_MAX, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, max, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, DoubleMin) {
@@ -254,8 +263,9 @@ TEST(Parallel_Operations_MPI, DoubleMin) {
     const double min = static_cast<double>(1);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_DOUBLE, MPI_MIN, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, min, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, DoubleSum) {
@@ -273,8 +283,9 @@ TEST(Parallel_Operations_MPI, DoubleSum) {
     const double sum = static_cast<double>(((1 + size) * size) / 2);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_DOUBLE, MPI_SUM, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, sum, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, DoubleProd) {
@@ -294,8 +305,9 @@ TEST(Parallel_Operations_MPI, DoubleProd) {
         prod *= static_cast<double>(i);
 
     ASSERT_EQ(Reduce(sendbuf, &recvbuf, count, MPI_DOUBLE, MPI_PROD, root, MPI_COMM_WORLD), MPI_SUCCESS);
-    if (rank == root)
+    if (rank == root) {
         ASSERT_NEAR(recvbuf, prod, EPSILON);
+    }
 }
 
 TEST(Parallel_Operations_MPI, IntArrMax) {
