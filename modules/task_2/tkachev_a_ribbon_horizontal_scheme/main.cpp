@@ -40,9 +40,9 @@ TEST(Ribbon_horizontal_scheme, MatrixTest_101_503) {
     }
 }
 
-TEST(Ribbon_horizontal_scheme, MatrixTest_10_21) {
+TEST(Ribbon_horizontal_scheme, MatrixTest_11_21) {
     int process_rank;
-    int matrix_count_rows = 10, matrix_count_columns = 21;
+    int matrix_count_rows = 11, matrix_count_columns = 21;
     std::vector<int> test_matrix(matrix_count_rows * matrix_count_columns);
 
     std::vector<int> the_test_vector(matrix_count_columns);
