@@ -17,7 +17,7 @@ TEST(TEST_PARALEL_MPI, TEST1) {
     std::vector<int> matrvec(size, 0);
     std::vector<int> result(cols, 0);
     std::vector<int> result2(cols, 0);
-    matrvec = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+    matrvec = { 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
     result = { 4, 8, 12, 16 };
     result2 = getParallelMaxElements(matrvec, cols, rows);
     if (rank == 0) {
