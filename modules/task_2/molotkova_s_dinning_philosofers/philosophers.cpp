@@ -12,7 +12,6 @@
 #define ATE 4
 
 void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
-
     MPI_Status msg;
     bool taken = false;
     int in_buffer, out_buffer;
@@ -34,8 +33,7 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
                 fork[philosopher % (ProcSize - 1)] = taken;
                 fork[philosopher - 1] = taken;
                 MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_ANSW, MPI_COMM_WORLD);
-            }
-            else {
+            } else {
                 ph_queue.push_back(philosopher);
             }
         }
@@ -58,8 +56,7 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
     }
 }
 
-bool check_hunger(int ProcSize, bool* dinner, int& out_buffer) {
-
+bool check_hunger(int ProcSize, bool* dinner, int &out_buffer) {
     int check_hunger = 0;
     bool fed_ph = true;
     for (int i = 0; i < ProcSize; i++) {
@@ -75,8 +72,7 @@ bool check_hunger(int ProcSize, bool* dinner, int& out_buffer) {
     return false;
 }
 
-void philosofers(/*int *in_buffer, int *out_buffer,MPI_Status msg */) {
-
+void philosofers() {
     MPI_Status msg;
     bool check = false;
     int in_buffer, out_buffer;
@@ -92,7 +88,6 @@ void philosofers(/*int *in_buffer, int *out_buffer,MPI_Status msg */) {
 }
 
 void diningPhilosofers(int myRank, int ProcSize) {
-
     if (ProcSize != 1) {
         int check_hunger = 0;
 
@@ -107,8 +102,7 @@ void diningPhilosofers(int myRank, int ProcSize) {
         bool* fork = new bool[ProcSize - 1];
         if (myRank == 0) {
             table(dinner, fork, ProcSize, ph_queue);
-        }
-        else {
+        } else {
             philosofers();
         }
     }
