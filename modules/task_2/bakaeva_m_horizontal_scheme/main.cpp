@@ -21,7 +21,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix3x4) {
     if (rank == 0) {
         double* resLinear = new double[rows];
         getSequentialGauss(matrix, resLinear, rows);
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             ASSERT_NEAR(resLinear[i], resParallel[i], 0.00001);
         }
         
@@ -50,7 +50,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix4x5) {
     if (rank == 0) {
         double* resLinear = new double[rows];
         getSequentialGauss(matrix, resLinear, rows);
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             ASSERT_NEAR(resLinear[i], resParallel[i], 0.00001);
         }
         delete[] resLinear;
@@ -76,7 +76,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix2x3) {
     if (rank == 0) {
         double* resLinear = new double[rows];
         getSequentialGauss(matrix, resLinear, rows);
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             ASSERT_NEAR(resLinear[i], resParallel[i], 0.00001);
         }
         delete[] resLinear;
@@ -105,7 +105,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix5x6) {
     if (rank == 0) {
         double* resLinear = new double[rows];
         getSequentialGauss(matrix, resLinear, rows);
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             ASSERT_NEAR(resLinear[i], resParallel[i], 0.00001);
         }
         delete[] resLinear;
@@ -136,7 +136,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix6x7) {
     if (rank == 0) {
         double* resLinear = new double[rows];
         getSequentialGauss(matrix, resLinear, rows);
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             ASSERT_NEAR(resLinear[i], resParallel[i], 0.00001);
         }
         delete[] resLinear;
@@ -146,7 +146,7 @@ TEST(GaussHorizontalScheme, testWorkWithMatrix6x7) {
     delete[] resParallel;
 }
 
-int main(int argc, char** argv){    
+int main(int argc, char** argv) {    
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
