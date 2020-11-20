@@ -1,7 +1,6 @@
 // Copyright 2020 Bakaeva Maria
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include <mpi.h>
 #include "./gauss_horizontal_scheme.h"
 
 TEST(GaussHorizontalScheme, testWorkWithMatrix3x4) {

@@ -1,9 +1,9 @@
 // Copyright 2020 Bakaeva Maria
 #include <mpi.h>
+#include <stddef.h>
+#include <math.h>
 #include <ctime>
 #include <random>
-#include <stddef.h>
-#include "math.h"
 #include "./gauss_horizontal_scheme.h"
 
 static int offset = 0;
@@ -24,7 +24,7 @@ void getSequentialGauss(const double* matrixGlobal, double* result, int size) {
         pivotPos[i] = 0;
     }
     
-    int iter; //  Номер текущей итерации прямого хода
+    int iter;  // Номер текущей итерации прямого хода
     
     for (iter = 0; iter < size; iter++) {
         // Ищем ведущую строку
@@ -45,7 +45,7 @@ void getSequentialGauss(const double* matrixGlobal, double* result, int size) {
         for (int i = 0; i < size; i++) {
             if (pivotIter[i] == -1) {
                 pivotFactor = matrix[i * (size + 1) + iter] / pivotValue;
-                for(int j = iter; j < size; j++){
+                for (int j = iter; j < size; j++) {
                     matrix[i * (size + 1) + j] -= pivotFactor * matrix[pivotRow * (size + 1) + j];
                 }
                 
