@@ -86,10 +86,10 @@ void philosofers(int time_) {
     bool check = false;
     int in_buffer, out_buffer;
     while (check != true) {
-        std::this_thread::sleep_for(std::chrono::seconds(time_));//sleeps for x seconds 
+        std::this_thread::sleep_for(std::chrono::seconds(time_));
         MPI_Send(&out_buffer, 1, MPI_INT, 0, FORK_REQUEST, MPI_COMM_WORLD);
         MPI_Recv(&in_buffer, 1, MPI_INT, 0, FORK_GET, MPI_COMM_WORLD, &msg);
-        std::this_thread::sleep_for(std::chrono::seconds(time_));//sleeps for x seconds 
+        std::this_thread::sleep_for(std::chrono::seconds(time_));
         MPI_Send(&out_buffer, 1, MPI_INT, 0, FORK_SEND, MPI_COMM_WORLD);
         MPI_Recv(&in_buffer, 1, MPI_INT, 0, ATE, MPI_COMM_WORLD, &msg);
         if (msg.MPI_TAG == ATE) {
