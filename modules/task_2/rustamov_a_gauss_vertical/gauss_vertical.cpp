@@ -261,6 +261,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         }
         MPI_Bcast(result.data(), rows, MPI_DOUBLE, root, MPI_COMM_WORLD);
     }
+    MPI_Barrier(MPI_COMM_WORLD);
     delete[] was_pivot;
     MPI_Type_free(&Column);
     return result;
