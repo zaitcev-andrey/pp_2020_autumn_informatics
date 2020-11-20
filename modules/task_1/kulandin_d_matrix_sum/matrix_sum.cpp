@@ -25,10 +25,10 @@ int64_t getParallelSum(const std::vector<int> &a, int n) {
     const int rem = n % size;
     if (rank == 0) {
         for (int j = 1; j < size; ++j) {
-            MPI_Send(&a[0] + rem + j * delta, delta, MPI_INT, j, 0, MPI_COMM_WORLD);
+            MPI_Send(a.data() + rem + j * delta, delta, MPI_INT, j, 0, MPI_COMM_WORLD);
         }
     }
-    std::vector<int> local(rem + delta, 0);
+    std::vector<int> local(rank == 0 ? rem + delta : delta, 0);
     if (rank == 0) {
         local = std::vector<int>(a.begin(), a.begin() + delta + rem);
     } else {
