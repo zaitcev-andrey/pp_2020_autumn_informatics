@@ -2,7 +2,6 @@
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include <random>
 #include "../../../modules/task_2/taktaev_a_hypercube/hypercube.h"
 
 TEST(Hypercube_MPI, Test_Wrong_Arg_In_getDimsCount) {
@@ -32,10 +31,8 @@ TEST(Hypercube_MPI, Test_Data_Transfer) {
     }
     int dim_count = getDimsCount(proc_num);
     MPI_Comm hypercube = createHypercubeTopology(dim_count);
-    std::random_device rand_d;
-    std::mt19937 gen(rand_d());
-    int dest = 0;  //static_cast<int>(gen() % proc_num);
-    int source = 3;  //static_cast<int>(gen() % proc_num);
+    int dest = 0;
+    int source = 3;
     int send_data = 11, receive_data = 12;
 
     if (dest == source) {
