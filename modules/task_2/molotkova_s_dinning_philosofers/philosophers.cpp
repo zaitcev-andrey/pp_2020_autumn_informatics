@@ -1,11 +1,11 @@
 // Copyright 2020 Molotkova Svetlana
 #include <mpi.h>
-#include <stdio.h> 
-#include <time.h> 
-#include <Windows.h> 
-#include <vector> 
-#include <random> 
-#include <ctime> 
+#include <stdio.h>
+#include <time.h>
+#include <Windows.h>
+#include <vector>
+#include <random>
+#include <ctime>
 #include <numeric>
 #include <list>
 #include "../../../modules/task_2/molotkova_s_dinning_philosofers/Dinning_philosophers.h"
