@@ -99,15 +99,7 @@ void philosofers(int time_) {
 
 void diningPhilosofers(int myRank, int ProcSize, int time) {
     if (ProcSize != 1) {
-        int check_hunger = 0;
-
-        bool taken = false;
-        bool free = true;
-        bool hungry_ph = false;
-        bool fed_ph = true;
         std::list<int> ph_queue;
-
-        bool check = false;
         bool* dinner = new bool[ProcSize - 1];
         bool* fork = new bool[ProcSize - 1];
         if (myRank == 0) {
