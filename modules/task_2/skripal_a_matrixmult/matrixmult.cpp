@@ -18,7 +18,6 @@ std::vector<double> transposition(std::vector<double> B, int size) {
 
 std::vector<double> sequentialMatrixMult(std::vector<double> A, std::vector<double> B, int size) {
     std::vector<double> C(size*size);
-
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             for (int k = 0; k < size; k++) {
