@@ -20,7 +20,7 @@ bool CompareTwoVectors(const std::vector<double>& vec1,
   const std::vector<double>& vec2, const int& size, double eps) {
   bool answer = false;
   for (int i = 0; i < size; i++) {
-    if (abs(vec1[i] - vec2[i]) < eps) {
+    if (std::abs(vec1[i] - vec2[i]) < eps) {
       answer = true;
     } else {
       answer = false;
