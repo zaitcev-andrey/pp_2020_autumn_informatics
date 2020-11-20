@@ -5,11 +5,11 @@
 #include "../../../modules/task_2/taktaev_a_hypercube/hypercube.h"
 
 TEST(Hypercube_MPI, Test_Wrong_Arg_In_getDimsCount) {
-    ASSERT_ANY_THROW(getDimsCount(0));
+    ASSERT_EQ(getDimsCount(0), -1);
 }
 
 TEST(Hypercube_MPI, Test_procNum_Is_Not_Pow_Of_Two) {
-    ASSERT_ANY_THROW(getDimsCount(15));
+    ASSERT_EQ(getDimsCount(15), -2);
 }
 
 TEST(Hypercube_MPI, Test_Correct_getDimsCount) {
@@ -30,6 +30,10 @@ TEST(Hypercube_MPI, Test_Data_Transfer) {
         return;
     }
     int dim_count = getDimsCount(proc_num);
+    if (dim_count == -2) {
+        ASSERT_EQ(1, 1);
+        return;
+    }
     MPI_Comm hypercube = createHypercubeTopology(dim_count);
     int dest = 0 % proc_num;
     int source = 3 % proc_num;

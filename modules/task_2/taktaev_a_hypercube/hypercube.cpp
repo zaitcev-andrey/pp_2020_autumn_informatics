@@ -2,11 +2,11 @@
 #include "../../../modules/task_2/taktaev_a_hypercube/hypercube.h"
 
 int getDimsCount(int proc_num) {
-    if (proc_num <= 0) throw "proc_num <= 0";
+    if (proc_num <= 0) return -1;
     int dim_count = 0;
 
     while (proc_num > 1) {
-        if (proc_num % 2 == 1) throw "proc_num must be 2^n";
+        if (proc_num % 2 == 1) return -2;
         proc_num = proc_num / 2;
         dim_count++;
     }
