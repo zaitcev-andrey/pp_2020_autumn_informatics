@@ -1,6 +1,7 @@
 // Copyright 2020 Paranicheva Alyona
 #include <mpi.h>
 #include <ctime>
+#include <cstring>
 #include <algorithm>
 #include <random>
 #include <iostream>
@@ -47,7 +48,7 @@ int Gather(void *sbuf, int scount, MPI_Datatype stype,
     if (rcount <= 0)
         return MPI_ERR_COUNT;
     if (rank == root) {
-        memcpy(reinterpret_cast<char*>(rbuf) + rcount * rtype_size * root,
+        std::memcpy(reinterpret_cast<char*>(rbuf) + rcount * rtype_size * root,
             sbuf, scount* stype_size);
         for (int i = 0; i < size; i++) {
             if (i != root) {
