@@ -17,23 +17,6 @@ TEST(Gauss_Vertical, Incorrect_sizes) {
     }
     ASSERT_ANY_THROW(ParallelGauss(matrix, rows, cols, vec, vecSize));
 }
-TEST(Gauss_Vertical, 10x10x10) {
-    int procRank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 10, cols = 10, vecSize = 10;
-    Matrix matrix;
-    Matrix vec;
-    Matrix res1, res2;
-    if (procRank == 0) {
-        matrix = RandomMatrix(rows, cols);
-        vec = RandomMatrix(vecSize, 1);
-    }
-    res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
-    if (procRank == 0) {
-        Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
-        ASSERT_EQ(res1, res2);
-    }
-}
 TEST(Gauss_Vertical, 5x5x5) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
