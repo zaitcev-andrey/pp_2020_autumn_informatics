@@ -6,7 +6,6 @@
 #include <ctime>
 #include <random>
 
-static int offset = 0;
 
 void getSequentialGauss(const double* matrixGlobal, double* result, int size) {
     double* matrix = new double[size * size + size];
