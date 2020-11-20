@@ -82,7 +82,7 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
     }
     // Обратный ход
     for (int n = rows - 1; n >= 0 ; n--) {
-        d = double(0);
+        d = 0.0;
         for (int k = n + 1; k < rows; k++) {
             d += result[pivot_order[k]] *
                 temp_matrix[pivot_order[n] * cols + k];
@@ -137,8 +137,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
 
     delete[] bloclens;
     delete[] offsets;
-    if (remain > 0)
-    {
+    if (remain > 0) {
         int *bloclens = new int[rows * delta];
         int *offsets = new int[rows * delta];
         offsets[0] = 0;
@@ -157,7 +156,6 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         delete[] bloclens;
         delete[] offsets;
     }
-    
     for (int col = 0; col < cols; col++) {
             col_in_process[col] = col % procNum;
         }
@@ -216,7 +214,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         MPI_Bcast(coefs.data(), rows, MPI_DOUBLE, new_root, MPI_COMM_WORLD);
         MPI_Bcast(pivot_order.data() + current_col, 1, MPI_INT, new_root, MPI_COMM_WORLD);
         // Вычесть ведущую строку из остальных
-        for (int local_row = 0; local_row < delta + remain_for_proc; local_row++) {    
+        for (int local_row = 0; local_row < delta + remain_for_proc; local_row++) {
             for (int local_col = 0; local_col < rows; local_col++) {
                 if (!was_pivot[local_col]) {
                     local_matrix[local_row* (delta + remain_for_proc) + local_col] -=
@@ -227,10 +225,10 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         }
         // Повторить для вектора b
         if (procRank == 0) {
-            for (int row = 0; row < rows; row++) {   
+            for (int row = 0; row < rows; row++) {
                 if (!was_pivot[row]) {
                     temp_vector[row] -= temp_vector[pivot_order[current_col]] * coefs[row];
-                }  
+                }
             }
         }
     }
@@ -246,9 +244,9 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     double d;
     int root = 0;
     for (int n = rows - 1; n >= 0 ; n--) {
-        if(n / delta == procRank) {
+        if (n / delta == procRank) {
             root = procRank;
-            d = double(0);
+            d = 0.0;
             for (int k = n + 1; k < rows; k++) {
                 d += result[pivot_order[k]] *
                     local_matrix[pivot_order[n] * rows + k];
