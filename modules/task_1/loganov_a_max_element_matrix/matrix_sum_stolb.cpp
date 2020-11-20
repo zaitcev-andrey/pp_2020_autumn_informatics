@@ -60,7 +60,7 @@ std::vector<int> getParallelMaxElements(const std::vector<int>& a, int cols, int
         }
     } else {
         MPI_Status status;
-        MPI_Recv(&deltapoc[0], delta * rows, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(deltapoc.data(), delta * rows, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
         for (int i = 0; i < delta; i++) {
             for (int j = rows * i; j < rows * i + rows; j++) {
                 local[j - i * rows] = deltapoc[j];
