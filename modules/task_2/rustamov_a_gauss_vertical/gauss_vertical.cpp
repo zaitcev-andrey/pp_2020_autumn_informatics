@@ -165,7 +165,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         for (int proc = 1; proc < procNum; proc++) {
             // MPI_Send(matrix.data() + proc_long, 1, ColumnRibbonLong, proc_long, 0, MPI_COMM_WORLD);
             for (int col_count = 0; col_count < delta + (proc < remain ? 1 : 0); col_count++) {
-                MPI_Send(matrix.data() + proc + procNum * col_count, 1, Column, proc, 0, MPI_COMM_WORLD)
+                MPI_Send(matrix.data() + proc + procNum * col_count, 1, Column, proc, 0, MPI_COMM_WORLD);
             }
         }
         // local_matrix для procRank == 0
