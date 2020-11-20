@@ -34,8 +34,8 @@ TEST(Hypercube_MPI, Test_Data_Transfer) {
     MPI_Comm hypercube = createHypercubeTopology(dim_count);
     std::random_device rand_d;
     std::mt19937 gen(rand_d());
-    int dest = 0;//static_cast<int>(gen() % proc_num);
-    int source = 3;//static_cast<int>(gen() % proc_num);
+    int dest = 0;  //static_cast<int>(gen() % proc_num);
+    int source = 3;  //static_cast<int>(gen() % proc_num);
     int send_data = 11, receive_data = 12;
 
     if (dest == source) {
@@ -47,7 +47,7 @@ TEST(Hypercube_MPI, Test_Data_Transfer) {
     if (proc_rank == dest) {
         MPI_Status status;
         MPI_Recv(&receive_data, 1, MPI_INT, source, 0, hypercube, &status);
-        ASSERT_EQ(send_data, receive_data); 
+        ASSERT_EQ(send_data, receive_data);
     }
 }
 
