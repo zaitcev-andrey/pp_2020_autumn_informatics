@@ -78,5 +78,5 @@ Matrix getParallelContrast(Matrix mat, int rows, int cols, double alpha, int bet
             result_Mat[i][j] = global_result[i*cols+j];
         }
     }
-return result_Mat;
+    return result_Mat;
 }
