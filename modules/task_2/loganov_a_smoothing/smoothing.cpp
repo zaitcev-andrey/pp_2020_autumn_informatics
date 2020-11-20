@@ -9,8 +9,8 @@
 #include <iostream>
 #include <algorithm>
 #include <functional>
-void arrdel(int** arr, int rows) {
-    for (int i = 0; i < rows; i++) {
+void arrdel(int** arr, int rows1) {
+    for (int i = 0; i < rows1; i++) {
         delete[] arr[i];
     }
     delete[] arr;
