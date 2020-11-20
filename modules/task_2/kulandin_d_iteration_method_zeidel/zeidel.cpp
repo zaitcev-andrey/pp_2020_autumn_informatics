@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cassert>
 #include <ctime>
+#include <cmath>
 #include <random>
 #include <numeric>
 #include <iostream>

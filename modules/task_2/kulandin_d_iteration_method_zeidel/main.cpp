@@ -1,8 +1,9 @@
 // Copyright 2020 Kulandin Denis
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include <vector>
+#include <cmath>
 #include <numeric>
+#include <vector>
 #include "./zeidel.h"
 
 const double EPS = 1e-8;
