@@ -5,6 +5,19 @@
 #include <vector>
 #include "./gauss_vertical.h"
 
+TEST(GAUSSIAN_STRIP_VERTICAL_SCHEME, SUCCESSFULL_PARALLEL_METHOD) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  const int size = 3;
+  std::vector<double> mat = { 4, 2, -1, 1, 5, 3, -2, 2, 3 };
+  std::vector<double> vec = { 2, -3, 0 };
+  std::vector<double> result = ParallelGauss(mat, 3, 3, vec, 3);
+  if (rank == 0) {
+    std::vector<double> exRes = { -1, 3, 1 };
+    ASSERT_EQ(result, exRes);
+  }
+}
+
 TEST(Gauss_Vertical, Incorrect_sizes) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
