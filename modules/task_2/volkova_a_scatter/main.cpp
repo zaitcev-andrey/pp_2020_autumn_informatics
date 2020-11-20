@@ -24,7 +24,7 @@ TEST(MY_SCATTER, INT_ERROR_COMM) {
         }
     }
     if (rank == ROOT) {
-        EXPECT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_NULL), MPI_ERR_COMM);
+        EXPECT_EQ(MY_Scatter(a.data(), k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_NULL), MPI_ERR_COMM);
     }
 }
 
@@ -45,7 +45,7 @@ TEST(MY_SCATTER, INT_ERROR_COUNT) {
         }
     }
     if (rank == ROOT) {
-        EXPECT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], 10, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_ERR_COUNT);
+        EXPECT_EQ(MY_Scatter(a.data(), k, MPI_INT, &b1[0], 10, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_ERR_COUNT);
     }
 }
 
@@ -66,7 +66,7 @@ TEST(MY_SCATTER, DOUBLE_ERROR_RANK) {
         }
     }
     if (rank == ROOT) {
-        EXPECT_EQ(MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, -1, MPI_COMM_WORLD), MPI_ERR_ROOT);
+        EXPECT_EQ(MY_Scatter(a.data(), k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, -1, MPI_COMM_WORLD), MPI_ERR_ROOT);
     }
 }
 
@@ -79,7 +79,7 @@ TEST(MY_SCATTER, INT_ERROR_BUFFER) {
     std::vector<int> a;
     int b1[61];
     if (rank == ROOT) {
-        EXPECT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_ERR_BUFFER);
+        EXPECT_EQ(MY_Scatter(a.data(), k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_ERR_BUFFER);
     }
 }
 
@@ -102,11 +102,11 @@ TEST(MY_SCATTER, INT) {
     }
 
     double myScatterStart = MPI_Wtime();
-    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
+    ASSERT_EQ(MY_Scatter(a.data(), k, MPI_INT, &b1[0], k, MPI_INT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
-    MPI_Scatter(&a[0], k, MPI_INT, &b2[0], k, MPI_INT, ROOT, MPI_COMM_WORLD);
+    MPI_Scatter(a.data(), k, MPI_INT, &b2[0], k, MPI_INT, ROOT, MPI_COMM_WORLD);
     double mpiScatterEnd = MPI_Wtime();
 
     if (rank == ROOT) {
@@ -143,11 +143,11 @@ TEST(MY_SCATTER, DOUBLE1) {
     }
 
     double myScatterStart = MPI_Wtime();
-    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
+    ASSERT_EQ(MY_Scatter(a.data(), k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
-    MPI_Scatter(&a[0], k, MPI_DOUBLE, &b2[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Scatter(a.data(), k, MPI_DOUBLE, &b2[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     double mpiScatterEnd = MPI_Wtime();
 
     if (rank == ROOT) {
@@ -184,11 +184,11 @@ TEST(MY_SCATTER, DOUBLE2) {
     }
 
     double myScatterStart = MPI_Wtime();
-    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
+    ASSERT_EQ(MY_Scatter(a.data(), k, MPI_DOUBLE, &b1[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
-    MPI_Scatter(&a[0], k, MPI_DOUBLE, &b2[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Scatter(a.data(), k, MPI_DOUBLE, &b2[0], k, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     double mpiScatterEnd = MPI_Wtime();
 
     if (rank == ROOT) {
@@ -225,11 +225,11 @@ TEST(MY_SCATTER, FLOAT) {
     }
 
     double myScatterStart = MPI_Wtime();
-    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
+    ASSERT_EQ(MY_Scatter(a.data(), k, MPI_FLOAT, &b1[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
-    MPI_Scatter(&a[0], k, MPI_FLOAT, &b2[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD);
+    MPI_Scatter(a.data(), k, MPI_FLOAT, &b2[0], k, MPI_FLOAT, ROOT, MPI_COMM_WORLD);
     double mpiScatterEnd = MPI_Wtime();
 
     if (rank == ROOT) {
@@ -268,11 +268,11 @@ TEST(MY_SCATTER, CHAR) {
     }
 
     double myScatterStart = MPI_Wtime();
-    ASSERT_EQ(MY_Scatter(&a[0], k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
+    ASSERT_EQ(MY_Scatter(a.data(), k, MPI_CHAR, &b1[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD), MPI_SUCCESS);
     double myScatterEnd = MPI_Wtime();
 
     double mpiScatterStart = MPI_Wtime();
-    MPI_Scatter(&a[0], k, MPI_CHAR, &b2[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD);
+    MPI_Scatter(a.data(), k, MPI_CHAR, &b2[0], k, MPI_CHAR, ROOT, MPI_COMM_WORLD);
     double mpiScatterEnd = MPI_Wtime();
 
     if (rank == ROOT) {
