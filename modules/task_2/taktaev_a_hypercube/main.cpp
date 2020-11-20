@@ -31,8 +31,8 @@ TEST(Hypercube_MPI, Test_Data_Transfer) {
     }
     int dim_count = getDimsCount(proc_num);
     MPI_Comm hypercube = createHypercubeTopology(dim_count);
-    int dest = 0;
-    int source = 3;
+    int dest = 0 % proc_num;
+    int source = 3 % proc_num;
     int send_data = 11, receive_data = 12;
 
     if (dest == source) {
