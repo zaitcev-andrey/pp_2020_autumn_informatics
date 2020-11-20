@@ -3,11 +3,16 @@
 #include <stdio.h>
 #include <numeric>
 #include <list>
+#include <time.h>
+#include <Windows.h>
+#include <ctime>
+#include <vector>
+#include <random>
 #include "../../../modules/task_2/molotkova_s_dinning_philosofers/Dinning_philosophers.h"
 
 
 #define FORK_REQUEST 1
-#define FORK_ANSW 2
+#define FORK_GET 2
 #define FORK_SEND 3
 #define ATE 4
 
@@ -32,8 +37,9 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
             if (fork[philosopher % (ProcSize - 1)] == free && fork[philosopher - 1] == free) {
                 fork[philosopher % (ProcSize - 1)] = taken;
                 fork[philosopher - 1] = taken;
-                MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_ANSW, MPI_COMM_WORLD);
-            } else {
+                MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_GET, MPI_COMM_WORLD);
+            }
+            else {
                 ph_queue.push_back(philosopher);
             }
         }
@@ -47,7 +53,7 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
                 if (fork[philosopher % (ProcSize - 1)] == free && fork[philosopher - 1] == free) {
                     fork[philosopher % (ProcSize - 1)] = taken;
                     fork[philosopher - 1] = taken;
-                    MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_ANSW, MPI_COMM_WORLD);
+                    MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_GET, MPI_COMM_WORLD);
                     ph_queue.remove(philosopher);
                 }
             }
@@ -56,7 +62,7 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
     }
 }
 
-bool check_hunger(int ProcSize, bool* dinner, int &out_buffer) {
+bool check_hunger(int ProcSize, bool* dinner, int out_buffer) {
     int check_hunger = 0;
     bool fed_ph = true;
     for (int i = 0; i < ProcSize; i++) {
@@ -72,13 +78,17 @@ bool check_hunger(int ProcSize, bool* dinner, int &out_buffer) {
     return false;
 }
 
-void philosofers() {
+void philosofers(int time_) {
     MPI_Status msg;
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     bool check = false;
     int in_buffer, out_buffer;
     while (check != true) {
+        Sleep(static_cast<int>((gen() % time_)));
         MPI_Send(&out_buffer, 1, MPI_INT, 0, FORK_REQUEST, MPI_COMM_WORLD);
         MPI_Recv(&in_buffer, 1, MPI_INT, 0, FORK_GET, MPI_COMM_WORLD, &msg);
+        Sleep(static_cast<int>((gen() % time_)));
         MPI_Send(&out_buffer, 1, MPI_INT, 0, FORK_SEND, MPI_COMM_WORLD);
         MPI_Recv(&in_buffer, 1, MPI_INT, 0, ATE, MPI_COMM_WORLD, &msg);
         if (msg.MPI_TAG == ATE) {
@@ -87,7 +97,7 @@ void philosofers() {
     }
 }
 
-void diningPhilosofers(int myRank, int ProcSize) {
+void diningPhilosofers(int myRank, int ProcSize, int time) {
     if (ProcSize != 1) {
         int check_hunger = 0;
 
@@ -102,9 +112,9 @@ void diningPhilosofers(int myRank, int ProcSize) {
         bool* fork = new bool[ProcSize - 1];
         if (myRank == 0) {
             table(dinner, fork, ProcSize, ph_queue);
-        } else {
-            philosofers();
+        }
+        else {
+            philosofers(time);
         }
     }
-
 }
