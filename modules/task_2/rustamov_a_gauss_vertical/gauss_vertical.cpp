@@ -1,10 +1,9 @@
 // Copyright 2020 Rustamov Azer
-//#include <mpi.h>
+#include <mpi.h>
 #include <iostream>
 #include <vector>
 #include <random>
 #include <cmath>
-#include <math.h>
 #include <iomanip>
 #include "../../../modules/task_2/rustamov_a_gauss_vertical/gauss_vertical.h"
 
@@ -48,28 +47,27 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
                 max_i = i;
             }
         }
-        if (max == 0.0)
-        {
+        if (max == 0.0) {
             throw("Singular matrix");
         }
         was_pivot[max_i] = true;
         pivot_order[current_col] = max_i;
         // Подсчитать коэффиценты
         for (int k = 0; k < rows; k++) {
-            coefs[k] = double(0);
+            coefs[k] = 0.0;
             if (!was_pivot[k]) {
-                coefs[k] = double(temp_matrix[k * cols + current_col]) /
-                            double(temp_matrix[max_i * cols + current_col]);
+                coefs[k] = temp_matrix[k * cols + current_col] /
+                            temp_matrix[max_i * cols + current_col]);
             }
         }
         // Вычесть ведущую строку из остальных
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 if (!was_pivot[row]) {
-                    temp_matrix[row * cols + col] -= double(temp_matrix[max_i * cols + col]) *
-                        double(coefs[row]);
+                    temp_matrix[row * cols + col] -= temp_matrix[max_i * cols + col] *
+                        coefs[row];
                     // Повторить для вектора b
-                    temp_vector[row] -= double(temp_vector[max_i]) * double(coefs[row]);
+                    temp_vector[row] -= temp_vector[max_i]) * coefs[row];
                 }
             }
         }
@@ -85,20 +83,16 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
     // Обратный ход
     for (int n = rows - 1; n >= 0 ; n--) {
         d = double(0);
-        for (int k = n + 1; k < rows; k++)
-        {
+        for (int k = n + 1; k < rows; k++) {
             d += result[pivot_order[k]] *
                 temp_matrix[pivot_order[n] * cols + k];
         }
         result[pivot_order[n]] = (temp_vector[pivot_order[n]] - d) /
             temp_matrix[pivot_order[n] * cols + n];
     }
-    if (result[pivot_order[rows - 1]] == 0.0)
-    {
+    if (result[pivot_order[rows - 1]] == 0.0) {
         throw("Singular matrix");
     }
-    
-
     return result;
 }
 
@@ -164,19 +158,19 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         delete[] offsets;
     }
     
-    for(int col = 0; col < cols; col++) {
+    for (int col = 0; col < cols; col++) {
             col_in_process[col] = col % procNum;
         }
     col_in_process[cols] = (col_in_process[cols - 1] + 1) % procNum;
     // Передача данных и прием данных
-    if(procRank == 0) {
+    if (procRank == 0) {
         for (int proc_long = 1; proc_long < remain; proc_long++) {
             MPI_Send(matrix.data() + proc_long, 1, ColumnRibbonLong, proc_long, 0, MPI_COMM_WORLD);
         }
         for (int proc_short = (remain == 0 ? 1 : remain); proc_short < procNum; proc_short++) {
             MPI_Send(matrix.data() + proc_short, 1, ColumnRibbonShort, proc_short, 0, MPI_COMM_WORLD);
         }
-        // local_matrix для procRank == 0        
+        // local_matrix для procRank == 0
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 local_matrix[row * (delta + remain_for_proc) + col / delta] = matrix[row * cols + col];
@@ -185,7 +179,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         // Создать временный вектор b
         Matrix temp_vector(rows);
         temp_vector = vec;
-    } else { // Прием данных (local_matrix транспонирована)
+    } else {
         MPI_Status status;
         MPI_Recv(local_matrix.data(), (delta + remain_for_proc) * rows, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &status);
     }
@@ -203,18 +197,17 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
                     max_i = local_col;
                 }
             }
-            if (max == 0.0)
-            {
+            if (max == 0.0) {
                 throw("Singular matrix")
             }
-            was_pivot[max_i] = true; 
+            was_pivot[max_i] = true;
             pivot_order[current_col] = max_i;
             // Подсчитать коэффиценты
             for (int k = 0; k < rows; k++) {
-                coefs[k] = double(0);
+                coefs[k] = 0.0;
                 if (!was_pivot[k]) {
-                    coefs[k] = double(local_matrix[(current_col / delta) * rows + k]) /
-                                double(local_matrix[(current_col / delta) * rows + max]);
+                    coefs[k] = local_matrix[(current_col / delta) * rows + k] /
+                                local_matrix[(current_col / delta) * rows + max];
                 }
             }
         }
@@ -227,17 +220,16 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
             for (int local_col = 0; local_col < rows; local_col++) {
                 if (!was_pivot[local_col]) {
                     local_matrix[local_row* (delta + remain_for_proc) + local_col] -=
-                    double(coefs[local_col]) *
-                    double(local_matrix[local_row * (delta + remain_for_proc) + pivot_order[current_col]]);
+                    coefs[local_col] *
+                    local_matrix[local_row * (delta + remain_for_proc) + pivot_order[current_col]];
                 }
             }
-            
         }
         // Повторить для вектора b
         if (procRank == 0) {
             for (int row = 0; row < rows; row++) {   
                 if (!was_pivot[row]) {
-                    temp_vector[row] -= double(temp_vector[pivot_order[current_col]]) * double(coefs[row]);
+                    temp_vector[row] -= temp_vector[pivot_order[current_col]] * coefs[row];
                 }  
             }
         }
@@ -257,21 +249,18 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         if(n / delta == procRank) {
             root = procRank;
             d = double(0);
-            for (int k = n + 1; k < rows; k++)
-            {
+            for (int k = n + 1; k < rows; k++) {
                 d += result[pivot_order[k]] *
                     local_matrix[pivot_order[n] * rows + k];
             }
             result[pivot_order[n]] = (temp_vector[pivot_order[n]] - d) /
                 temp_matrix[(n / delta) * rows + pivot_order[n]];
-            if (result[pivot_order[rows - 1]] == 0.0)
-            {
+            if (result[pivot_order[rows - 1]] == 0.0) {
                 throw("Singular matrix");
             }
         }
         MPI_Bcast(result.data(), rows, MPI_DOUBLE, root, MPI_COMM_WORLD);
     }
-    
     delete[] was_pivot;
     MPI_Type_free(&ColumnRibbonShort);
     MPI_Type_free(&ColumnRibbonLong);
