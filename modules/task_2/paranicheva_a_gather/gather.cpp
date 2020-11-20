@@ -6,6 +6,7 @@
 #include <random>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "../../../modules/task_2/paranicheva_a_gather/gather.h"
 
 std::vector<int> getRandomArrInt(int number, int s) {
