@@ -145,7 +145,7 @@ std::vector<int> parallelMultiplyOnVector(std::vector<int> matrix, std::vector<i
                 MPI_INT, 0, 0, COMM_USEFUL_PROCESSES, &recv_status);
         }
 
-        MPI_Bcast(the_vector.data(), matrix_count_columns,
+        MPI_Bcast(the_vector.data(), the_vector.size(),
             MPI_INT, 0, COMM_USEFUL_PROCESSES);
 
         std::vector<int> result_vector(data_size[process_rank] / matrix_count_columns, 0);
