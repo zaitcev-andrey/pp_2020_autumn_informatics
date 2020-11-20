@@ -57,7 +57,7 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
             coefs[k] = 0.0;
             if (!was_pivot[k]) {
                 coefs[k] = temp_matrix[k * cols + current_col] /
-                            temp_matrix[max_i * cols + current_col]);
+                            temp_matrix[max_i * cols + current_col];
             }
         }
         // Вычесть ведущую строку из остальных
@@ -67,7 +67,7 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
                     temp_matrix[row * cols + col] -= temp_matrix[max_i * cols + col] *
                         coefs[row];
                     // Повторить для вектора b
-                    temp_vector[row] -= temp_vector[max_i]) * coefs[row];
+                    temp_vector[row] -= temp_vector[max_i] * coefs[row];
                 }
             }
         }
@@ -103,7 +103,8 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         throw("Invalid size");
     }
     int procNum, procRank;
-    std::vector<int> col_in_process(cols + 1);
+    Matrix temp_vector(rows);
+    temp_vector = vec;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     const int delta = (cols + 1) / procNum;
@@ -137,29 +138,23 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
 
     delete[] bloclens;
     delete[] offsets;
-    if (remain > 0) {
-        int *bloclens = new int[rows * delta];
-        int *offsets = new int[rows * delta];
-        offsets[0] = 0;
-        bloclens[0] = 1;
-        for (int i = 1; i < rows * delta; i++) {
-            offsets[i] = 0;
-            bloclens[i] = 1;
-            if (i / (delta + 1) == 0) {
-                offsets[i] -= delta - remain;
-            }
-            offsets[i] += delta + offsets[i - 1];
+    int *bloclens = new int[rows * delta];
+    int *offsets = new int[rows * delta];
+    offsets[0] = 0;
+    bloclens[0] = 1;
+    for (int i = 1; i < rows * delta; i++) {
+        offsets[i] = 0;
+        bloclens[i] = 1;
+        if (i / (delta + 1) == 0) {
+            offsets[i] -= delta - remain;
         }
-        MPI_Datatype ColumnRibbonLong;
-        MPI_Type_indexed(rows * delta, bloclens, offsets, MPI_DOUBLE, &ColumnRibbonLong);
-        MPI_Type_commit(&ColumnRibbonLong);
-        delete[] bloclens;
-        delete[] offsets;
+        offsets[i] += delta + offsets[i - 1];
     }
-    for (int col = 0; col < cols; col++) {
-            col_in_process[col] = col % procNum;
-        }
-    col_in_process[cols] = (col_in_process[cols - 1] + 1) % procNum;
+    MPI_Datatype ColumnRibbonLong;
+    MPI_Type_indexed(rows * delta, bloclens, offsets, MPI_DOUBLE, &ColumnRibbonLong);
+    MPI_Type_commit(&ColumnRibbonLong);
+    delete[] bloclens;
+    delete[] offsets;
     // Передача данных и прием данных
     if (procRank == 0) {
         for (int proc_long = 1; proc_long < remain; proc_long++) {
@@ -174,9 +169,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
                 local_matrix[row * (delta + remain_for_proc) + col / delta] = matrix[row * cols + col];
             }
         }
-        // Создать временный вектор b
-        Matrix temp_vector(rows);
-        temp_vector = vec;
+
     } else {
         MPI_Status status;
         MPI_Recv(local_matrix.data(), (delta + remain_for_proc) * rows, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &status);
@@ -190,13 +183,14 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
             double max = 0.0;
             int max_i = 0;
             for (int local_col = 0; local_col < rows; local_col++) {
-                if ((fabs(local_matrix[(current_col / delta) * rows + local_col]) >= fabs(max))&&(!was_pivot[i])) {
+                if ((fabs(local_matrix[(current_col / delta) * rows + local_col]) >= fabs(max))&&
+                    (!was_pivot[local_col])) {
                     max = local_matrix[(current_col / delta) * rows + local_col];
                     max_i = local_col;
                 }
             }
             if (max == 0.0) {
-                throw("Singular matrix")
+                throw("Singular matrix");
             }
             was_pivot[max_i] = true;
             pivot_order[current_col] = max_i;
@@ -252,7 +246,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
                     local_matrix[pivot_order[n] * rows + k];
             }
             result[pivot_order[n]] = (temp_vector[pivot_order[n]] - d) /
-                temp_matrix[(n / delta) * rows + pivot_order[n]];
+                local_matrix[(n / delta) * rows + pivot_order[n]];
             if (result[pivot_order[rows - 1]] == 0.0) {
                 throw("Singular matrix");
             }
