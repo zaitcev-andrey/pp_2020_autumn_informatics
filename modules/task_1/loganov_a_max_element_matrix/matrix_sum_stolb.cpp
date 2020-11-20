@@ -47,8 +47,8 @@ std::vector<int> getParallelMaxElements(const std::vector<int>& a, int cols, int
     std::vector<int> local(rows);
     std::vector<int> deltapoc(delta * rows);
     if (rank == 0) {
-        for (int j = 1; j < size; j++) {
-            MPI_Send(&a[0] + ost * rows + j * delta * rows, delta * rows, MPI_INT, j, 0, MPI_COMM_WORLD);
+        for (int j = 1; j < size; ++j) {
+            MPI_Send(a.data() + ost * rows + j * delta * rows, delta * rows, MPI_INT, j, 0, MPI_COMM_WORLD);
         }
     }
     if (rank == 0) {
@@ -67,12 +67,12 @@ std::vector<int> getParallelMaxElements(const std::vector<int>& a, int cols, int
             }
             glmaxsk[i] = getSequentialMax(local);
         }
-        MPI_Send(&glmaxsk[0], delta, MPI_INT, 0, 7, MPI_COMM_WORLD);
+        MPI_Send(glmaxsk.data(), delta, MPI_INT, 0, 7, MPI_COMM_WORLD);
     }
     if (rank == 0) {
         for (int i = 1; i < size; i++) {
             MPI_Status status;
-            MPI_Recv(&glmaxs[i * delta + ost], delta, MPI_INT, i, 7, MPI_COMM_WORLD, &status);
+            MPI_Recv(glmaxs.data() + i * delta + ost, delta, MPI_INT, i, 7, MPI_COMM_WORLD, &status);
         }
     }
     return glmaxs;
