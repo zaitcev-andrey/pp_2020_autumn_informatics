@@ -107,8 +107,8 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     temp_vector = vec;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    const int delta = (cols + 1) / procNum;
-    const int remain = (cols + 1) % procNum;
+    const int delta = cols / procNum;
+    const int remain = cols % procNum;
     int remain_for_proc = (remain > procRank ? 1 : 0);
     Matrix local_matrix((delta + remain_for_proc) * rows);
     std::vector<double> coefs(rows);
@@ -130,7 +130,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         if (i / delta == 0) {
            offsets[i] += remain;
         }
-        offsets[i] += delta + offsets[i - 1];
+        offsets[i] += procNum + offsets[i - 1];
     }
     MPI_Datatype ColumnRibbonShort;
     MPI_Type_indexed(rows * delta, bloclens, offsets, MPI_DOUBLE, &ColumnRibbonShort);
@@ -138,23 +138,23 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
 
     delete[] bloclens;
     delete[] offsets;
-    int *bloclens = new int[rows * delta];
-    int *offsets = new int[rows * delta];
-    offsets[0] = 0;
-    bloclens[0] = 1;
-    for (int i = 1; i < rows * delta; i++) {
-        offsets[i] = 0;
-        bloclens[i] = 1;
+    int *bloclens_long = new int[rows * (delta + 1)];
+    int *offsets_long = new int[rows * (delta + 1)];
+    offsets_long[0] = 0;
+    bloclens_long[0] = 1;
+    for (int i = 1; i < rows * (delta + 1); i++) {
+        offsets_long[i] = 0;
+        bloclens_long[i] = 1;
         if (i / (delta + 1) == 0) {
-            offsets[i] -= delta - remain;
+            offsets_long[i] -= (delta - remain);
         }
-        offsets[i] += delta + offsets[i - 1];
+        offsets_long[i] += delta + offsets_long[i - 1];
     }
     MPI_Datatype ColumnRibbonLong;
     MPI_Type_indexed(rows * delta, bloclens, offsets, MPI_DOUBLE, &ColumnRibbonLong);
     MPI_Type_commit(&ColumnRibbonLong);
-    delete[] bloclens;
-    delete[] offsets;
+    delete[] bloclens_long;
+    delete[] offsets_long;
     // Передача данных и прием данных
     if (procRank == 0) {
         for (int proc_long = 1; proc_long < remain; proc_long++) {
