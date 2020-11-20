@@ -58,31 +58,29 @@ std::vector<int> parallelMultiplyOnVector(std::vector<int> matrix, std::vector<i
         }
     }
 
+    MPI_Group world_group;
+    MPI_Comm_group(MPI_COMM_WORLD, &world_group);
+
+    int *ranks = new int[count_useful_processes];
+
+    for (int i = 0; i < count_useful_processes; i++) {
+        ranks[i] = i;
+    }
+
+    MPI_Group useful_processes_group;
+    MPI_Group_incl(world_group, count_useful_processes, ranks, &useful_processes_group);
+    delete[] ranks;
+
+    MPI_Comm COMM_USEFUL_PROCESSES;
+    MPI_Comm_create(MPI_COMM_WORLD, useful_processes_group, &COMM_USEFUL_PROCESSES);
+
     std::vector<int> return_result(matrix_count_rows);
 
     if (world_process_rank < count_useful_processes) {
-        MPI_Group world_group;
-        MPI_Comm_group(MPI_COMM_WORLD, &world_group);
-
-        int *ranks = new int[count_useful_processes];
-
-        for (int i = 0; i < count_useful_processes; i++) {
-            ranks[i] = i;
-        }
-
-        MPI_Group useful_processes_group;
-        MPI_Group_incl(world_group, count_useful_processes, ranks, &useful_processes_group);
-        delete[] ranks;
-
-        MPI_Comm COMM_USEFUL_PROCESSES;
-        MPI_Comm_create(MPI_COMM_WORLD, useful_processes_group, &COMM_USEFUL_PROCESSES);
-
         std::vector<int> data_size;
         std::vector<int> offsets_from_beginning;
-
         int process_rank;
         MPI_Comm_rank(COMM_USEFUL_PROCESSES, &process_rank);
-
         for (int i = 0; i < count_useful_processes; i++) {
             if (count_useful_processes == matrix_count_rows) {
                 data_size.push_back(matrix_count_columns);
@@ -145,32 +143,42 @@ std::vector<int> parallelMultiplyOnVector(std::vector<int> matrix, std::vector<i
                 MPI_INT, 0, 0, COMM_USEFUL_PROCESSES, &recv_status);
         }
 
-        MPI_Bcast(the_vector.data(), the_vector.size(),
-            MPI_INT, 0, COMM_USEFUL_PROCESSES);
+        if (process_rank == 0) {
+            for (int pid = 1; pid < count_useful_processes; pid++) {
+                MPI_Send(the_vector.data(), the_vector.size(),
+                MPI_INT, pid, 0, COMM_USEFUL_PROCESSES);
+            }
+        }
+
+        std::vector<int> inner_the_vector(matrix_count_columns);
+
+        if (process_rank == 0) {
+            inner_the_vector = std::vector<int>(the_vector.begin(), the_vector.end());
+        } else {
+            MPI_Status recv_status_vector;
+            MPI_Recv(inner_the_vector.data(), matrix_count_columns, MPI_INT,
+            0, 0, COMM_USEFUL_PROCESSES, &recv_status_vector);
+        }
 
         std::vector<int> result_vector(data_size[process_rank] / matrix_count_columns, 0);
 
         if (recv_ribbon.size() > uint64_t(matrix_count_columns)) {
             for (uint64_t j = 0; j < result_vector.size(); j++) {
                 for (int i = 0; i < matrix_count_columns; i++) {
-                    result_vector[j] += recv_ribbon[i + j * matrix_count_columns] * the_vector[i];
+                    result_vector[j] += recv_ribbon[i + j * matrix_count_columns] * inner_the_vector[i];
                 }
             }
         } else {
             for (int i = 0; i < matrix_count_columns; i++) {
-                result_vector[0] += recv_ribbon[i] * the_vector[i];
+                result_vector[0] += recv_ribbon[i] * inner_the_vector[i];
             }
         }
 
         std::vector<int> offsets_in_return_result(count_useful_processes);
 
-        if (process_rank == 0) {
-            offsets_in_return_result[0] = 0;
-            for (int i = 1; i < count_useful_processes; i++) {
-                offsets_in_return_result[i] = offsets_in_return_result[i-1] + data_size[i-1] / matrix_count_columns;
-            }
-            MPI_Bcast(offsets_in_return_result.data(), offsets_in_return_result.size(),
-                    MPI_INT, 0, COMM_USEFUL_PROCESSES);
+        offsets_in_return_result[0] = 0;
+        for (int i = 1; i < count_useful_processes; i++) {
+            offsets_in_return_result[i] = offsets_in_return_result[i-1] + data_size[i-1] / matrix_count_columns;
         }
 
         MPI_Gatherv(result_vector.data(), result_vector.size(), MPI_INT,
