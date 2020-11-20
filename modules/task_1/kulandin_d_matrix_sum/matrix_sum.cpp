@@ -28,7 +28,6 @@ int64_t getParallelSum(const std::vector<int> &a, int n) {
             MPI_Send(a.data() + rem + j * delta, delta, MPI_INT, j, 0, MPI_COMM_WORLD);
         }
     }
-    
     std::vector<int> local(rank == 0 ? rem + delta : delta);
     if (rank == 0) {
         local = {a.begin(), a.begin() + delta + rem};
