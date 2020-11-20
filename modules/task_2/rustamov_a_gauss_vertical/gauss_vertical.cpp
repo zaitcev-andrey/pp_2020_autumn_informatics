@@ -151,7 +151,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         offsets_long[i] += delta + offsets_long[i - 1];
     }
     MPI_Datatype ColumnRibbonLong;
-    MPI_Type_indexed(rows * delta, bloclens, offsets, MPI_DOUBLE, &ColumnRibbonLong);
+    MPI_Type_indexed(rows * (delta + 1), bloclens, offsets, MPI_DOUBLE, &ColumnRibbonLong);
     MPI_Type_commit(&ColumnRibbonLong);
     delete[] bloclens_long;
     delete[] offsets_long;
