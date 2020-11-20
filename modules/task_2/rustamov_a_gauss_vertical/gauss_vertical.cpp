@@ -23,7 +23,7 @@ Matrix RandomMatrix(int rows, int cols) {
 
 Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
     const Matrix& vec, int vector_size) {
-    if ((rows != vector_size) || (rows != cols)||(rows == 0)||(vector_size == 0)) {
+    if ((rows != vector_size) || (rows != cols) || (rows == 0) || (vector_size == 0)) {
         throw("Invalid size");
     }
     Matrix temp_matrix(rows, cols);
@@ -99,7 +99,7 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols,
 
 Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     const Matrix& vec, int vector_size) {
-    if ((rows != vector_size) || (rows != cols)||(rows == 0)||(vector_size == 0)) {
+    if ((rows != vector_size) || (rows != cols) || (rows == 0) || (vector_size == 0)) {
         throw("Invalid size");
     }
     int procNum, procRank;
