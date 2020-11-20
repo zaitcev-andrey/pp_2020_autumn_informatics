@@ -47,7 +47,7 @@ std::vector<int> getParallelMaxElements(const std::vector<int>& a, int cols, int
     std::vector<int> local(rows);
     std::vector<int> deltapoc(delta * rows);
     if (rank == 0) {
-        for (int j = 1; j < size; ++j) {
+        for (int j = 1; j < size; j++) {
             MPI_Send(&a[0] + ost * rows + j * delta * rows, delta * rows, MPI_INT, j, 0, MPI_COMM_WORLD);
         }
     }

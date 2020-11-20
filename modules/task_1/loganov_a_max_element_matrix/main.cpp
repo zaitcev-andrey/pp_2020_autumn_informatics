@@ -98,8 +98,8 @@ TEST(TEST_PARALEL_MPI, TEST4) {
 TEST(TEST_PARALEL_MPI, TEST5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int rows = 33;
-    const int cols = 3;
+    const int rows = 1000;
+    const int cols = 1000;
     int size = rows * cols;
     int** matr;
     std::vector<int> matrvec(size, 0);
@@ -111,10 +111,6 @@ TEST(TEST_PARALEL_MPI, TEST5) {
     }
     matrvec = randomMatrix(matr, cols, rows);
     if (rank == 0) {
-        result2 = getSequentialMaxStolb(matrvec, cols, rows);
-    }
-    result = getParallelMaxElements(matrvec, cols, rows);
-    if (rank == 0) {
         ASSERT_EQ(result, result2);
     }
 }
@@ -122,7 +118,6 @@ TEST(TEST_PARALEL_MPI, TEST5) {
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
-
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
     ::testing::TestEventListeners& listeners =
         ::testing::UnitTest::GetInstance()->listeners();
