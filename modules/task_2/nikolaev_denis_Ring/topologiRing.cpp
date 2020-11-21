@@ -3,12 +3,11 @@
 #include <mpi.h>
 
 int* randomizeArray(int size, int l, int r) {
-    srand(time(NULL));
-    std::mt19937 gen(time(0));
-    std::uniform_real_distribution<> urx(l, r);
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
     int* array = new int[size];
     for (int i = 0; i < size; i++) {
-        array[i] = urx(gen);
+        array[i] = gen()%200;
     }
     return array;
 }
@@ -21,7 +20,11 @@ MPI_Comm topologyRing(MPI_Comm oldComm) {
     MPI_Cart_create(oldComm, NDims, dims, periods, Reorder, &ringTop);
     return ringTop;
 }
-int* Send(int* local_arr, int arraySize, int currentRank, int finiteRank, MPI_Comm ringTop) {
+int* Send(int* local_arr1, int arraySize, int currentRank, int finiteRank, MPI_Comm ringTop) {
+    int* local_arr = new int[arraySize];
+    for (int i = 0; i < arraySize; i++) {
+        local_arr[i] = local_arr1[i];
+    }
     int ProcNum, ProcRank;
     MPI_Comm_size(ringTop, &ProcNum);
     MPI_Comm_rank(ringTop, &ProcRank);
