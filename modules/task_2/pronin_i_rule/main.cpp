@@ -35,17 +35,19 @@ TEST(Parallel_Operations_MPI, First_To_Last) {
     int coordinates[1];
     int send_message = 5;
     int recive_message = 0;
+    int rank_recive;
+    int dest_coordinates[1];
+    int rank_send;
+    int recive_coordinates[1];
     MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
     MPI_Cart_get(communicator, 1, dims, periods, coordinates);
     if (coordinates[0] == 0) {
-        int rank_recive;
-        int dest_coordinates[] = { dims[0] - 1 };
+        dest_coordinates[0] = { dims[0] - 1 };
         MPI_Cart_rank(communicator, dest_coordinates, &rank_recive);
         MPI_Send(&send_message, 1, MPI_INT, rank_recive, 0, communicator);
     } else if (coordinates[0] == dims[0] - 1) {
         MPI_Status status;
-        int rank_send;
-        int recive_coordinates[] = { 0 };
+        recive_coordinates[0] = { 0 };
         MPI_Cart_rank(communicator, recive_coordinates, &rank_send);
         MPI_Recv(&recive_message, 1, MPI_INT, rank_send, 0, communicator, &status);
         ASSERT_EQ(send_message, recive_message);
@@ -102,14 +104,16 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     rank_random = generator() % size_rule;
     int new_rank;
     int super_new_rank;
+    int new_coordinates[1];
+    int super_new_coordinates[1];
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
         if (coordinates[0] == dims[0]) {
-            int new_coordinates[] = { coordinates[0] - 1 };
+            new_coordinates[0] = { coordinates[0] - 1 };
             MPI_Cart_rank(communicator, new_coordinates, &new_rank);
             MPI_Send(&send_message, 1, MPI_INT, new_rank, 0, communicator);
         } else {
-            int super_new_coordinates[] = { coordinates[0] + 1 };
+            super_new_coordinates[0] = { coordinates[0] + 1 };
             MPI_Cart_rank(communicator, super_new_coordinates, &super_new_rank);
             MPI_Send(&send_message, 1, MPI_INT, super_new_rank, 0, communicator);
         }
