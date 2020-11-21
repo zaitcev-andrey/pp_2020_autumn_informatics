@@ -10,7 +10,7 @@
 #define NDims 1
 
 MPI_Comm topologyRing(MPI_Comm oldComm);
-int* randomizeArray(int size, int l, int r);
-int* Send(int* local_arr, int arraySize, int currentRank, int finiteRank, MPI_Comm ringTop);
+int* randomizeArray(int size);
+int* Send(int* local_arr1, int arraySize, int currentRank, int finiteRank, MPI_Comm ringTop);
 
 #endif  //  MODULES_TASK_2_NIKOLAEV_DENIS_RING_TOPOLOGIRING_H_

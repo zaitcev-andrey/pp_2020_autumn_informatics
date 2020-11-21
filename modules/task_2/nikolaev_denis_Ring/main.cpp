@@ -37,7 +37,7 @@ TEST(Topology_Ring, Current_Less_Finite) {
     int current_rank = 0;
     int finite_rank = ProcNum;
     int* array = new int[array_size];
-    array = randomizeArray(array_size, 0, 50);
+    array = randomizeArray(array_size);
     if (finite_rank > ProcNum - 1) {
         finite_rank = ProcNum - 1;
     }
@@ -58,7 +58,7 @@ TEST(Topology_Ring, Current_More_Finite) {
     int current_rank = ProcNum - 1;
     int finite_rank = 0;
     int* array = new int[array_size];
-    array = randomizeArray(array_size, 0, 50);
+    array = randomizeArray(array_size);
     if (finite_rank > ProcNum - 1) {
         finite_rank = ProcNum - 1;
     }
@@ -79,7 +79,7 @@ TEST(Topology_Ring, Current_Is_Finite) {
     int current_rank = 0;
     int finite_rank = 0;
     int* array = new int[array_size];
-    array = randomizeArray(array_size, 0, 50);
+    array = randomizeArray(array_size);
     if (finite_rank > ProcNum - 1) {
         finite_rank = ProcNum - 1;
     }
@@ -99,7 +99,7 @@ TEST(Topology_Ring, Send_High_Array) {
     int array_size = 2000;
     int current_rank = 0;
     int finite_rank = ProcNum-1;
-    int* array = randomizeArray(array_size, 0, 200);
+    int* array = randomizeArray(array_size);
     if (finite_rank > ProcNum - 1) {
         finite_rank = ProcNum - 1;
     }

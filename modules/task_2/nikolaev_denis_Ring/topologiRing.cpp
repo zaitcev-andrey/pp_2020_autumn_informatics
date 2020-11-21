@@ -2,7 +2,7 @@
 #include "../../../modules/task_2/nikolaev_denis_Ring/topologiRing.h"
 #include <mpi.h>
 
-int* randomizeArray(int size, int l, int r) {
+int* randomizeArray(int size) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     int* array = new int[size];
