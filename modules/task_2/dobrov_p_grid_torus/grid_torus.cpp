@@ -68,8 +68,7 @@ bool testCommunications(const MPI_Comm t_comm) {
         MPI_Reduce(&flag, &res, 1, MPI_INT, MPI_LOR, 0, t_comm);
         if (res == 0)
             return true;
-    }
-    else {
+    } else {
         MPI_Reduce(&flag, NULL, 1, MPI_INT, MPI_LOR, 0, t_comm);
     }
     return false;
