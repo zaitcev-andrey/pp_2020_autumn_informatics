@@ -72,8 +72,9 @@ double getRandomTime() {
 }
 
 void doCustomer(int id) {
-    print(id, "Waiting on start...", getRandomTime());
-    wait(getRandomTime());
+    double wait_time = getRandomTime();
+    print(id, "Waiting on start...", wait_time);
+    wait(wait_time);
     int is_barber_hair_cutting = 1;
     while (is_barber_hair_cutting != 0) {
         MPI_Send(&id, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
@@ -83,8 +84,9 @@ void doCustomer(int id) {
             MPI_Recv(&is_barber_free, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(&is_barber_hair_cutting, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         } else {
-            print(id, "Waiting for a barber...", getRandomTime());
-            wait(getRandomTime());
+            double wait_time = getRandomTime();
+            print(id, "Waiting for a barber...", wait_time);
+            wait(wait_time);
         }
     }
 }
@@ -94,8 +96,7 @@ void launch() {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (size < 2) {
-        std::cout << "Too little comm size";
-        return;
+        throw "Too little comm size";
     }
     if (rank == 0)
         doBarber(size - 1);
