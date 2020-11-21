@@ -40,9 +40,10 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
                 fork[philosopher - 1] = taken;
                 MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_GET, MPI_COMM_WORLD);
             }
-            else 
+            else
+            {
                 ph_queue.push_back(philosopher);
-            
+            }
         }
         if (msg.MPI_TAG == FORK_SEND) {
             fork[philosopher % (ProcSize - 1)] = free;
