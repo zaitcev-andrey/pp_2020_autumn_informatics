@@ -23,8 +23,9 @@ TEST(Parallel_Operations_MPI, Test_1) {
                 reader();
         }
     }
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_EQ(count, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);
 }
 
@@ -47,8 +48,9 @@ TEST(Parallel_Operations_MPI, Test_2) {
                 reader();
         }
     }
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_EQ(count, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);
 }
 
@@ -71,8 +73,9 @@ TEST(Parallel_Operations_MPI, Test_3) {
                 reader();
         }
     }
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_EQ(count, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);
 }
 
@@ -95,8 +98,9 @@ TEST(Parallel_Operations_MPI, Test_4) {
                 reader();
         }
     }
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_EQ(count, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);
 }
 
@@ -119,8 +123,9 @@ TEST(Parallel_Operations_MPI, Test_5) {
                 reader();
         }
     }
-    if (rank == 0)
+    if (rank == 0) {
         ASSERT_EQ(count, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);
 }
 
