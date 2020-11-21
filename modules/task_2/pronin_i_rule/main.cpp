@@ -66,8 +66,9 @@ TEST(Parallel_Operations_MPI, Random_To_Random) {
     int recive_rank;
     int send_message = 5;
     int recive_message = 0;
+    std::mt19937 generator;
     MPI_Comm_rank(communicator, &rank);
-    send_rank = rand() % size;
+    send_rank = generator() % size;
     do {
         recive_rank = rand() % size;
     } while (send_rank == recive_rank);
@@ -93,9 +94,10 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     int dims[1];
     int periods[1];
     int coordinates[1];
+    std::mt19937 generator;
     MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     MPI_Comm_rank(communicator, &rank);
-    rank_random = rand() % size;
+    rank_random = generator() % size;
     int new_rank = -1;
     int new_coordinates[1];
     if (rank == rank_random) {
