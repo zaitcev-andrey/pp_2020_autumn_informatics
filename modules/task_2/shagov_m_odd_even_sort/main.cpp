@@ -28,30 +28,6 @@ TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_10) {
     }
 }
 
-TEST(Parallel_Odd_Even_Sort_MPI, Test_Revers_Vector_Size_30) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 10;
-    std::vector<int> global_array_1(count_size_string);
-    std::vector<int> global_array_2(count_size_string);
-
-    if (rank == 0) {
-        for (int i = 0; i < global_array_1.size(); i++) {
-            global_array_1[i] = global_array_1.size() - i - 1;
-        }
-        global_array_2 = global_array_1;
-    }
-    oddEvenParallelSort(global_array_1.data(), count_size_string);
-
-    if (rank == 0) {
-        double startT = MPI_Wtime();
-        bubbleSort(global_array_2.data(), global_array_2.size());
-        double endT = MPI_Wtime();
-        std::cout << "bubbleSort time: " << endT - startT << std::endl;
-        ASSERT_EQ(global_array_1, global_array_2);
-    }
-}
-
 TEST(Parallel_Odd_Even_Sort_MPI, Test_Random_Vector_Size_30) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
