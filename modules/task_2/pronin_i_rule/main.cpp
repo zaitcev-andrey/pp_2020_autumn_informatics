@@ -60,7 +60,7 @@ TEST(Parallel_Operations_MPI, Random_To_Random) {
     }
     int rank;
     MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
-    int size_rule;
+    //int size_rule;
     int send_rank;
     int recive_rank;
     int send_message = 5;
@@ -68,10 +68,10 @@ TEST(Parallel_Operations_MPI, Random_To_Random) {
     std::mt19937 generator;
     generator.seed(static_cast<unsigned int>(time(0)));
     MPI_Comm_rank(communicator, &rank);
-    MPI_Comm_size(communicator, &size_rule);
-    send_rank = generator() % size_rule;
+    //MPI_Comm_size(communicator, &size_rule);
+    send_rank = generator() % size;
     do {
-        recive_rank = generator() % size_rule;
+        recive_rank = generator() % size;
     } while (send_rank == recive_rank);
     if (rank == send_rank) {
         MPI_Send(&send_message, 1, MPI_INT, recive_rank, 0, communicator);
