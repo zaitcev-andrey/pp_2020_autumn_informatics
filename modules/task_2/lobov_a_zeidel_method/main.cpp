@@ -5,14 +5,14 @@
 #include <numeric>
 #include "./zeidel_method.h"
 
-TEST(method_of_Seidel, test_of_evkl_norm) {
+TEST(zeidel_method, test_of_evklid_normal) {
   const int size = 7;
   std::vector<double> test(size);
   std::iota(test.begin(), test.end(), 0);
   ASSERT_NEAR(EvklidNormal(test), sqrt(91), 1e-5);
 }
 
-TEST(method_of_Seidel, sequental_method) {
+TEST(zeidel_method, seq_method) {
   const int size = 3;
   std::vector<std::vector<double> > A(size);
   for (int i = 0; i < size; ++i) {
@@ -37,7 +37,7 @@ TEST(method_of_Seidel, sequental_method) {
   ASSERT_NEAR(EvklidNormal(x), EvklidNormal(tmp), 1e-5);
 }
 
-TEST(method_of_Seidel, parallel_method_1) {
+TEST(zeidel_method, MPI_method_1) {
   const int size = 3;
   std::vector<std::vector<double> > A(size);
   for (int i = 0; i < size; ++i) {
@@ -68,7 +68,7 @@ TEST(method_of_Seidel, parallel_method_1) {
   }
 }
 
-TEST(method_of_Seidel, parallel_method_2) {
+TEST(zeidel_method, MPI_method_2) {
   const int size = 3;
   std::vector<std::vector<double> > A(size);
   for (int i = 0; i < size; ++i) {
@@ -102,7 +102,7 @@ TEST(method_of_Seidel, parallel_method_2) {
   }
 }
 
-TEST(method_of_Seidel, comparison_of_parallel_and_sequental_methods) {
+TEST(zeidel_method, comparison_of_MPI_and_seq_methods) {
   const int size = 20;
   const int low = 0;
   const int high = 100;
