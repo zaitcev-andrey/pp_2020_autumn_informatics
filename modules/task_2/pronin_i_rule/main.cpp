@@ -103,9 +103,7 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     MPI_Comm_rank(communicator, &rank);
     rank_random = generator() % size_rule;
     int new_rank;
-    int super_new_rank;
     int new_coordinates[1];
-    int super_new_coordinates[1];
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
         if (coordinates[0] == dims[0]) {
@@ -113,11 +111,11 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
             MPI_Cart_rank(communicator, new_coordinates, &new_rank);
             MPI_Send(&send_message, 1, MPI_INT, new_rank, 0, communicator);
         } else {
-            super_new_coordinates[0] = { coordinates[0] + 1 };
-            MPI_Cart_rank(communicator, super_new_coordinates, &super_new_rank);
-            MPI_Send(&send_message, 1, MPI_INT, super_new_rank, 0, communicator);
+            new_coordinates[0] = { coordinates[0] + 1 };
+            MPI_Cart_rank(communicator, new_coordinates, &new_rank);
+            MPI_Send(&send_message, 1, MPI_INT, new_rank, 0, communicator);
         }
-    } else if (rank == new_rank || rank == super_new_rank) {
+    } else if (rank == new_rank) {
         MPI_Status status;
         MPI_Recv(&recive_message, 1, MPI_INT, rank_random, 0, communicator, &status);
         ASSERT_EQ(send_message, recive_message);
