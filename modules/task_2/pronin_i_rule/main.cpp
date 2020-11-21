@@ -23,7 +23,7 @@ TEST(Parallel_Operations_MPI, Ndims_Periods_Coordinates) {
     ASSERT_EQ(ndims, 1);
     ASSERT_EQ(periods[0], 0);
 }
-TEST(Parallel_Operations_MPI, Ferst_To_Last) {
+TEST(Parallel_Operations_MPI, First_To_Last) {
     int size;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     if (size == 1) {
@@ -100,8 +100,8 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     MPI_Comm_size(communicator, &size_rule);
     MPI_Comm_rank(communicator, &rank);
     rank_random = generator() % size_rule;
-    int new_rank;
-    int super_new_rank;
+    int new_rank = -1;
+    int super_new_rank = -1;
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
         if (coordinates[0] == dims[0]) {
