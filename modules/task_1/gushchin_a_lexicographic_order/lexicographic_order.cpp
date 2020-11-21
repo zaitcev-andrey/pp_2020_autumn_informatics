@@ -69,21 +69,21 @@ int parallelIsLexicographicOrder(const std::string& string1, const std::string& 
         localString1.resize(delta);
 
         MPI_Status status;
-        MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(buffer.data(), static_cast<int>(delta), MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         localString1.assign(buffer.begin(), buffer.end());
 
-        MPI_Recv(&buffer[0], static_cast<int>(delta), MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
+        MPI_Recv(buffer.data(), static_cast<int>(delta), MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
         localString2.assign(buffer.begin(), buffer.end());
     }
 
     int localResult = sequentialIsLexicographicOrder(localString1, localString2);
 
-    std::vector<int> results(1);
+    std::vector<int> results;
 
     if (rank == 0)
         results.resize(size);
 
-    MPI_Gather(&localResult, 1, MPI_INT, &results[0], 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Gather(&localResult, 1, MPI_INT, results.data(), 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
         bool result = false, equalBegginnings = true;
