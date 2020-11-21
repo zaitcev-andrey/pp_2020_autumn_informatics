@@ -7,7 +7,7 @@
 #include <random>
 #include"../../../modules/task_2/zhuravl_r_gather/Gather.h"
 
-int Gather(void *sbuf, int scount, MPI_Datatype stype, void *rbuf, 
+int Gather(void *sbuf, int scount, MPI_Datatype stype, void *rbuf,
 int count, MPI_Datatype rtype, int root, MPI_Comm comm) {
     int rank, num, size;
     MPI_Comm_rank(comm, &rank);
