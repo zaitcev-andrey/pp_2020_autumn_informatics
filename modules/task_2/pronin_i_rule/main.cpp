@@ -8,7 +8,7 @@
 
 TEST(Parallel_Operations_MPI, Build) {
     int status = MPI_UNDEFINED;
-    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
+    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     MPI_Topo_test(communicator, &status);
     ASSERT_EQ(status, MPI_CART);
 }
@@ -17,7 +17,7 @@ TEST(Parallel_Operations_MPI, Ndims_Periods_Coordinates) {
     int dims[1];
     int periods[1];
     int coordinates[1];
-    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
+    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     MPI_Cartdim_get(communicator, &ndims);
     MPI_Cart_get(communicator, 1, dims, periods, coordinates);
     ASSERT_EQ(ndims, 1);
@@ -39,7 +39,7 @@ TEST(Parallel_Operations_MPI, First_To_Last) {
     int dest_coordinates[1];
     int rank_send;
     int recive_coordinates[1];
-    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
+    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     MPI_Cart_get(communicator, 1, dims, periods, coordinates);
     if (coordinates[0] == 0) {
         dest_coordinates[0] = { dims[0] - 1 };
@@ -61,17 +61,15 @@ TEST(Parallel_Operations_MPI, Random_To_Random) {
         return;
     }
     int rank;
-    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
+    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     int send_rank;
     int recive_rank;
     int send_message = 5;
     int recive_message = 0;
-    std::mt19937 generator;
-    generator.seed(static_cast<unsigned int>(time(0)));
     MPI_Comm_rank(communicator, &rank);
-    send_rank = generator() % size;
+    send_rank = rand() % size;
     do {
-        recive_rank = generator() % size;
+        recive_rank = rand() % size;
     } while (send_rank == recive_rank);
     if (rank == send_rank) {
         MPI_Send(&send_message, 1, MPI_INT, recive_rank, 0, communicator);
@@ -95,12 +93,10 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     int dims[1];
     int periods[1];
     int coordinates[1];
-    std::mt19937 generator;
-    generator.seed(static_cast<unsigned int>(time(0)));
-    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD, 10);
+    MPI_Comm communicator = createRuleComm(MPI_COMM_WORLD);
     MPI_Comm_rank(communicator, &rank);
-    rank_random = generator() % size;
-    int new_rank;
+    rank_random = rand() % size;
+    int new_rank = -1;
     int new_coordinates[1];
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
