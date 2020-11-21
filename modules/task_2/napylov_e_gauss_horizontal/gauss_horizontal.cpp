@@ -118,7 +118,8 @@ bool CheckSolution(std::vector<double> sys, int rows, int cols, std::vector<doub
     for (int row = 0; row < rows; row++) {
         id_ans = 0;
         for (int col = 0; col < cols - 1; col++) {
-            if (answer[id_ans] != answer[id_ans]) {
+            double tmp = answer[id_ans];
+            if (tmp != answer[id_ans]) {
                 return false;
             }
             tmp_sum += (sys[row * cols + col] * answer[id_ans]);
