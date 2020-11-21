@@ -108,7 +108,7 @@ TEST(Image_Smoothing_MPI, Size_7_6) {
     }
 }
 
-TEST(Image_Smoothing_MPI, Size_61_17) {
+TEST(Image_Smoothing_MPI, Size_61_17_Random) {
     int procRank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
