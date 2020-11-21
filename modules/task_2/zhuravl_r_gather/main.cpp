@@ -52,7 +52,7 @@ TEST(Parallel_MPI, Test_Gather_double) {
 
 TEST(Parallel_MPI, Test_Gather_float) {
     int size, rank;
-    int count = 7.7;
+    int count = 7;
     int root = 1;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
