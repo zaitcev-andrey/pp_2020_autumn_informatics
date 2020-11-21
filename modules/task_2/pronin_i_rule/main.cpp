@@ -100,8 +100,8 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     MPI_Comm_size(communicator, &size_rule);
     MPI_Comm_rank(communicator, &rank);
     rank_random = generator() % size_rule;
-    int new_rank = -1;
-    int super_new_rank = -1;
+    int new_rank;
+    int super_new_rank;
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
         if (coordinates[0] == dims[0]) {
