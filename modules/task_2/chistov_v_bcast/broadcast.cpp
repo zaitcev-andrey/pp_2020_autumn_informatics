@@ -9,6 +9,9 @@ int MY_Bcast(void* buf, int count, MPI_Datatype type, int root, MPI_Comm comm) {
     MPI_Comm_size(comm, &ProcNum);
     MPI_Comm_rank(comm, &ProcRank);
     MPI_Type_size(type, &size);
+    if ((root < 0) || (root >= ProcNum)) {
+        return MPI_ERR_ROOT;
+    }
     if (ProcRank == root) {
         for (int i = 0; i < ProcNum; i++) {
             if (i != root) {

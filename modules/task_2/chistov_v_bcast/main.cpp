@@ -64,7 +64,7 @@ TEST(Parallel_Count_Sentences_MPI, Bcast_FLOAT) {
 TEST(Parallel_Count_Sentences_MPI, Bcast_DOUBLE) {
     int ProcNum, ProcRank;
     int size = 5;
-    int root = 1;
+    int root = 0;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     std::vector<double> mas(size);
@@ -91,7 +91,7 @@ TEST(Parallel_Count_Sentences_MPI, Bcast_DOUBLE) {
 TEST(Parallel_Count_Sentences_MPI, Bcast_FLOAT_BigSize) {
     int ProcNum, ProcRank;
     int size = 125;
-    int root = 2;
+    int root = 0;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     std::vector<float> mas(size);
@@ -118,7 +118,7 @@ TEST(Parallel_Count_Sentences_MPI, Bcast_FLOAT_BigSize) {
 TEST(Parallel_Count_Sentences_MPI, Bcast_DOUBLE_BigSize) {
     int ProcNum, ProcRank;
     int size = 125;
-    int root = 3;
+    int root = 0;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     std::vector<double> mas(size);
