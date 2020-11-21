@@ -1,6 +1,6 @@
 // Copyright 2020 Tyurmina Alexandra
 #include <mpi.h>
-#include "../../../modules/task_2/tuyrmina_a_allreduce/allreduce.h"
+#include "../../../modules/task_2/tyurmina_a_allreduce/allreduce.h"
 
 int My_Allreduce(void* sendbuf, void* recvbuf, int count, MPI_Datatype datatype,
     MPI_Op op, MPI_Comm comm) {
@@ -32,13 +32,11 @@ int My_Allreduce(void* sendbuf, void* recvbuf, int count, MPI_Datatype datatype,
 
         if (datatype == MPI_INT) {
             getbufInt = new int[count];
-        }
-        else if (datatype == MPI_DOUBLE) {
+        } else if (datatype == MPI_DOUBLE) {
             getbufDouble = new double[count];
         }
 
         for (int proc = 1; proc < size; proc++) {
-
             MPI_Status status;
             if (datatype == MPI_INT)
                 MPI_Recv(getbufInt, count, datatype, proc, 0, comm, &status);
