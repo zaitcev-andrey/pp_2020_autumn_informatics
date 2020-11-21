@@ -1,8 +1,7 @@
 // Copyright 2020 Pronin Igor
 #include <mpi.h>
-#include "../../../modules/task_2/pronin_i_rule/rule.h" 
-MPI_Comm createRuleComm(MPI_Comm comunicator, int q)
-{
+#include "../../../modules/task_2/pronin_i_rule/rule.h"
+MPI_Comm createRuleComm(MPI_Comm comunicator, int q) {
     int ndims = 1;
     int size;
     MPI_Comm_size(comunicator, &size);
