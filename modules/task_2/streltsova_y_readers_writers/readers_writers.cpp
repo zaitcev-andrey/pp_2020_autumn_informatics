@@ -33,7 +33,7 @@ int accessData(int count) {
                 response = 1;
                 MPI_Send(&response, 1, MPI_INT, status.MPI_SOURCE, 0, MPI_COMM_WORLD);
                 data = request;
-                accessRead = 0;
+                accessRead = 0;  // Opening access to readers
                 accessWrite = 0;
                 count--;
             } else {
