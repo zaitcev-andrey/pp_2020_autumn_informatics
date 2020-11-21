@@ -39,8 +39,7 @@ void table(bool* dinner, bool* fork, int ProcSize, std::list<int> ph_queue) {
                 fork[philosopher % (ProcSize - 1)] = taken;
                 fork[philosopher - 1] = taken;
                 MPI_Send(&out_buffer, 1, MPI_INT, philosopher, FORK_GET, MPI_COMM_WORLD);
-            }
-            else {
+            } else {
                 ph_queue.push_back(philosopher);
             }
         }
@@ -105,8 +104,7 @@ void diningPhilosofers(int myRank, int ProcSize, int time) {
         bool* fork = new bool[ProcSize - 1];
         if (myRank == 0) {
             table(dinner, fork, ProcSize, ph_queue);
-        }
-        else {
+        } else {
             philosofers(time);
         }
     }
