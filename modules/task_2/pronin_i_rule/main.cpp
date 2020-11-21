@@ -104,7 +104,7 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     int new_coordinates[1];
     if (rank == rank_random) {
         MPI_Cart_get(communicator, 1, dims, periods, coordinates);
-        if (coordinates[0] == dims[0]) {
+        if (coordinates[0] == dims[0] - 1) {
             new_coordinates[0] = { coordinates[0] - 1 };
             MPI_Cart_rank(communicator, new_coordinates, &new_rank);
             MPI_Send(&send_message, 1, MPI_INT, new_rank, 0, communicator);
