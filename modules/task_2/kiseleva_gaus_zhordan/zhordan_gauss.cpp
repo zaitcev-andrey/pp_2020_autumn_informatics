@@ -111,7 +111,6 @@ double* zhordan_gauss(double* array, int str) {
         int size_;
         MPI_Group_size(newworld, &size_);
         if (comm_newworld != MPI_COMM_NULL) {
-            if (step == 0) {
                 if (rank == 0) {
                     for (int i = 1; i < size_; i++) {
                         MPI_Send(&array[0] + stlb * i, stlb, MPI_DOUBLE, i, 0, comm_newworld);
@@ -122,7 +121,6 @@ double* zhordan_gauss(double* array, int str) {
                 } else {
                     MPI_Recv(&local_array[0], stlb, MPI_DOUBLE, 0, 0, comm_newworld, &status);
                 }
-            }
             MPI_Barrier(comm_newworld);
             while (step < str) {
                 MPI_Barrier(comm_newworld);
@@ -164,7 +162,6 @@ double* zhordan_gauss(double* array, int str) {
         double* local_array1;
         double* local_array2 = new double[stlb];
         double* local_array22 = new double[stlb];
-        if (step == 0) {
             if (rank == 0) {
                 local_array1 = new double[stlb*(delta + ost)];
                 for (int i = 0; i < size-1; i++) {
@@ -179,7 +176,6 @@ double* zhordan_gauss(double* array, int str) {
                 sizearr = stlb * delta;
                 MPI_Recv(&local_array1[0], stlb*delta, MPI_DOUBLE, 0, 3, MPI_COMM_WORLD, &status);
             }
-        }
         MPI_Barrier(MPI_COMM_WORLD);
         while (step < delta + ost) {
             if (rank == 0) {
@@ -309,8 +305,6 @@ double* zhordan_gauss(double* array, int str) {
             if (rank == 0) {
                 for (int i = 1; i < size; i++) {
                     MPI_Recv(&res[delta*i + ost], delta, MPI_DOUBLE, i, i, MPI_COMM_WORLD, &status);
-                    delete[] local_array1;
-                    delete[] local_array2;
                 }
                 int smeshh = delta + ost;
                 for (int h = 0; h < (delta+ost); h++) {
@@ -320,5 +314,4 @@ double* zhordan_gauss(double* array, int str) {
         }
     }
     return res;
-    delete[]res;
 }
