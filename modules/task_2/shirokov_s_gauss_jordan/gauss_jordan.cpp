@@ -1,8 +1,8 @@
 // Copyright 2020 Shirokov Sergey
+#include <mpi.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include "mpi.h"
 #include <math.h>
 #include <string.h>
 #include "./gauss_jordan.h"
@@ -61,6 +61,12 @@ int gauss_jordan(int argc, char* argv[]) {
                 maxPos = i;
         printf("Max delta = %2.14f", fabs(testRes[maxPos] - b[maxPos]));
     }
+    free(a);
+    free(b);
+    free(resMat);
+    free(resVec);
+    free(procRows);
+    free(procVec);
     return 0;
 }
 void processInitialization(double** a, double** b, double** resMat, double** resVec, double** procRows, double** procVec, const int n, int* rowsCount) {
