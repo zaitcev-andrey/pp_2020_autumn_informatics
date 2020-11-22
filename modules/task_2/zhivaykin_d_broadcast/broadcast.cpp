@@ -6,10 +6,6 @@ void myBcast(void *buf, int count, MPI_Datatype type, int root, MPI_Comm comm) {
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-  if (count <= 0) {
-    throw std::runtime_error("Error Array size");
-  }
-
   if (rank == root) {
     for (int i = 0; i < size; i++) {
       if (i != rank) {
