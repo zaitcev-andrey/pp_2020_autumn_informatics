@@ -4,18 +4,19 @@
 #include <random>
 #include <iostream>
 #include <vector>
+#include <utility>
 
-void processInitialization(double** a, double** b, double** resMat, 
-	double** resVec, double** procRows, double** procVec, const int n, int* rowsCount);
+void processInitialization(double** a, double** b, double** resMat,
+    double** resVec, double** procRows, double** procVec, const int n, int* rowsCount);
 void dataDistribution(double* a, double* b, double* procRows, double* procVec, const int n);
 void parallelGJElimination(double* procRows, double* procVec, const int n, const int rowsCount);
 void parallelDirectFlow(double* procRows, double* procVec, const int n, const int rowsCount);
-void parallelReverseFlow(double* procRows, double* procVec, 
-	const int n, const int rowsCount);
-void parallelDirectEliminateColumns(double* procRows, double* procVec, 
-	double* pivotRow, const int n, const int rowsCount, const int i);
-void parallelReverseEliminateColumns(double* procRows, double* procVec, 
-	const double pivotElem, const int n, const int rowsCount, const int i);
+void parallelReverseFlow(double* procRows, double* procVec,
+    const int n, const int rowsCount);
+void parallelDirectEliminateColumns(double* procRows, double* procVec,
+    double* pivotRow, const int n, const int rowsCount, const int i);
+void parallelReverseEliminateColumns(double* procRows, double* procVec,
+    const double pivotElem, const int n, const int rowsCount, const int i);
 void collectData(double* resMat, double* resVec, double* procRows, double* procVec, const int n);
 void setArraysValues(int** count, int** indices, const int n);
 void divideVec(double* vec, const int n, const double div);

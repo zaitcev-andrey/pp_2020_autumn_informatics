@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <utility>
 #include "./gauss_jordan.h"
 #include "../../../modules/task_2/shirokov_s_gauss_jordan/gauss_jordan.h"
 #define MAX_NUMBER 1000
@@ -70,7 +71,8 @@ int gauss_jordan(int argc, char* argv[]) {
     free(procVec);
     return 0;
 }
-void processInitialization(double** a, double** b, double** resMat, double** resVec, double** procRows, double** procVec, const int n, int* rowsCount) {
+void processInitialization(double** a, double** b, double** resMat, double** resVec,
+    double** procRows, double** procVec, const int n, int* rowsCount) {
     int rowsRest, i;
     rowsRest = n;
     for (i = 0; i < procRank; ++i)
@@ -88,15 +90,18 @@ void processInitialization(double** a, double** b, double** resMat, double** res
     for (i = 0; i < *rowsCount; ++i)
         procPivotIter[i] = -1;
 }
-void dataDistribution(double* a, double* b, double* procRows, double* procVec, const int n) {
+void dataDistribution(double* a, double* b, double* procRows,
+    double* procVec, const int n) {
     int* sendCount, * sendIndices, i;
     setArraysValues(&sendCount, &sendIndices, n);
-    MPI_Scatterv(a, sendCount, sendIndices, MPI_DOUBLE, procRows, sendCount[procRank], MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Scatterv(a, sendCount, sendIndices, MPI_DOUBLE,
+        procRows, sendCount[procRank], MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     for (i = 0; i < procCount; ++i) {
         sendCount[i] /= n;
         sendIndices[i] /= n;
     }
-    MPI_Scatterv(b, sendCount, sendIndices, MPI_DOUBLE, procVec, sendCount[procRank], MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Scatterv(b, sendCount, sendIndices, MPI_DOUBLE,
+        procVec, sendCount[procRank], MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     free(sendCount);
     free(sendIndices);
 }
@@ -157,7 +162,8 @@ void parallelReverseFlow(double* procRows, double* procVec, const int n, const i
         parallelReverseEliminateColumns(procRows, procVec, pivotElem, n, rowsCount, pivot.max);
     }
 }
-void parallelDirectEliminateColumns(double* procRows, double* procVec, double* pivotRow, const int n, const int rowsCount, const int i) {
+void parallelDirectEliminateColumns(double* procRows, double* procVec,
+    double* pivotRow, const int n, const int rowsCount, const int i) {
     int j;
     for (j = 0; j < rowsCount; ++j)
         if (procPivotIter[j] == -1) {
@@ -166,7 +172,8 @@ void parallelDirectEliminateColumns(double* procRows, double* procVec, double* p
             procVec[j] -= (mult * pivotRow[n]);
         }
 }
-void parallelReverseEliminateColumns(double* procRows, double* procVec, const double pivotElem, const int n, const int rowsCount, const int i) {
+void parallelReverseEliminateColumns(double* procRows, double* procVec, const double pivotElem,
+    const int n, const int rowsCount, const int i) {
     int j;
     for (j = 0; j < rowsCount; ++j)
         if (procPivotIter[j] != -1) {
@@ -210,12 +217,14 @@ double* createVec(const int n, const int max) {
 void collectData(double* resMat, double* resVec, double* procRows, double* procVec, const int n) {
     int* rcvCount, * rcvIndices, i;
     setArraysValues(&rcvCount, &rcvIndices, n);
-    MPI_Gatherv(procRows, rcvCount[procRank], MPI_DOUBLE, resMat, rcvCount, rcvIndices, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Gatherv(procRows, rcvCount[procRank], MPI_DOUBLE,
+        resMat, rcvCount, rcvIndices, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     for (i = 0; i < procCount; ++i) {
         rcvCount[i] /= n;
         rcvIndices[i] /= n;
     }
-    MPI_Gatherv(procVec, rcvCount[procRank], MPI_DOUBLE, resVec, rcvCount, rcvIndices, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
+    MPI_Gatherv(procVec, rcvCount[procRank], MPI_DOUBLE, resVec,
+        rcvCount, rcvIndices, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     free(rcvCount);
     free(rcvIndices);
 }
