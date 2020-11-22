@@ -11,7 +11,7 @@
 
 
 std::vector<int> randMatrix(int r, int c) {
-    mt19937 gen;
+    std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vector_value(c * r);
     for (int i = 0; i < c; i++) {
