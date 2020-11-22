@@ -306,7 +306,6 @@ double* zhordan_gauss(double* array, int str) {
                 for (int i = 1; i < size; i++) {
                     MPI_Recv(&res[delta*i + ost], delta, MPI_DOUBLE, i, i, MPI_COMM_WORLD, &status);
                 }
-                int smeshh = delta + ost;
                 for (int h = 0; h < (delta+ost); h++) {
                     res[h] = local_array1[str+stlb* h];
                 }
