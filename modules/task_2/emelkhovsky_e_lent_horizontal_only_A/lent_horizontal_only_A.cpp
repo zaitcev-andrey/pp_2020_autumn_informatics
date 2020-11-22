@@ -26,7 +26,7 @@ std::vector<int> randMatrix(int r, int c) {
 std::vector<int> getSequentialOperations(std::vector<int> vector_value, std::vector<int> vector_value_2, int r_lens) {
     std::vector<int> result(vector_value.size());
     int sum = 0;
-    for (int i = 0; i < vector_value.size() / r_lens; i++) {
+    for (unsigned int i = 0; i < vector_value.size() / r_lens; i++) {
         for (int j = 0; j < r_lens; j++) {
             sum = 0;
             for (int k = 0; k < r_lens; k++) {
@@ -68,7 +68,7 @@ std::vector<int> main_vector_value_2, int r) {
     if (rank == 0) {
         local_vector_value = std::vector<int>(main_vector_value.begin() + size * delta * r, main_vector_value.end());
         std::vector<int> ostatok = getSequentialOperations(local_vector_value, local_vector_value_2, r);
-        for (int i = 0; i < ostatok.size(); i++) {
+        for (unsigned int i = 0; i < ostatok.size(); i++) {
             matrix_res[size * delta * r + i] = ostatok[i];
         }
     }
