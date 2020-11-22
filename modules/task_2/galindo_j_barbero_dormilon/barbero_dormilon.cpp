@@ -7,6 +7,8 @@
 #elif defined(__unix__)
   #include <time.h>
   #include <unistd.h>
+#elif defined(__APPLE__)
+  #include <unistd.h>
 #else
 #endif
 #include <iostream>
@@ -26,6 +28,8 @@ int millisleep(unsigned ms) {
   (_XOPEN_SOURCE >= 500 || \
      _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED) && \
   !(_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700)
+  return usleep(1000 * ms);
+#elif __APPLE__
   return usleep(1000 * ms);
 #else
 # error("No millisecond sleep available for this platform!")
