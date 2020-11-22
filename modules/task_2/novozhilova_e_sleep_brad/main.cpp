@@ -10,18 +10,11 @@ TEST(Parallel_Barber_MPI, Test_q_size_10) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
     const int queue_max_size = 10;
-    std::vector<int> res(Comm_size - 2);
     MPI_Barrier(MPI_COMM_WORLD);
-    int result = Barbershop(res, queue_max_size);
+    int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    if (Comm_rank == 0) {
-        for (int i = 0; i < Comm_size - 2; i++) {
-            std::cout << res[i] << " ";
-        }
-        std::cout << std::endl;
-    }
     double t2 = MPI_Wtime();
-    //std::cout << std::endl << t2 - t1 << std::endl;
+    // std::cout << std::endl << t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_3) {
@@ -30,18 +23,11 @@ TEST(Parallel_Barber_MPI, Test_q_size_3) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
     const int queue_max_size = 3;
-    std::vector<int> res(Comm_size - 2);
     MPI_Barrier(MPI_COMM_WORLD);
-    int result = Barbershop(res, queue_max_size);
+    int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    if (Comm_rank == 0) {
-        for (int i = 0; i < Comm_size - 2; i++) {
-            std::cout << res[i] << " ";
-        }
-        std::cout << std::endl;
-    }
     double t2 = MPI_Wtime();
-    //std::cout << std::endl << t2 - t1 << std::endl;
+    // std::cout << std::endl << t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_1) {
@@ -50,18 +36,11 @@ TEST(Parallel_Barber_MPI, Test_q_size_1) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
     const int queue_max_size = 1;
-    std::vector<int> res(Comm_size - 2);
     MPI_Barrier(MPI_COMM_WORLD);
-    int result = Barbershop(res, queue_max_size);
+    int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    if (Comm_rank == 0) {
-        for (int i = 0; i < Comm_size - 2; i++) {
-            std::cout << res[i] << " ";
-        }
-        std::cout << std::endl;
-    }
     double t2 = MPI_Wtime();
-    //std::cout << std::endl<< t2 - t1 << std::endl;
+    // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_15) {
@@ -70,18 +49,11 @@ TEST(Parallel_Barber_MPI, Test_q_size_15) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
     const int queue_max_size = 15;
-    std::vector<int> res(Comm_size - 2);
     MPI_Barrier(MPI_COMM_WORLD);
-    int result = Barbershop(res, queue_max_size);
+    int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    if (Comm_rank == 0) {
-        for (int i = 0; i < Comm_size - 2; i++) {
-            std::cout << res[i] << " ";
-        }
-        std::cout << std::endl;
-    }
     double t2 = MPI_Wtime();
-    //std::cout << std::endl<< t2 - t1 << std::endl;
+    // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_Comm_size) {
@@ -90,18 +62,11 @@ TEST(Parallel_Barber_MPI, Test_q_size_Comm_size) {
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
     const int queue_max_size = Comm_size;
-    std::vector<int> res(Comm_size - 2);
     MPI_Barrier(MPI_COMM_WORLD);
-    int result = Barbershop(res, queue_max_size);
+    int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    if (Comm_rank == 0) {
-        for (int i = 0; i < Comm_size - 2; i++) {
-            std::cout << res[i] << " ";
-        }
-        std::cout << std::endl;
-    }
     double t2 = MPI_Wtime();
-    //std::cout << std::endl<< t2 - t1 << std::endl;
+    // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 int main(int argc, char**argv) {
@@ -113,5 +78,4 @@ int main(int argc, char**argv) {
     listeners.Release(listeners.default_xml_generator());
     listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
     return RUN_ALL_TESTS();
-    MPI_Finalize();
 }

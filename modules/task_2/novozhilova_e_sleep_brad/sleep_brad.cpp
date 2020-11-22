@@ -4,7 +4,7 @@
 #include <iostream>
 #include "../../../modules/task_2/novozhilova_e_sleep_brad/sleep_brad.h"
 
-int Barbershop(std::vector<int>& v, const int q_max_size) {
+int Barbershop(const int q_max_size) {
     int curr_cl;
     int request = 0;
     int happy_cl = 4,
@@ -22,7 +22,8 @@ int Barbershop(std::vector<int>& v, const int q_max_size) {
         curr_cl_tag = 3,
         ask_for_cl = 4,
         cancel_tag = 5;
-        if(Comm_rank == 0) {
+        if (Comm_rank == 0) {
+            std::vector<int> v(Comm_size - 2);
             std::vector<int> queue;
             int q_real_size = 0;
             MPI_Status status;
@@ -51,7 +52,7 @@ int Barbershop(std::vector<int>& v, const int q_max_size) {
                 if (status.MPI_TAG == barb_req) {
                     if (barb_state == 1) {
                         if (q_real_size == q_max_size) {
-                            std::cout << "rank no. " << status.MPI_SOURCE << " wanted to get in line, but the queue was full and they left =(" << std::endl;
+                            std::cout << "rank no. " << status.MPI_SOURCE << " left because the queue is full" << std::endl;
                             v[status.MPI_SOURCE - 2] = disappointed_cl;
                             cl_count++;
                         }
@@ -68,7 +69,7 @@ int Barbershop(std::vector<int>& v, const int q_max_size) {
                             curr_cl = status.MPI_SOURCE;
                             MPI_Send(&curr_cl, 1, MPI_INT, 1, curr_cl_tag, MPI_COMM_WORLD);
                             barb_state = busy_state;
-							std::cout << "rank no. " << curr_cl << " got a haircut and left" << std::endl;
+                            std::cout << "rank no. " << curr_cl << " got a haircut and left" << std::endl;
                         }
                         continue;
                     }
@@ -91,12 +92,12 @@ int Barbershop(std::vector<int>& v, const int q_max_size) {
                 }
             }
         }
-        if((Comm_rank != 0) && (Comm_rank != 1)) {
+        if ((Comm_rank != 0) && (Comm_rank != 1)) {
             MPI_Send(&request, 1, MPI_INT, 0, barb_req, MPI_COMM_WORLD);
         }
         if (Comm_rank == 0) {
             for (int i = 0; i < Comm_size - 2; i++) {
-                if ( (v[i] > 4) || (v[i] < 3) ) {
+                if ( (v[i] > happy_cl) || (v[i] < disappointed_cl) ) {
                     return 1;
                 }
             }

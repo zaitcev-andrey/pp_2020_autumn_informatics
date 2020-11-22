@@ -3,6 +3,6 @@
 #define MODULES_TASK_2_NOVOZHILOVA_E_SLEEP_BRAD_SLEEP_BRAD_H_
 #include <vector>
 
-int Barbershop(std::vector<int>& v, const int q_max_size);
+int Barbershop(const int q_max_size);
 
 #endif  // MODULES_TASK_2_NOVOZHILOVA_E_SLEEP_BRAD_SLEEP_BRAD_H_
