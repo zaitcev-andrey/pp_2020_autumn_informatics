@@ -80,12 +80,15 @@ TEST(Parallel_Operations_MPI, Test_5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    int count_size_matrix = 25;
+    std::vector<int> matrix_1, matrix_2;
+    int s = 100;
 
     if (rank == 0) {
-        std::vector<int> matrix_1 = randMatrix(count_size_matrix, count_size_matrix);
-        ASSERT_NO_THROW(matrix_1);
+        matrix_1 = randMatrix(s, s);
+        matrix_2 = randMatrix(s, s);
     }
+
+    ASSERT_NO_THROW(getParallelOperations(matrix_1, matrix_2, s));
 }
 
 int main(int argc, char** argv) {
