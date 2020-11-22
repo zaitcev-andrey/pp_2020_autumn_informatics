@@ -28,9 +28,8 @@ int millisleep(unsigned ms) {
   !(_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700)
   return usleep(1000 * ms);
 #else
-# error ("No millisecond sleep available for this platform!")
+# error("No millisecond sleep available for this platform!")
   return -1;
-
 #endif
 }
 
