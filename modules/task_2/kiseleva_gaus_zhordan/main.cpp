@@ -1,10 +1,11 @@
-//Copyright 2020 Kiseleva Anastasia
+// Copyright 2020 Kiseleva Anastasia
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include <iostream>
 #include "./zhordan_gauss.h"
-#include <limits>
+
 const double EPSILON = std::numeric_limits<double>::epsilon()*100000;
 
 TEST(Parallel_MPI, TEST_2x3) {
