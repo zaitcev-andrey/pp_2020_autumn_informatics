@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Mishina Nadezhda
+// Copyright 2020 Mishina Nadezhda
 #include <mpi.h>
 #include<algorithm>
 #include "../../../modules/task_2/mishina_n_star/star.h"
