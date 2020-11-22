@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <random>
 #include <vector>
-#include "../../../modules/task_2/tuyrmina_a_allreduce/allreduce.h"
+#include "../../../modules/task_2/tyurmina_a_allreduce/allreduce.h"
 
 TEST(MPI_Allreduce, countBelowZero) {
     int rank, size;

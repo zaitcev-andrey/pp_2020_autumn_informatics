@@ -26,9 +26,9 @@ int My_Allreduce(void* sendbuf, void* recvbuf, int count, MPI_Datatype datatype,
 
     if (rank == 0) {
         if (datatype == MPI_INT)
-            std::memcpy(recvbuf, sendbuf, count * sizeof(int));
+            memcpy(recvbuf, sendbuf, count * sizeof(int));
         if (datatype == MPI_DOUBLE)
-            std::memcpy(recvbuf, sendbuf, count * sizeof(double));
+            memcpy(recvbuf, sendbuf, count * sizeof(double));
 
         if (datatype == MPI_INT) {
             getbufInt = new int[count];
