@@ -17,6 +17,7 @@ void myBcast(void *buf, int count, MPI_Datatype type, int root, MPI_Comm comm) {
       }
     }
   } else {
-    MPI_Recv(buf, count, type, root, 1, comm, MPI_STATUS_IGNORE);
+    MPI_Status status;
+    MPI_Recv(buf, count, type, root, 0, comm, &status);
   }
 }
