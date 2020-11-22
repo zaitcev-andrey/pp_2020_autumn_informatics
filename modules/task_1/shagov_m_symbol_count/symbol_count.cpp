@@ -18,8 +18,8 @@ std::string createRandomString(int sz) {
 }
 
 int calculateSymbolsCountSequental(const std::string& string, char symbol) {
-    if (string.size() == 0)
-        throw "Invalid size";
+    if (string.size() <= 0)
+        return 0;
     int count = 0;
     for (auto it = string.cbegin(); it != string.cend(); ++it)
         if (*it == symbol)
@@ -29,8 +29,8 @@ int calculateSymbolsCountSequental(const std::string& string, char symbol) {
 
 int getParallelSymbolsCount(const std::string& global_string,
                             int count_size_vector, char symbol) {
-    if (global_string.size() == 0)
-        throw "Invalid size";
+    if (global_string.size() <= 0)
+        return 0;
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
