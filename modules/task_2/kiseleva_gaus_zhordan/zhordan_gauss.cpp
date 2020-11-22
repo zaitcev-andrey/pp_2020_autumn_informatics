@@ -297,8 +297,6 @@ double* zhordan_gauss(double* array, int str) {
                         MPI_Send(&res_[0], delta, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
                     }
                 }
-                delete[] local_array1;
-                delete[] local_array2;
             }
             if (rank == 0) {
                 for (int i = 1; i < size; i++) {
