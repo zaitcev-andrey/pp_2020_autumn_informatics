@@ -172,7 +172,6 @@ double* zhordan_gauss(double* array, int str) {
                 }
             } else {
                 local_array1 = new double[stlb*delta];
-                sizearr = stlb * delta;
                 MPI_Recv(&local_array1[0], stlb*delta, MPI_DOUBLE, 0, 3, MPI_COMM_WORLD, &status);
             }
         MPI_Barrier(MPI_COMM_WORLD);
