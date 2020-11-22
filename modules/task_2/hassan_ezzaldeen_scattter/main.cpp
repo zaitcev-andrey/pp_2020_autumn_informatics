@@ -3,7 +3,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <string>
 #include <vector>
-#include "./scattter_mpi.h"
+#include "./hassan_ezzaldeen_scattter.h"
 #include "../../../modules/task_2/hassan_ezzaldeen_scattter/scatter.h"
 
 TEST(scatter, throw_when_different_size) {
