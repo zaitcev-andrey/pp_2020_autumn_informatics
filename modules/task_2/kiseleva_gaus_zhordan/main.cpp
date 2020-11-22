@@ -1,24 +1,25 @@
+//Copyright 2020 Kiseleva Anastasia
 #include <mpi.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include "./zhordan_gauss.h"
-
+#include <limits>
 const double EPSILON = std::numeric_limits<double>::epsilon()*100000;
 
 TEST(Parallel_MPI, TEST_2x3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int str = 2;
-    double array[6]= { 5, 5 ,-5, 7, -3, 10 };
-    double *res=new double[2];
+    double array[6]= { 5, 5 , -5, 7, -3, 10 };
+    double *res = new double[2];
     double t0, t1;
     t0 = MPI_Wtime();
-    res = zhordan_gauss(array, str);     
+    res = zhordan_gauss(array, str);
     t1 = MPI_Wtime();
     if (rank == 0) {
         bool check = Check(array, 2, res, EPSILON);
-        ASSERT_TRUE(check);	
+        ASSERT_TRUE(check);
         std::cout << "paralel_time: " << t1 - t0 << std::endl;
         t0 = MPI_Wtime();
         posled(array, 2);
@@ -73,7 +74,7 @@ TEST(Parallel_MPI, TEST_2x3__) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int str = 2;
-    double array[6] = { 10, 10 ,-10, 12, -8, 15 };
+    double array[6] = { 10, 10 , -10, 12, -8, 15 };
     double *res = new double[2];
     double t0, t1;
     t0 = MPI_Wtime();
@@ -112,15 +113,15 @@ TEST(Parallel_MPI, TEST_5__) {
 }
 
 int main(int argc, char** argv) {
-	::testing::InitGoogleTest(&argc, argv);
-	MPI_Init(&argc, &argv);
+    ::testing::InitGoogleTest(&argc, argv);
+    MPI_Init(&argc, &argv);
 
-	::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
-	::testing::TestEventListeners& listeners = ::testing::UnitTest::GetInstance()->listeners();
+    ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
+    ::testing::TestEventListeners& listeners = ::testing::UnitTest::GetInstance()->listeners();
 
-	listeners.Release(listeners.default_result_printer());
-	listeners.Release(listeners.default_xml_generator());
+    listeners.Release(listeners.default_result_printer());
+    listeners.Release(listeners.default_xml_generator());
 
-	listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
-	return RUN_ALL_TESTS();
+    listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
+    return RUN_ALL_TESTS();
 }
