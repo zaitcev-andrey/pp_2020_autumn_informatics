@@ -69,7 +69,7 @@ TEST(Parallel_Operations_MPI, Test_rand_send_1) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     newcomm = StarComm(size);
-    if ((size == 1)||(size == 2)) {
+    if ((size == 1) || (size == 2)) {
         ASSERT_EQ(1, 1);
     } else {
         std::mt19937 gen;
