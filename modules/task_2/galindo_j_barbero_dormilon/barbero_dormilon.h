@@ -36,7 +36,7 @@ class Fila{
     int num_proc_ejec;
     bool barbero_durmiendo;
     int id_barbero;
-    
+
  public:
         explicit Fila(int id_proc = 1, int longitud = 100, int id_barbero = 0, int num_proc_ejec = 2) {
             if (longitud > 0) {
