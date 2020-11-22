@@ -30,9 +30,9 @@ TEST(Parallel_Operations_MPI, Test_Trans0to1) {
 }
 TEST(Parallel_Operations_MPI, Test_TransInt) {
     MPI_Comm comm;
-    int rank,size;
-    int proc1=0;
-    int proc2=0;
+    int rank, size;
+    int proc1 = 0;
+    int proc2 = 0;
     int in = 222;
     int out;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -45,7 +45,7 @@ TEST(Parallel_Operations_MPI, Test_TransInt) {
         int newsize = pow(2, d);
         std::mt19937 gen;
         std::uniform_int_distribution<> range{ 0, newsize - 1 };
-        while(proc1 == proc2) {
+        while (proc1 == proc2) {
             proc1 = range(gen);
             proc2 = range(gen);
         }
