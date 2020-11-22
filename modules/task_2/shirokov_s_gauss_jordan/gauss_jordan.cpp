@@ -37,7 +37,7 @@ int gauss_jordan(int argc, char* argv[]) {
     parallelGJElimination(procRows, procVec, n, rowsCount);
     collectData(resMat, resVec, procRows, procVec, n);
     if (procRank == ROOT) {
-        double* testRes = (double*)malloc(n * sizeof(double));
+        double* testRes = new double(n * sizeof(double));
         int maxPos;
         int i, j, k = 0;
         for (j = 0; j < n; ++j)
@@ -61,14 +61,14 @@ int gauss_jordan(int argc, char* argv[]) {
             if (fabs(testRes[maxPos] - b[maxPos]) < fabs(testRes[i] - b[i]))
                 maxPos = i;
         printf("Max delta = %2.14f", fabs(testRes[maxPos] - b[maxPos]));
-        free(testRes);
+        delete(testRes);
     }
-    free(a);
-    free(b);
-    free(resMat);
-    free(resVec);
-    free(procRows);
-    free(procVec);
+    delete(a);
+    delete(b);
+    delete(resMat);
+    delete(resVec);
+    delete(procRows);
+    delete(procVec);
     return 0;
 }
 void processInitialization(double** a, double** b, double** resMat, double** resVec,
@@ -78,15 +78,15 @@ void processInitialization(double** a, double** b, double** resMat, double** res
     for (i = 0; i < procRank; ++i)
         rowsRest -= rowsRest / (procCount - i);
     *rowsCount = rowsRest / (procCount - procRank);
-    *procRows = (double*)malloc(*rowsCount * n * sizeof(double));
-    *procVec = (double*)malloc(*rowsCount * sizeof(double));
+    *procRows = new double(*rowsCount * n * sizeof(double));
+    *procVec = new double(*rowsCount * sizeof(double));
     if (procRank == ROOT) {
         *a = createVec(n * n, MAX_NUMBER);
         *b = createVec(n, MAX_NUMBER);
-        *resMat = (double*)malloc(n * n * sizeof(double));
-        *resVec = (double*)malloc(n * sizeof(double));
+        *resMat = new double(n * n * sizeof(double));
+        *resVec = new double(n * sizeof(double));
     }
-    procPivotIter = (int*)malloc(*rowsCount * sizeof(int));
+    procPivotIter = new int(*rowsCount * sizeof(int));
     for (i = 0; i < *rowsCount; ++i)
         procPivotIter[i] = -1;
 }
@@ -206,12 +206,14 @@ void printMatrix(double* a, double* b, const int rowsCount, const int colsCount)
     }
 }
 double* createVec(const int n, const int max) {
+    std::random_device rd;
+    std::mt19937 number(rd());
     double* vec;
     int i;
     vec = (double*)malloc(n * sizeof(double));
     srand(time(0));
     for (i = 0; i < n; ++i)
-        vec[i] = rand() % max;
+        vec[i] = static_cast<int>(number() % max);
     return vec;
 }
 void collectData(double* resMat, double* resVec, double* procRows, double* procVec, const int n) {
