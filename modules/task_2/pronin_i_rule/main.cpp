@@ -108,15 +108,13 @@ TEST(Parallel_Operations_MPI, Random_To_Next) {
     MPI_Cart_coords(communicator, rank_random, 1, coordinates);
     if (coordinates[0] == dims[0] - 1) {
         coordinates_neighbour[0] = coordinates[0] - 1;
-    }
-    else {
+    } else {
         coordinates_neighbour[0] = coordinates[0] + 1;
     }
     MPI_Cart_rank(communicator, coordinates_neighbour, &rank_neighbour);
     if (rank == rank_random) {
         MPI_Send(&send_message, 1, MPI_INT, rank_neighbour, 0, communicator);
-    }
-    else if (rank == rank_neighbour) {
+    } else if (rank == rank_neighbour) {
         MPI_Status status;
         MPI_Recv(&recive_message, 1, MPI_INT, rank_random, 0, communicator, &status);
         ASSERT_EQ(send_message, recive_message);
