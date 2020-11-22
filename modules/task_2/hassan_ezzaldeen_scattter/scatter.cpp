@@ -2,6 +2,7 @@
 #include "../../../modules/task_2/hassan_ezzaldeen_scattter/scatter.h"
 #include <mpi.h>
 #include <string>
+#include<algorithm>
 #include <cstring>
 #include <vector>
 
