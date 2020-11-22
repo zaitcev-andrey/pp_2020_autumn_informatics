@@ -114,7 +114,7 @@ void parallelDirectFlow(double* procRows, double* procVec, const int n, const in
     double max;
     int pivotPos;
     struct PivotChoice procPivot, pivot;
-    double* pivotRow = (double*)malloc((n + 1) * sizeof(double));
+    double* pivotRow = new double((n + 1) * sizeof(double));
     int i, j;
     for (i = 0; i < n; ++i) {
         max = 0.0;
@@ -210,7 +210,7 @@ double* createVec(const int n, const int max) {
     std::mt19937 number(rd());
     double* vec;
     int i;
-    vec = (double*)malloc(n * sizeof(double));
+    vec = new double(n * sizeof(double));
     srand(time(0));
     for (i = 0; i < n; ++i)
         vec[i] = static_cast<int>(number() % max);
@@ -232,8 +232,8 @@ void collectData(double* resMat, double* resVec, double* procRows, double* procV
 }
 void setArraysValues(int** count, int** indices, const int n) {
     int rowsCount, rowsRest, i;
-    *count = (int*)malloc(procCount * sizeof(int));
-    *indices = (int*)malloc(procCount * sizeof(int));
+    *count = new int(procCount * sizeof(int));
+    *indices = new int(procCount * sizeof(int));
     rowsRest = n;
     rowsCount = n / procCount;
     (*count)[0] = rowsCount * n;
