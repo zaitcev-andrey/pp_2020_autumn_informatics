@@ -149,7 +149,6 @@ double* zhordan_gauss(double* array, int str) {
             MPI_Gather(&res_tmp, 1, MPI_DOUBLE, &res[0], 1, MPI_DOUBLE, 0, comm_newworld);
         }
     } else {
-        int sizearr;
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         int delta = str / size;
         int ost = str - delta * (size - 1);
