@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Gysarova Daria
+// Copyright 2020 Gysarova Daria
 #include <mpi.h>
 #include<algorithm>
 #include "../../../modules/task_2/gusarova_d_hypercube/hypercube.h"
