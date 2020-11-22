@@ -60,6 +60,7 @@ int gauss_jordan(int argc, char* argv[]) {
             if (fabs(testRes[maxPos] - b[maxPos]) < fabs(testRes[i] - b[i]))
                 maxPos = i;
         printf("Max delta = %2.14f", fabs(testRes[maxPos] - b[maxPos]));
+        free(testRes);
     }
     free(a);
     free(b);
