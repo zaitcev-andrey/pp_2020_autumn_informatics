@@ -55,7 +55,6 @@ TEST(Parallel_Operations_MPI, First_To_Last) {
 }
 TEST(Parallel_Operations_MPI, Random_To_Random) {
     int size;
-    int a = 1;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     if (size == 1) {
         ASSERT_EQ(true, true);
