@@ -191,11 +191,11 @@ TEST(JacobiMethod, 1000_SLE_parallel) {
     }
 }
 
-TEST(JacobiMethod, 10000_SLE_sequent) {
+TEST(JacobiMethod, 5000_SLE_sequent) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        int size = 10000;
+        int size = 5000;
         std::vector<double> A = generate_A(size);
         std::vector<double> b = generate_b(size);
 
@@ -211,13 +211,13 @@ TEST(JacobiMethod, 10000_SLE_sequent) {
     }
 }
 
-TEST(JacobiMethod, 10000_SLE_parallel) {
+TEST(JacobiMethod, 5000_SLE_parallel) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<double> A;
     std::vector<double> b;
     if (rank == 0) {
-        int size = 10000;
+        int size = 5000;
         A = generate_A(size);
         b = generate_b(size);
     }
