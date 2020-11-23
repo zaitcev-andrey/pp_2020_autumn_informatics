@@ -5,33 +5,115 @@
 #include <vector>
 #include "./gauss_vertical.h"
 
-TEST(GAUSSIAN_STRIP_VERTICAL_SCHEME, SUCCESSFULL_PARALLEL_METHOD) {
-  int rank;
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  const int size = 3;
-  std::vector<double> mat = { 4, 2, -1, 1, 5, 3, -2, 2, 3 };
-  std::vector<double> vec = { 2, -3, 0 };
-  std::vector<double> result = ParallelGauss(mat, 3, 3, vec, 3);
-  if (rank == 0) {
-    std::vector<double> exRes = { -1, 3, 1 };
-    ASSERT_EQ(result, exRes);
-  }
-}
+#define EPSILON 0.0001
 
 TEST(Gauss_Vertical, Incorrect_sizes) {
-    int procRank;
+    int procNum, procRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 0, cols = 10, vecSize = 10;
     Matrix matrix;
-    std::vector<double> vec;
+    Matrix vec;
     if (procRank == 0) {
         matrix = RandomMatrix(rows, cols);
         vec = RandomMatrix(vecSize, 1);
     }
     ASSERT_ANY_THROW(ParallelGauss(matrix, rows, cols, vec, vecSize));
 }
-TEST(Gauss_Vertical, 5x5x5) {
+
+TEST(Gauss_Vertical, Correct_Answer_Seq_3x3x3) {
     int procRank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+    const int rows = 3, cols = 3;
+    Matrix mat = {  1, 5, 3,
+                    4, 2, -1,
+                    -2, 2, 3};
+    Matrix vec = {  -3, 2, 0};
+    if (procRank == 0) {
+        Matrix result = SequentialGauss(mat, rows, cols, vec, rows);
+        Matrix exRes = { 7, -8, 10 };
+        for (int row = 0; row < rows; row++) {
+            ASSERT_NEAR(result[row], exRes[row], EPSILON);
+        }
+    }
+}
+
+TEST(Gauss_Vertical, Correct_Answer_Seq_4x4x4) {
+  int procRank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+  const int rows = 4, cols = 4;
+  Matrix mat = {1, 2, 3, 4,
+                5, 6, 7, 8,
+                9, 1, 2, 3,
+                4, 5, 1, 2};
+  Matrix vec = {3, 7, 5, 1};
+  if (procRank == 0) {
+    Matrix result = SequentialGauss(mat, rows, cols, vec, rows);
+    Matrix exRes = { 0.333333, -0.333333, 0.666667, 0.333333 };
+    for (int row = 0; row < rows; row++) {
+        ASSERT_NEAR(result[row], exRes[row], EPSILON);
+    }
+  }
+}
+
+TEST(Gauss_Vertical, Correct_Answer_Par_3x3x3) {
+    int procRank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+    const int rows = 3, cols = 3;
+    Matrix mat = {  1, 5, 3,
+                    4, 2, -1,
+                    -2, 2, 3};
+    Matrix vec = {  -3, 2, 0};
+    Matrix result = ParallelGauss(mat, rows, cols, vec, rows);
+    if (procRank == 0) {
+      Matrix exRes = SequentialGauss(mat, rows, cols, vec, rows);
+      for (int row = 0; row < rows; row++) {
+          ASSERT_NEAR(result[row], exRes[row], EPSILON);
+      }
+  }
+}
+TEST(Gauss_Vertical, Correct_Answer_Par_4x4x4) {
+  int procRank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+  const int rows = 4, cols = 4;
+  Matrix mat = {1, 2, 3, 4,
+                5, 6, 7, 8,
+                9, 1, 2, 3,
+                4, 5, 1, 2};
+  Matrix vec = {3, 7, 5, 1};
+  Matrix result = ParallelGauss(mat, rows, cols, vec, rows);
+  if (procRank == 0) {
+    Matrix exRes = SequentialGauss(mat, rows, cols, vec, rows);
+    for (int row = 0; row < rows; row++) {
+        ASSERT_NEAR(result[row], exRes[row], EPSILON);
+    }
+  }
+}
+
+TEST(Gauss_Vertical, 4x4x4) {
+    int procNum, procRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &procNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+    int rows = 4, cols = 4, vecSize = 4;
+    Matrix matrix;
+    Matrix vec;
+    Matrix res1, res2;
+    if (procRank == 0) {
+        matrix = RandomMatrix(rows, cols);
+        vec = RandomMatrix(vecSize, 1);
+    }
+    res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
+    if (procRank == 0) {
+        Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
+        for (int row = 0; row < rows; row++) {
+            ASSERT_NEAR(res1[row], res2[row], EPSILON);
+        }
+    }
+}
+
+TEST(Gauss_Vertical, 5x5x5) {
+    int procNum, procRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 5, cols = 5, vecSize = 5;
     Matrix matrix;
@@ -44,27 +126,13 @@ TEST(Gauss_Vertical, 5x5x5) {
     res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
-        ASSERT_EQ(res1, res2);
+        for (int row = 0; row < rows; row++) {
+            ASSERT_NEAR(res1[row], res2[row], EPSILON);
+        }
     }
 }
-TEST(Gauss_Vertical, 7x7x7) {
-    int procRank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int rows = 7, cols = 7, vecSize = 7;
-    Matrix matrix;
-    Matrix vec;
-    Matrix res1, res2;
-    if (procRank == 0) {
-        matrix = RandomMatrix(rows, cols);
-        vec = RandomMatrix(vecSize, 1);
-    }
-    res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
-    if (procRank == 0) {
-        Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
-        ASSERT_EQ(res1, res2);
-    }
-}
-TEST(Gauss_Vertical, 30x30x30) {
+
+TEST(Gauss_Vertical, 6x6x6) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int rows = 30, cols = 30, vecSize = 30;
@@ -78,9 +146,12 @@ TEST(Gauss_Vertical, 30x30x30) {
     res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
-        ASSERT_EQ(res1, res2);
+        for (int row = 0; row < rows; row++) {
+            ASSERT_NEAR(res1[row], res2[row], EPSILON);
+        }
     }
 }
+
 TEST(Gauss_Vertical, 50x50x50) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
@@ -95,7 +166,9 @@ TEST(Gauss_Vertical, 50x50x50) {
     res1 = ParallelGauss(matrix, rows, cols, vec, vecSize);
     if (procRank == 0) {
         Matrix res2 = SequentialGauss(matrix, rows, cols, vec, vecSize);
-        ASSERT_EQ(res1, res2);
+        for (int row = 0; row < rows; row++) {
+            ASSERT_NEAR(res1[row], res2[row], EPSILON);
+        }
     }
 }
 
