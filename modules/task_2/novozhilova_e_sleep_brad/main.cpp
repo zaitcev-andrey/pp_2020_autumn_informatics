@@ -5,7 +5,7 @@
 #include "./sleep_brad.h"
 
 TEST(Parallel_Barber_MPI, Test_q_size_10) {
-    double t1 = MPI_Wtime();
+    // double t1 = MPI_Wtime();
     int Comm_rank, Comm_size;
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
@@ -13,12 +13,12 @@ TEST(Parallel_Barber_MPI, Test_q_size_10) {
     MPI_Barrier(MPI_COMM_WORLD);
     int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    double t2 = MPI_Wtime();
+    // double t2 = MPI_Wtime();
     // std::cout << std::endl << t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_3) {
-    double t1 = MPI_Wtime();
+    // double t1 = MPI_Wtime();
     int Comm_rank, Comm_size;
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
@@ -26,12 +26,12 @@ TEST(Parallel_Barber_MPI, Test_q_size_3) {
     MPI_Barrier(MPI_COMM_WORLD);
     int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    double t2 = MPI_Wtime();
+    // double t2 = MPI_Wtime();
     // std::cout << std::endl << t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_1) {
-    double t1 = MPI_Wtime();
+    // double t1 = MPI_Wtime();
     int Comm_rank, Comm_size;
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
@@ -39,12 +39,12 @@ TEST(Parallel_Barber_MPI, Test_q_size_1) {
     MPI_Barrier(MPI_COMM_WORLD);
     int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    double t2 = MPI_Wtime();
+    // double t2 = MPI_Wtime();
     // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_15) {
-    double t1 = MPI_Wtime();
+    // double t1 = MPI_Wtime();
     int Comm_rank, Comm_size;
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
@@ -52,12 +52,12 @@ TEST(Parallel_Barber_MPI, Test_q_size_15) {
     MPI_Barrier(MPI_COMM_WORLD);
     int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    double t2 = MPI_Wtime();
+    // double t2 = MPI_Wtime();
     // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }
 TEST(Parallel_Barber_MPI, Test_q_size_Comm_size) {
-    double t1 = MPI_Wtime();
+    // double t1 = MPI_Wtime();
     int Comm_rank, Comm_size;
     MPI_Comm_rank(MPI_COMM_WORLD, &Comm_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &Comm_size);
@@ -65,7 +65,7 @@ TEST(Parallel_Barber_MPI, Test_q_size_Comm_size) {
     MPI_Barrier(MPI_COMM_WORLD);
     int result = Barbershop(queue_max_size);
     MPI_Barrier(MPI_COMM_WORLD);
-    double t2 = MPI_Wtime();
+    // double t2 = MPI_Wtime();
     // std::cout << std::endl<< t2 - t1 << std::endl;
     ASSERT_EQ(0, result);
 }

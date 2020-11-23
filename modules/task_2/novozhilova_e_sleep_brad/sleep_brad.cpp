@@ -76,6 +76,11 @@ int Barbershop(const int q_max_size) {
                 }
             }
             MPI_Send(&request, 1, MPI_INT, 1, cancel_tag, MPI_COMM_WORLD);
+            for (int i = 0; i < Comm_size - 2; i++) {
+                if ((v[i] > happy_cl) || (v[i] < disappointed_cl)) {
+                    return 1;
+                }
+            }
         }
         if (Comm_rank == 1) {
             MPI_Status statusB;
@@ -94,13 +99,6 @@ int Barbershop(const int q_max_size) {
         }
         if ((Comm_rank != 0) && (Comm_rank != 1)) {
             MPI_Send(&request, 1, MPI_INT, 0, barb_req, MPI_COMM_WORLD);
-        }
-        if (Comm_rank == 0) {
-            for (int i = 0; i < Comm_size - 2; i++) {
-                if ( (v[i] > happy_cl) || (v[i] < disappointed_cl) ) {
-                    return 1;
-                }
-            }
         }
         return 0;
 }
