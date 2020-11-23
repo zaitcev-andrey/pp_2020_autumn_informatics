@@ -52,7 +52,7 @@ int Barbershop(const int q_max_size) {
                 if (status.MPI_TAG == barb_req) {
                     if (barb_state == 1) {
                         if (q_real_size == q_max_size) {
-                            std::cout << "rank no. " << status.MPI_SOURCE << " left because the queue is full" << std::endl;
+                            std::cout << "rank no. " << status.MPI_SOURCE << " left" << std::endl;
                             v[status.MPI_SOURCE - 2] = disappointed_cl;
                             cl_count++;
                         }
