@@ -5,7 +5,7 @@
 #include <vector>
 #include "./gauss_vertical.h"
 
-#define EPSILON 0.0001
+#define EPSILON 0.001
 
 TEST(Gauss_Vertical, Incorrect_sizes) {
     int procNum, procRank;

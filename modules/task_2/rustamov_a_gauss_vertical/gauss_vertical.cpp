@@ -7,7 +7,7 @@
 #include <iomanip>
 #include "../../../modules/task_2/rustamov_a_gauss_vertical/gauss_vertical.h"
 
-#define EPSILON 0.0001
+#define EPSILON 0.001
 
 Matrix RandomMatrix(int rows, int cols) {
     std::random_device rd;
