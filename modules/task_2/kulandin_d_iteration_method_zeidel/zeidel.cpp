@@ -29,16 +29,20 @@ std::vector<double> randomVectorB(const size_t sz) {
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<double> ans(sz);
     for (size_t i = 0; i < sz; ++i) {
-        ans[i] = gen() % 100;
+        ans[i] = gen() % 1000;
     }
     return ans;
 }
 
-bool converge(const std::vector<double>& x, const std::vector<double>& last, double eps) {
+bool converge(const std::vector<double>& a, const std::vector<double>& x,
+              const std::vector<double>& b, size_t n, double eps) {
     double ans = 0;
-    for (size_t i = 0; i < x.size(); ++i) {
-        double tmp = x[i] - last[i];
-        ans += tmp * tmp;
+    for (size_t i = 0; i < n; ++i) {
+        double val = 0;
+        for (size_t j = 0; j < n; ++j) {
+            val += a[i * n + j] * x[j];
+        }
+        ans += std::pow(val - b[i], 2);
     }
     return sqrt(ans) < eps;
 }
@@ -46,9 +50,8 @@ bool converge(const std::vector<double>& x, const std::vector<double>& last, dou
 std::pair<bool, std::vector<double> > zeidelSequential(const std::vector<double>& a, const std::vector<double>& b,
                                                        size_t n, double eps) {
     int cntIterations = 100;
-    std::vector<double> x(n, 0), last(n, 0);
+    std::vector<double> x(n, 0);
     do {
-        last = x;
         for (size_t i = 0; i < n; ++i) {
             x[i] = 0;
             double gg = 0;
@@ -57,7 +60,7 @@ std::pair<bool, std::vector<double> > zeidelSequential(const std::vector<double>
             }
             x[i] = (b[i] - gg) / a[i * n + i];
         }
-    } while (!converge(x, last, eps) && cntIterations--);
+    } while (!converge(a, x, b, n, eps) && cntIterations--);
     return std::make_pair(cntIterations != 0, x);
 }
 
@@ -73,8 +76,8 @@ double calcParallel(const std::vector<double>& a, const std::vector<double>& x, 
             MPI_Send(&x[0] + rem + j * delta, delta, MPI_DOUBLE, j, 1, MPI_COMM_WORLD);
         }
     }
-    std::vector<double> local(rem + delta);
-    std::vector<double> localX(rem + delta);
+    std::vector<double> local(procRank == 0 ? rem + delta : delta);
+    std::vector<double> localX(procRank == 0 ? rem + delta : delta);
     if (procRank == 0) {
         local = std::vector<double>(a.begin() + row * n, a.begin() + row * n + delta + rem);
         localX = std::vector<double>(x.begin(), x.begin() + delta + rem);
@@ -98,16 +101,15 @@ std::pair<bool, std::vector<double> > zeidelParallel(const std::vector<double>& 
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     int cntIterations = 100;
-    std::vector<double> x(n, 0), last(n, 0);
+    std::vector<double> x(n, 0);
     char result;
     do {
-        last = x;
         for (size_t i = 0; i < n; ++i) {
             x[i] = 0;
             double gg = calcParallel(a, x, i, n);
             x[i] = (b[i] - gg) / a[i * n + i];
         }
-        if (!converge(x, last, eps) && cntIterations--) {
+        if (!converge(a, x, b, n, eps) && cntIterations--) {
             result = 1;
         } else {
             result = 0;
