@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 #include <gtest-mpi-listener.hpp>
 #include <string>
-#include <mpi.h>
 #include <vector>
 #include <random>
 #include "../../../modules/task_2/hassan_ezzaldeen_scattter/scatter.h"
