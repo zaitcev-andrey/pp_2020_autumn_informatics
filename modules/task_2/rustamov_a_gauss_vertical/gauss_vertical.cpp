@@ -7,7 +7,7 @@
 #include <iomanip>
 #include "../../../modules/task_2/rustamov_a_gauss_vertical/gauss_vertical.h"
 
-#define EPSILON 0.0000001
+#define EPSILON 0.0001
 
 Matrix RandomMatrix(int rows, int cols) {
     std::random_device rd;
@@ -82,7 +82,6 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols, const Matrix& v
             break;
         }
     }
-    
     // Обратный ход
     for (int n = rows - 1; n >= 0 ; n--) {
         d = 0.0;
@@ -119,7 +118,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     const int remain = cols % procNum;
     int remain_for_proc;
     int *remains = new int[procNum];
-    if (procRank == 0){
+    if (procRank == 0) {
         for (int proc = 0; proc < procNum; proc++) {
             remains[proc] = (proc < remain ? 1 : 0);
         }
@@ -130,17 +129,10 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     int *pivot_order = new int[rows];
     char *was_pivot = new char[rows];
     Matrix result(rows);
-    // MPI_Barrier(MPI_COMM_WORLD);
     for (int row = 0; row < rows; row++) {
         pivot_order[row] = -1;
         was_pivot[row] = -1;
-        // result[row] = 0.0;
     }
-    
-    std::fill(local_matrix.begin(), local_matrix.end(), 0.0);
-    std::fill(coefs.begin(), coefs.end(), 0.0);
-    std::fill(result.begin(), result.end(), 0.0);
-    
     // Создать тип данных - столбец
     MPI_Datatype Column;
     MPI_Type_vector(rows, 1, rows, MPI_DOUBLE, &Column);
@@ -198,7 +190,6 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
             }
         }
         // Передать root, was_pivot, coefs, pivot_order
-        // MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&new_root, &root, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
         MPI_Bcast(was_pivot, rows, MPI_CHAR, root, MPI_COMM_WORLD);
         MPI_Bcast(coefs.data(), rows, MPI_DOUBLE, root, MPI_COMM_WORLD);
@@ -206,12 +197,13 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
         // Вычесть ведущую строку из остальных
         for (int local_row = 0; local_row < delta + remain_for_proc; local_row++) {
             for (int local_col = 0; local_col < rows; local_col++) {
-                if ((was_pivot[local_col] == -1)||(fabs(local_matrix[local_row* rows + local_col]) < EPSILON)) {
+                if ((was_pivot[local_col] == -1) || (fabs(local_matrix[local_row* rows + local_col]) < EPSILON)) {
                     local_matrix[local_row* rows + local_col] -=
                     coefs[local_col] *
                     local_matrix[local_row * rows + pivot_order[current_col]];
                     // Отсечь значения, меньшие по модулю, чем эпсилон
-                    local_matrix[local_row* rows + local_col] = (fabs(local_matrix[local_row* rows + local_col]) < EPSILON ?
+                    local_matrix[local_row* rows + local_col] =
+                    (fabs(local_matrix[local_row* rows + local_col]) < EPSILON ?
                     0 : local_matrix[local_row* rows + local_col]);
                 }
             }
@@ -236,7 +228,7 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
     // Обратный ход
     double d;
     if (procRank == 0) {
-        Matrix triangle_transposed (cols * rows);
+        Matrix triangle_transposed(cols * rows);
         for (int col = 0; col < cols; col++) {
             if (col % procNum == 0) {
                 for (int row = 0; row < rows; row++) {
@@ -245,7 +237,8 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
                 }
             } else {
                 MPI_Status status;
-                MPI_Recv(triangle_transposed.data() + col * rows, rows, MPI_DOUBLE, col % procNum, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(triangle_transposed.data() + col * rows, rows,
+                MPI_DOUBLE, col % procNum, 0, MPI_COMM_WORLD, &status);
             }
         }
         for (int n = rows - 1; n >= 0 ; n--) {
