@@ -47,9 +47,6 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols, const Matrix& v
                 max_i = i;
             }
         }
-        if (max < EPSILON) {
-            throw("Singular matrix");
-        }
         was_pivot[max_i] = true;
         pivot_order[current_col] = max_i;
         // Подсчитать коэффиценты
@@ -89,14 +86,8 @@ Matrix SequentialGauss(const Matrix& matrix, int rows, int cols, const Matrix& v
             d += result[k] *
                 temp_matrix[pivot_order[n] * cols + k];
         }
-        if ((fabs(temp_matrix[pivot_order[n] * cols + n])) <= EPSILON) {
-            throw("Singular matrix");
-        }
         result[n] = (temp_vector[pivot_order[n]] - d) /
             temp_matrix[pivot_order[n] * cols + n];
-    }
-    if ((fabs(result[rows - 1])) <= EPSILON) {
-        throw("Singular matrix");
     }
     return result;
 }
@@ -175,9 +166,6 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
                     max_i = local_col;
                 }
             }
-            if (fabs(max) < EPSILON) {
-                throw("Singular matrix");
-            }
             was_pivot[max_i] = 1;
             pivot_order[current_col] = max_i;
             // Подсчитать коэффиценты
@@ -248,9 +236,6 @@ Matrix ParallelGauss(const Matrix& matrix, int rows, int cols,
             }
             result[n] = (temp_vector[pivot_order[n]] - d) /
                 triangle_transposed[n * cols + pivot_order[n]];
-        }
-        if ((fabs(result[rows - 1])) <= EPSILON) {
-            throw("Singular matrix");
         }
     } else {
         for (int col_count = 0; col_count < delta + remain_for_proc; col_count++) {
