@@ -61,7 +61,7 @@ TEST(Parallel_Operations_MPI, Test_Matrix11_11) {
 
 TEST(Parallel_Operations_MPI, Test_Matrix10_5) {
     const int rows = 10;
-    const int columns = 1;
+    const int columns = 5;
     std::vector<int> matr;
     std::vector<int> vec;
     int rank;
