@@ -6,8 +6,6 @@
 #include <vector>
 #include "./zeidel.h"
 
-const double EPS = 1e-8;
-
 TEST(Parallel_MPI, Test_1) {
     int procNum, procRank;
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
