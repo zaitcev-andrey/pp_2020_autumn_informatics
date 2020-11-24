@@ -24,6 +24,24 @@ TEST(Parallel_Lab2_MPI, Test_int) {
     }
 }
 
+TEST(Parallel_Lab2_MPI, Test_float) {
+    int rank, size;
+    int root = 0;
+    int num = 5;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    std::vector<float> vec = getRandomArrFloat(num, rank);
+    std::vector<float> rbuf(size * num);
+    std::vector<float> mybuf(size * num);
+    Gather(vec.data(), num, MPI_FLOAT,
+        mybuf.data(), num, MPI_FLOAT, root, MPI_COMM_WORLD);
+    MPI_Gather(vec.data(), num, MPI_FLOAT,
+        rbuf.data(), num, MPI_FLOAT, root, MPI_COMM_WORLD);
+    if (rank == root) {
+        ASSERT_EQ(mybuf, rbuf);
+    }
+}
+
 TEST(Parallel_Lab2_MPI, Test_double) {
     int rank, size;
     int root = 0;
@@ -37,28 +55,6 @@ TEST(Parallel_Lab2_MPI, Test_double) {
         mybuf.data(), num, MPI_DOUBLE, root, MPI_COMM_WORLD);
     MPI_Gather(vec.data(), num, MPI_DOUBLE,
         rbuf.data(), num, MPI_DOUBLE, root, MPI_COMM_WORLD);
-    if (rank == root) {
-        ASSERT_EQ(mybuf, rbuf);
-    }
-}
-
-TEST(Parallel_Lab2_MPI, Test_int_and_time) {
-    int rank, size;
-    int root = 0;
-    int num = 5;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    std::vector<int> vec = getRandomArrInt(num, rank);
-    std::vector<int> rbuf(size * num);
-    std::vector<int> mybuf(size * num);
-    double mytimes = MPI_Wtime();
-    Gather(vec.data(), num, MPI_INT,
-        mybuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
-    double mytimef = MPI_Wtime();
-    double times = MPI_Wtime();
-    MPI_Gather(vec.data(), num, MPI_INT,
-        rbuf.data(), num, MPI_INT, root, MPI_COMM_WORLD);
-    double timef = MPI_Wtime();
     if (rank == root) {
         ASSERT_EQ(mybuf, rbuf);
     }

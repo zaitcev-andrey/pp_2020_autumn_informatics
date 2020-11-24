@@ -18,6 +18,16 @@ std::vector<int> getRandomArrInt(int number, int s) {
     return array;
 }
 
+std::vector<float> getRandomArrFloat(int number, int s) {
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+    std::vector<float> array(number);
+    for (int i = 0; i < number; i++) {
+        array[i] = ((gen() % 100) / 10.0) * (s + 0.1);
+    }
+    return array;
+}
+
 std::vector<double> getRandomArrDouble(int number, int s) {
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
