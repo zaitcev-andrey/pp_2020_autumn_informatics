@@ -98,7 +98,7 @@ TEST(Topology_Ring, Send_High_Array) {
     MPI_Comm_rank(ringTop, &ProcRank);
     int array_size = 2000;
     int current_rank = 0;
-    int finite_rank = ProcNum-1;
+    int finite_rank = ProcNum - 1;
     int* array = randomizeArray(array_size);
     if (finite_rank > ProcNum - 1) {
         finite_rank = ProcNum - 1;
@@ -125,4 +125,3 @@ int main(int argc, char** argv) {
     listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
     return RUN_ALL_TESTS();
 }
-

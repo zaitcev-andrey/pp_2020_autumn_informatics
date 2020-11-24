@@ -7,7 +7,7 @@ int* randomizeArray(int size) {
     gen.seed(static_cast<unsigned int>(time(0)));
     int* array = new int[size];
     for (int i = 0; i < size; i++) {
-        array[i] = gen()%200;
+        array[i] = gen() % 2000;
     }
     return array;
 }
@@ -39,28 +39,30 @@ int* Send(int* local_arr1, int arraySize, int currentRank, int finiteRank, MPI_C
     if (ProcRank == currentRank) {
         MPI_Isend(&local_arr[0], arraySize, MPI_INT, local_dest_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
-        free(local_arr);
-        free(res);
+        // free(local_arr);
+        // free(res);
     } else if (currentRank > finiteRank &&
         ((ProcRank > currentRank && ProcRank < ProcNum) || (ProcRank < finiteRank))) {
         MPI_Irecv(&res[0], arraySize, MPI_INT, local_current_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
         MPI_Isend(&local_arr[0], arraySize, MPI_INT, local_dest_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
-        free(local_arr);
-        free(res);
+        // free(local_arr);
+       // free(res);
     } else if (currentRank < finiteRank && ProcRank > currentRank && ProcRank < finiteRank) {
         MPI_Irecv(&res[0], arraySize, MPI_INT, local_current_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
         MPI_Isend(&local_arr[0], arraySize, MPI_INT, local_dest_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
-        free(local_arr);
-        free(res);
+        // free(local_arr);
+        // free(res);
     } else if (ProcRank == finiteRank) {
         MPI_Irecv(&res[0], arraySize, MPI_INT, local_current_rank, 0, ringTop, &request);
         MPI_Wait(&request, &status);
-        free(local_arr);
-        free(res);
+        // free(local_arr);
+        // free(res);
     }
     return res;
+    // free(local_arr);
+    // free(res);
 }
