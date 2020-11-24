@@ -76,8 +76,8 @@ double calcParallel(const std::vector<double>& a, const std::vector<double>& x, 
             MPI_Send(&x[0] + rem + j * delta, delta, MPI_DOUBLE, j, 1, MPI_COMM_WORLD);
         }
     }
-    std::vector<double> local(procRank == 0 ? rem + delta : delta);
-    std::vector<double> localX(procRank == 0 ? rem + delta : delta);
+    std::vector<double> local(rem + delta);
+    std::vector<double> localX(rem + delta);
     if (procRank == 0) {
         local = std::vector<double>(a.begin() + row * n, a.begin() + row * n + delta + rem);
         localX = std::vector<double>(x.begin(), x.begin() + delta + rem);
