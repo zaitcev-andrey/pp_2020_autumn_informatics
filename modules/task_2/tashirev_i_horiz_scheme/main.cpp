@@ -5,9 +5,9 @@
 
 #include "../../../modules/task_2/tashirev_i_horiz_scheme/RibbonHorizontalPattern.h"
 
-TEST(Parallel_Operations_MPI, Test_Matrix100_10) {
-    const int rows = 100;
-    const int columns = 10;
+TEST(Parallel_Operations_MPI, Test_Matrix4_3) {
+    const int rows = 4;
+    const int columns = 3;
     std::vector<int> matr;
     std::vector<int> vec;
     int rank;
@@ -41,9 +41,9 @@ TEST(Parallel_Operations_MPI, Test_Matrix5_3) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Test_Matrix11_11) {
-    const int rows = 11;
-    const int columns = 11;
+TEST(Parallel_Operations_MPI, Test_Matrix10_10) {
+    const int rows = 10;
+    const int columns = 10;
     std::vector<int> matr;
     std::vector<int> vec;
     int rank;
@@ -77,9 +77,9 @@ TEST(Parallel_Operations_MPI, Test_Matrix10_5) {
     }
 }
 
-TEST(Parallel_Operations_MPI, Test_Matrix20_15) {
+TEST(Parallel_Operations_MPI, Test_Matrix20_5) {
     const int rows = 20;
-    const int columns = 15;
+    const int columns = 5;
     std::vector<int> matr;
     std::vector<int> vec;
     int rank;
