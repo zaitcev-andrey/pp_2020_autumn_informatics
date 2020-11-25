@@ -19,7 +19,7 @@ std::vector<int> getRandomMatrix(int rows, int cols, time_t seed) {
 
 std::vector<int> getSequentialMultiplication(std::vector<int> matrixA, std::vector<int> matrixB, int aRows) {
     std::vector<int> matrixC(matrixA.size());
-    for (int i = 0; i < matrixA.size() / aRows; i++) {
+    for (unsigned int i = 0; i < matrixA.size() / aRows; i++) {
         for (int j = 0; j < aRows; j++) {
             matrixC[i * aRows + j] = 0;
             for (int k = 0; k < aRows; k++) {
