@@ -26,7 +26,6 @@
                     ASSERT_NEAR(sub_solution1[i], sub_solution2[i], 0.00001);
                 }
             }
-        
         delete[] array1;
         delete[] sub_solution1;
     }
