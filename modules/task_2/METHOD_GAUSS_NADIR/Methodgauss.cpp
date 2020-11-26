@@ -8,7 +8,6 @@
 
 
 double* methodGauss(std::vector<std::vector<double>> array, double* solution, int row) {
-
     double temp, s;
 
     for (int j = 0; j < row - 1; j++) {
@@ -29,23 +28,14 @@ double* methodGauss(std::vector<std::vector<double>> array, double* solution, in
         else {
             solution[i] = (array[i][row] - s) / array[i][i];
         }
-
     }
-
-
     for (int i = 0; i < row; i++)
         std::cout << std::setw(8) << std::setprecision(4) << solution[i] << std::endl;
-
     return solution;
-
-
 }
-
 
 void methodGaussParallel(const double* array, double* solution, int row, int col) {
     int size, rank;
-
-
     double* array_temp = new double[row * col];
     for (int i = 0; i < row * col; i++) { array_temp[i] = array[i]; }
 
@@ -136,8 +126,6 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
         if ((i + 1) % col == 0) { std::cout << std::endl; }
     }
     std::cout << "\n --------------------------------------------------------------------------\n";
-
-
 
     delete[] array_temp;
     delete[] sub_array;

@@ -11,11 +11,11 @@ TEST(GAUSS_PARALLEL_MPI, 2x3) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int row = 2, col = 3;
 
-    double* array1{ new double[row * col]{ 1,2,3,4,5,6 } };
+    double* array1{ new double[row * col]{ 1, 2, 3, 4, 5, 6 } };
     double* sub_solution1 = new double[row];
    methodGaussParallel(array1, sub_solution1, row,col);
 
-    std::vector<std::vector<double>>array2{ {1,2,3} ,{4,5,6} };
+    std::vector<std::vector<double>>array2{ {1, 2, 3} , {4, 5, 6} };
     double* sub_solution2=new double[row];
      methodGauss(array2, sub_solution2 ,row);
   
@@ -33,11 +33,11 @@ TEST(GAUSS_PARALLEL_MPI, 3x4) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int row = 3, col = 4;
 
-    double* array1{ new double[row * col]{ 1,2,3,4,5,6,7,8,9,10,11,12 } };
+    double* array1{ new double[row * col]{ 1 ,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 } };
     double* sub_solution1 = new double[row];
     methodGaussParallel(array1, sub_solution1, row, col);
 
-    std::vector<std::vector<double>>array2{ {1,2,3,4} ,{5,6,7,8},{9,10,11,12} };
+    std::vector<std::vector<double>>array2{ {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12} };
     double* sub_solution2 = new double[row];
     methodGauss(array2, sub_solution2, row);
 
