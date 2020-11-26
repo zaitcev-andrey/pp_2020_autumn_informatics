@@ -8,4 +8,4 @@
 double* methodGauss(std::vector<std::vector<double>> array, double* solution, int row);
 void methodGaussParallel(const double* array, double* solution, int row, int col);
 
-#endif  // MODULES_TASK_2_METHOD_GAUSS_NADIR_METHODGAUSS_H_R_METHODGAUSS_H_
+#endif  // MODULES_TASK_2_METHOD_GAUSS_NADIR_METHODGAUSS_H_

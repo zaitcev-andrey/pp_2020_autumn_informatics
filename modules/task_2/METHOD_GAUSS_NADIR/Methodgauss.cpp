@@ -6,10 +6,7 @@
 #include "../../../modules/task_2/METHOD_GAUSS_NADIR/Methodgauss.h"
 
 double* methodGauss(std::vector<std::vector<double>> array, double* solution, int row) {
-
     double temp, s;
-
-
     for (int j = 0; j < row - 1; j++) {
         for (int i = j + 1; i < row; i++) {
             temp = array[i][j] / array[j][j];
@@ -19,7 +16,6 @@ double* methodGauss(std::vector<std::vector<double>> array, double* solution, in
         }
     }
 
-
     for (int i = row - 1; i >= 0; i--) {
         s = 0;
         for (int j = i + 1; j < row; j++)
@@ -27,11 +23,9 @@ double* methodGauss(std::vector<std::vector<double>> array, double* solution, in
 
         if (array[i][i] == 0) {
             solution[i] = 0;
-        }
-        else {
+        } else {
             solution[i] = (array[i][row] - s) / array[i][i];
         }
-
     }
     for (int i = 0; i < row; i++)
         std::cout << std::setw(8) << std::setprecision(4) << solution[i] << std::endl;
@@ -50,8 +44,7 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
 
     if (rank < rest_Row) {
         stan_Row = n_Row + 1;
-    }
-    else {
+    } else {
         stan_Row = n_Row;
     }
 
@@ -61,11 +54,9 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
 
     n_displac[0] = 0;
     for (int i = 0; i < size; i++) {
-
         if (i < rest_Row) {
             n_Element[i] = (n_Row + 1) * col;
-        }
-        else {
+        } else {
             n_Element[i] = n_Row * col;
         }
         if (i > 0) {
@@ -134,7 +125,4 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
     delete[] n_Element;
     delete[] n_displac;
     delete[] part_trans;
-
-
-
 }
