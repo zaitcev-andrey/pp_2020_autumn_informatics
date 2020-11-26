@@ -1,21 +1,18 @@
 // Copyright 2020 Nadir mohammed
+#include<mpi.h>
 #include<iostream>
 #include<iomanip>
 #include<vector>
-#include<mpi.h>
 #include "../../../modules/task_2/METHOD_GAUSS_NADIR/Methodgauss.h"
 
 
 
-double* methodGauss(std::vector<std::vector<double>> array, double* solution, int row)
-{
+double* methodGauss(std::vector<std::vector<double>> array, double* solution, int row) {
 
     double temp, s;
 
-    for (int j = 0; j < row - 1; j++)
-    {
-        for (int i = j + 1; i < row; i++)
-        {
+    for (int j = 0; j < row - 1; j++) {
+        for (int i = j + 1; i < row; i++) {
             temp = array[i][j] / array[j][j];
 
             for (int k = 0; k < row + 1; k++)
@@ -23,14 +20,13 @@ double* methodGauss(std::vector<std::vector<double>> array, double* solution, in
         }
     }
 
-    for (int i = row - 1; i >= 0; i--)
-    {
+    for (int i = row - 1; i >= 0; i--) {
         s = 0;
         for (int j = i + 1; j < row; j++)
             s += array[i][j] * solution[j];
-        if (array[i][i] == 0) { solution[i] = 0; }
-        else
-        {
+        if (array[i][i] == 0) { 
+            solution[i] = 0; }
+        else {
             solution[i] = (array[i][row] - s) / array[i][i];
         }
 
@@ -60,8 +56,10 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
     int rest_Row = row % size;
 
     int stan_Row;
-    if (rank < rest_Row) { stan_Row = n_Row + 1; }
-    else { stan_Row = n_Row; }
+    if (rank < rest_Row) { 
+        stan_Row = n_Row + 1; }
+    else { 
+        stan_Row = n_Row; }
 
     double* sub_array = new double[col * stan_Row];
     int* n_Element = new int[size];
@@ -69,16 +67,18 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
 
     n_displac[0] = 0;
     for (int i = 0; i < size; i++) {
-        if (i < rest_Row) { n_Element[i] = (n_Row + 1) * col; }
-        else { n_Element[i] = n_Row * col; }
-        if (i > 0) { n_displac[i] = n_displac[i - 1] + n_Element[i - 1]; }
+        if (i < rest_Row) { 
+            n_Element[i] = (n_Row + 1) * col; }
+        else { 
+            n_Element[i] = n_Row * col; }
+        if (i > 0) { 
+            n_displac[i] = n_displac[i - 1] + n_Element[i - 1]; }
     }
     MPI_Scatterv(array_temp, n_Element, n_displac, MPI_DOUBLE, sub_array, stan_Row * col, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     double* part_trans = new double[col];
 
-    for (int i = 0; i < n_displac[rank] / col; i++)
-    {
+    for (int i = 0; i < n_displac[rank] / col; i++) {
         int rac = 0, sum = 0;
         for (int j = 0; j < size; j++) {
             sum += n_Element[j] / col;
@@ -130,12 +130,10 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
         }
     }
 
-    for (int i = 0; i < row; i++)
-    {
+    for (int i = 0; i < row; i++) {
         std::cout << std::setprecision(4) << std::setw(8) << std::fixed << solution[i] << std::endl;
 
         if ((i + 1) % col == 0) { std::cout << std::endl; }
-
     }
     std::cout << "\n --------------------------------------------------------------------------\n";
 
@@ -146,6 +144,4 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
     delete[] n_Element;
     delete[] n_displac;
     delete[] part_trans;
-
-
 }
