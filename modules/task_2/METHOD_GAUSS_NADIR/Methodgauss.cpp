@@ -48,59 +48,59 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
         stan_Row = n_Row;
     }
 
-    double* sub_array = new double[col * stan_Row];
-    int* n_Element = new int[size];
-    int* n_displac = new int[size];
+    double* sub_arr = new double[col * stan_Row];
+    int* n_El = new int[size];
+    int* n_disp = new int[size];
 
-    n_displac[0] = 0;
+    n_disp[0] = 0;
     for (int i = 0; i < size; i++) {
         if (i < rest_Row) {
-            n_Element[i] = (n_Row + 1) * col;
+            n_El[i] = (n_Row + 1) * col;
         } else {
-            n_Element[i] = n_Row * col;
+            n_El[i] = n_Row * col;
         }
         if (i > 0) {
-            n_displac[i] = n_displac[i - 1] + n_Element[i - 1];
+            n_disp[i] = n_disp[i - 1] + n_El[i - 1];
         }
     }
-    MPI_Scatterv(array_temp, n_Element, n_displac, MPI_DOUBLE, sub_array, stan_Row * col, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Scatterv(array_temp, n_El, n_disp, MPI_DOUBLE, sub_arr, stan_Row * col, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     double* part_trans = new double[col];
 
 
-    for (int i = 0; i < n_displac[rank] / col; i++) {
+    for (int i = 0; i < n_disp[rank] / col; i++) {
         int rac = 0, sum = 0;
         for (int j = 0; j < size; j++) {
-            sum += n_Element[j] / col;
+            sum += n_El[j] / col;
             if (i < sum) { rac = j; break; }  rac++;
         }
         MPI_Bcast(part_trans, col, MPI_DOUBLE, rac, MPI_COMM_WORLD);
-        for (int j = 0; j < n_Element[rank] / col; j++) {
-            double s = part_trans[i] / sub_array[j * col + i];
-            for (int z = i; z < col; z++) { sub_array[j * col + z] = s * sub_array[j * col + z] - part_trans[z]; }
+        for (int j = 0; j < n_El[rank] / col; j++) {
+            double s = part_trans[i] / sub_arr[j * col + i];
+            for (int z = i; z < col; z++) { sub_arr[j * col + z] = s * sub_arr[j * col + z] - part_trans[z]; }
         }
     }
-    for (int i = 0; i < n_Element[rank] / col; i++) {
-        for (int j = 0; j < col; j++) { part_trans[j] = sub_array[i * col + j]; }
+    for (int i = 0; i < n_El[rank] / col; i++) {
+        for (int j = 0; j < col; j++) { part_trans[j] = sub_arr[i * col + j]; }
         MPI_Bcast(part_trans, col, MPI_DOUBLE, rank, MPI_COMM_WORLD);
-        for (int j = i + 1; j < n_Element[rank] / col; j++) {
-            double s = part_trans[n_displac[rank] / col + i] / sub_array[j * col + i + n_displac[rank] / col];
-            for (int z = i + n_displac[rank] / col; z < col; z++) {
-                sub_array[j * col + z] = s * sub_array[j * col + z] - part_trans[z];
+        for (int j = i + 1; j < n_El[rank] / col; j++) {
+            double s = part_trans[n_disp[rank] / col + i] / sub_arr[j * col + i + n_disp[rank] / col];
+            for (int z = i + n_disp[rank] / col; z < col; z++) {
+                sub_arr[j * col + z] = s * sub_arr[j * col + z] - part_trans[z];
             }
         }
     }
     int rac = 0;
-    for (int i = n_displac[rank] / col + n_Element[rank] / col; i < row; i++) {
+    for (int i = n_disp[rank] / col + n_El[rank] / col; i < row; i++) {
         int sum = 0;
         for (int j = 0; j < size; j++) {
-            sum += n_Element[j] / col;
+            sum += n_El[j] / col;
             if (i < sum) { rac = j; break; }
             rac++;
         }
         MPI_Bcast(part_trans, col, MPI_DOUBLE, rac, MPI_COMM_WORLD);
     }
-    MPI_Gatherv(sub_array, stan_Row * col, MPI_DOUBLE, array_temp, n_Element, n_displac, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(sub_arr, stan_Row * col, MPI_DOUBLE, array_temp, n_El, n_disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     if (rank == 0) {
         for (int i = row - 1; i >= 0; i--) {
             double b = array_temp[i * col + col - 1];
@@ -116,13 +116,12 @@ void methodGaussParallel(const double* array, double* solution, int row, int col
         std::cout << std::setprecision(4) << std::setw(8) << std::fixed << solution[i] << std::endl;
 
         if ((i + 1) % col == 0) { std::cout << std::endl; }
-
     }
     std::cout << "\n --------------------------------------------------------------------------\n";
 
     delete[] array_temp;
-    delete[] sub_array;
-    delete[] n_Element;
-    delete[] n_displac;
+    delete[] sub_arr;
+    delete[] n_El;
+    delete[] n_disp;
     delete[] part_trans;
 }
