@@ -36,41 +36,41 @@
 
     }
    
-        TEST(GAUSS_PARALLEL_MPI, 3x4) {
-            int rank;
-            MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-            int row = 3, col = 4;
-            double* array1{ new double[row * col]{ 1,2,3,4,5,6,7,8,9,10,11,12 } };
-            double* sub_solution1 = new double[row];
-            methodGaussParallel(array1, sub_solution1, row, col);
+    TEST(GAUSS_PARALLEL_MPI, 3x4) {
+        int rank;
+        MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+        int row = 3, col = 4;
+        double* array1{ new double[row * col]{ 1,2,3,4,5,6,7,8,9,10,11,12 } };
+        double* sub_solution1 = new double[row];
+        methodGaussParallel(array1, sub_solution1, row, col);
 
 
 
-            //**************************************
-            std::vector<std::vector<double>>array2{ {1,2,3,4} ,{5,6,7,8},{9,10,11,12} };
-            double* sub_solution2 = new double[row];
-            methodGauss(array2, sub_solution2, row);
+        //**************************************
+        std::vector<std::vector<double>>array2{ {1,2,3,4} ,{5,6,7,8},{9,10,11,12} };
+        double* sub_solution2 = new double[row];
+        methodGauss(array2, sub_solution2, row);
 
 
-            if (rank == 0) {
+        if (rank == 0) {
 
-                for (int i = 0; i < row; i++)
-                {
-                    for (int i = 0; i < row; i++) {
-                        ASSERT_NEAR(sub_solution1[i], sub_solution2[i], 0.00001);
-                    }
-
-
+            for (int i = 0; i < row; i++)
+            {
+                for (int i = 0; i < row; i++) {
+                    ASSERT_NEAR(sub_solution1[i], sub_solution2[i], 0.00001);
                 }
-                delete[] array1;
-                delete[] sub_solution1;
+
 
             }
+            delete[] array1;
+            delete[] sub_solution1;
+
+        }
 
 
 
 
-
+    }
 
             int main(int argc, char** argv) {
                 ::testing::InitGoogleTest(&argc, argv);
@@ -84,4 +84,4 @@
                 listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
                 return RUN_ALL_TESTS();
             }
-        }
+        
