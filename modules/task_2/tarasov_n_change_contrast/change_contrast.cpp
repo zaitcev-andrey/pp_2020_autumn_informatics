@@ -1,6 +1,6 @@
 // Copyright 2020 Tarasov Nikita
-#include <vector>
 #include <mpi.h>
+#include <vector>
 #include <random>
 #include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
 
