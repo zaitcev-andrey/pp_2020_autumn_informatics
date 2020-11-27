@@ -15,10 +15,6 @@ double function3(double x, double y, double z) {
 double function4(double x, double y, double z) {
     return x * x + x * y * z - 10*z * z;
 }
-double function5(double x, double y, double z) {
-    return exp(-x - y - z);
-}
-
 
 double integralFunction(double (*f)(double, double, double),
                         double ax, double bx,
@@ -49,7 +45,7 @@ double oneDimensionalIntegral(double (*f)(double, double, double),
                               double X, double Y,
                               double az, double bz,
                               int k, double hz) {
-    double ans = 0, tmp = 0, Z;
+    double tmp = 0, Z;
     for (double q = 0; q < k; ++q) {
         Z = static_cast<double>(az) + q * hz + 0.5 * hz;
         tmp += f(X, Y, Z);

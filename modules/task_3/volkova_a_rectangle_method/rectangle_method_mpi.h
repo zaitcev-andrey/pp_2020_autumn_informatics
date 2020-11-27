@@ -6,7 +6,6 @@ double function1(double x, double y, double z);
 double function2(double x, double y, double z);
 double function3(double x, double y, double z);
 double function4(double x, double y, double z);
-double function5(double x, double y, double z);
 
 double integralFunction(double (*f)(double, double, double),
                         double ax, double bx,
