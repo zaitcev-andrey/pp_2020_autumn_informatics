@@ -1,5 +1,7 @@
 // Copyright 2020 Tarasov Nikita
 #include <mpi.h>
+#include <ctime>
+#include <iostream>
 #include <vector>
 #include <random>
 #include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
@@ -28,12 +30,12 @@ void print_img(std::vector<int> pic, int _high, int _width) {
 
 std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
+    if (_width * _high != static_cast<unsigned int>(pic.size())) throw "Error";
     if (_size_img < 1) throw "Error";
     std::vector<int> color_pallete(CLR);
 
     if (_correction == 0) return pic;
 
-    unsigned char value = 0;
     int lAB = 0;
 
     for (int i = 0; i < _size_img; i++)
@@ -66,7 +68,7 @@ std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _hi
 
 std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
-    if (_width * _high != pic.size()) throw "Error";
+    if (_width * _high != static_cast<unsigned int>(pic.size())) throw "Error";
     if (_size_img < 1) throw "Error";
     if (_correction == 0) return pic;
     int mpisize, mpirank;
@@ -83,9 +85,12 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
         return pic;
     }
 
+    int pic_scount_size = mpisize;
+    int pic_displs_size = mpisize;
+
     std::vector<int> pic_sbuf = pic;
-    std::vector<int> pic_scount(mpisize, 0);
-    std::vector<int> pic_displs(mpisize, 0);
+    std::vector<int> pic_scount(pic_scount_size, 0);
+    std::vector<int> pic_displs(pic_displs_size, 0);
 
     std::vector<int>color_pallete(CLR);
     int lAB = 0;
@@ -93,10 +98,10 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     if (rem != 0) pic_scount[0] = dist + rem;
     else
         pic_scount[0] = dist;
-    for (int i = 1; i < pic_scount.size(); i++)
+    for (int i = 1; i < pic_scount_size; i++)
         pic_scount[i] = dist;
 
-    for (int i = 1; i < pic_displs.size(); i++)
+    for (int i = 1; i < pic_displs_size; i++)
         pic_displs[i] = pic_displs[i - 1] + pic_scount[i - 1];
 
     int scount_size;
@@ -107,10 +112,12 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
 
     int rec_lAB = 0;
 
-    for (int i = 0; i < rec_pic.size(); i++)
+    int rec_pic_size = static_cast<unsigned int>(rec_pic.size());
+
+    for (int i = 0; i < rec_pic_size; i++)
         rec_lAB += rec_pic[i];
 
-    rec_lAB = rec_lAB / rec_pic.size();
+    rec_lAB = rec_lAB / rec_pic_size;
 
     MPI_Reduce(&rec_lAB, &lAB, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
@@ -132,7 +139,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
 
     MPI_Bcast(&color_pallete[0], CLR, MPI_INT, 0, MPI_COMM_WORLD);
 
-    for (int i = 0; i < rec_pic.size(); i++) {
+    for (int i = 0; i < rec_pic_size; i++) {
         unsigned char value = rec_pic[i];
         rec_pic[i] = static_cast<unsigned char>(color_pallete[value]);
     }
