@@ -1,7 +1,6 @@
 // Copyright 2020 Tarasov Nikita
 #include <iostream>
 #include <vector>
-#include <ctime>
 #include <mpi.h>
 #include <random>
 #include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
@@ -113,7 +112,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
         rec_lAB += rec_pic[i];
 
     rec_lAB = rec_lAB / rec_pic.size();
- 
+
     MPI_Reduce(&rec_lAB, &lAB, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (mpirank == mpiroot) {
