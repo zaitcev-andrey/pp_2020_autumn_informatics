@@ -4,7 +4,7 @@
 #include <ctime>
 #include <mpi.h>
 #include <random>
-#include "change_contrast.h"
+#include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
 
 #define CLR 256
 
@@ -34,7 +34,7 @@ std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _hi
     std::vector<int> color_pallete(CLR);
 
     if (_correction == 0) return pic;
- 
+
     unsigned char value = 0;
     int lAB = 0;
 
@@ -56,7 +56,7 @@ std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _hi
             temp = 255;
         color_pallete[i] = static_cast<unsigned char>(temp);
     }
-    
+
     std::vector<int> result(_size_img);
     for (int i = 0; i < _size_img; i++) {
         unsigned char value = pic[i];
@@ -70,9 +70,9 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     int _size_img = _width * _high;
     if (_width * _high != pic.size()) throw "Error";
     if (_size_img < 1) throw "Error";
-    if(_correction == 0) return pic; 
+    if (_correction == 0) return pic;
     int mpisize, mpirank;
-    
+
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
     MPI_Comm_size(MPI_COMM_WORLD, &mpisize);
 
@@ -93,7 +93,8 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     int lAB = 0;
 
     if (rem != 0) pic_scount[0] = dist + rem;
-    else pic_scount[0] = dist;
+    else
+        pic_scount[0] = dist;
     for (int i = 1; i < pic_scount.size(); i++)
         pic_scount[i] = dist;
 
@@ -105,22 +106,22 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     std::vector<int> rec_pic(scount_size, 0);
     MPI_Scatterv(&pic_sbuf[0], &pic_scount[0], &pic_displs[0], MPI_INT, &rec_pic[0],
         pic_scount[mpirank], MPI_INT, mpiroot, MPI_COMM_WORLD);
-    
+
     int rec_lAB = 0;
-    
+
     for (int i = 0; i < rec_pic.size(); i++)
         rec_lAB += rec_pic[i];
 
     rec_lAB = rec_lAB / rec_pic.size();
-    
+ 
     MPI_Reduce(&rec_lAB, &lAB, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    
+
     if (mpirank == mpiroot) {
         double k = 1.0 + _correction / 100.0;
 
         for (int i = 0; i < CLR; i++) {
-            int delta = (int)i - lAB;
-            int temp = (int)(lAB + k * delta);
+            int delta = static_cast<unsigned int>(i) - lAB;
+            int temp = static_cast<unsigned int>(lAB + k * delta);
 
             if (temp < 0)
                 temp = 0;
@@ -129,9 +130,8 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
                 temp = 255;
             color_pallete[i] = static_cast<unsigned char>(temp);
         }
-
     }
-    
+
     MPI_Bcast(&color_pallete[0], CLR, MPI_INT, 0, MPI_COMM_WORLD);
 
     for (int i = 0; i < rec_pic.size(); i++) {
@@ -141,6 +141,6 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     std::vector<int> result(_size_img);
     MPI_Gatherv(&rec_pic[0], pic_scount[mpirank], MPI_INT, &result[0], &pic_scount[0], &pic_displs[0],
         MPI_INT, mpiroot, MPI_COMM_WORLD);
-    
+
     return result;
 }
