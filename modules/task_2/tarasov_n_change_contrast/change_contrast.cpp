@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <mpi.h>
+#include <random>
 #include "change_contrast.h"
 
 #define CLR 256
@@ -27,16 +28,15 @@ void print_img(std::vector<int> pic, int _high, int _width) {
     }
 }
 
-std::vector<int> changeContrast(std::vector<int> &pic, int _width, int _high, int _correction) {
+std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
     if (_size_img < 1) throw "Error";
     std::vector<int> color_pallete(CLR);
 
-    if(_correction == 0) return pic; 
-
-    
+    if (_correction == 0) return pic;
+ 
     unsigned char value = 0;
-    int lAB = 0; 
+    int lAB = 0;
 
     for (int i = 0; i < _size_img; i++)
         lAB += pic[i];
@@ -56,17 +56,17 @@ std::vector<int> changeContrast(std::vector<int> &pic, int _width, int _high, in
             temp = 255;
         color_pallete[i] = static_cast<unsigned char>(temp);
     }
-
-
+    
+    std::vector<int> result(_size_img);
     for (int i = 0; i < _size_img; i++) {
         unsigned char value = pic[i];
-        pic[i] =  static_cast<unsigned char>(color_pallete[value]);
+        result[i] =  static_cast<unsigned char>(color_pallete[value]);
     }
 
-    return pic;
+    return result;
 }
 
-std::vector<int> changeContrastParallel(std::vector<int> &pic, int _width, int _high, int _correction) {
+std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
     if (_width * _high != pic.size()) throw "Error";
     if (_size_img < 1) throw "Error";
@@ -138,9 +138,9 @@ std::vector<int> changeContrastParallel(std::vector<int> &pic, int _width, int _
         unsigned char value = rec_pic[i];
         rec_pic[i] = static_cast<unsigned char>(color_pallete[value]);
     }
-
-    MPI_Gatherv(&rec_pic[0], pic_scount[mpirank], MPI_INT, &pic[0], &pic_scount[0], &pic_displs[0],
+    std::vector<int> result(_size_img);
+    MPI_Gatherv(&rec_pic[0], pic_scount[mpirank], MPI_INT, &result[0], &pic_scount[0], &pic_displs[0],
         MPI_INT, mpiroot, MPI_COMM_WORLD);
     
-    return pic;
+    return result;
 }

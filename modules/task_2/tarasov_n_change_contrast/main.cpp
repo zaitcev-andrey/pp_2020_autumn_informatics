@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <algorithm>
-#include "change_contrast.h"
+#include <random>
+#include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
 
 TEST(Increase_contrast_MPI, test1) {
     int mpirank;
