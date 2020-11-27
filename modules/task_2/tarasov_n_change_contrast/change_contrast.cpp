@@ -30,7 +30,7 @@ void print_img(std::vector<int> pic, int _high, int _width) {
 
 std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
-    if (_width * _high != static_cast<unsigned int>(pic.size())) throw "Error";
+    if (_width * _high != static_cast<int>(pic.size())) throw "Error";
     if (_size_img < 1) throw "Error";
     std::vector<int> color_pallete(CLR);
 
@@ -54,7 +54,7 @@ std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _hi
 
         if (temp >= 255)
             temp = 255;
-        color_pallete[i] = static_cast<unsigned char>(temp);
+        color_pallete[i] = static_cast<char>(temp);
     }
 
     std::vector<int> result(_size_img);
@@ -68,7 +68,7 @@ std::vector<int> changeContrast(const std::vector<int> &pic, int _width, int _hi
 
 std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width, int _high, int _correction) {
     int _size_img = _width * _high;
-    if (_width * _high != static_cast<unsigned int>(pic.size())) throw "Error";
+    if (_width * _high != static_cast<int>(pic.size())) throw "Error";
     if (_size_img < 1) throw "Error";
     if (_correction == 0) return pic;
     int mpisize, mpirank;
@@ -112,7 +112,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
 
     int rec_lAB = 0;
 
-    int rec_pic_size = static_cast<unsigned int>(rec_pic.size());
+    int rec_pic_size = static_cast<int>(rec_pic.size());
 
     for (int i = 0; i < rec_pic_size; i++)
         rec_lAB += rec_pic[i];
@@ -125,15 +125,15 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
         double k = 1.0 + _correction / 100.0;
 
         for (int i = 0; i < CLR; i++) {
-            int delta = static_cast<unsigned int>(i) - lAB;
-            int temp = static_cast<unsigned int>(lAB + k * delta);
+            int delta = static_cast<int>(i) - lAB;
+            int temp = static_cast<int>(lAB + k * delta);
 
             if (temp < 0)
                 temp = 0;
 
             if (temp >= 255)
                 temp = 255;
-            color_pallete[i] = static_cast<unsigned char>(temp);
+            color_pallete[i] = static_cast<char>(temp);
         }
     }
 
