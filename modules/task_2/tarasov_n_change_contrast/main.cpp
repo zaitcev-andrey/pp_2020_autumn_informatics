@@ -1,3 +1,4 @@
+// Copyright 2020 Tarasov Nikita
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
