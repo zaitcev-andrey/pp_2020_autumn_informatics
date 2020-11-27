@@ -9,13 +9,11 @@ TEST(Integral, Test1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     double integralStart = MPI_Wtime();
-    double integral = integralFunction(function1,0, 17, -1, 2, 4, 10, 10, 10, 10);
+    double integral = integralFunction(function1, 0, 17, -1, 2, 4, 10, 10, 10, 10);
     double integralEnd = MPI_Wtime();
-   
     double parallStart = MPI_Wtime();
-    double parall = getCalculatedIntegral(function1,0,17,-1,2,4,10,10,10,10);
+    double parall = getCalculatedIntegral(function1, 0, 17, -1, 2, 4, 10, 10, 10, 10);
     double parallEnd = MPI_Wtime();
-
     double value = 9103.5;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -29,8 +27,6 @@ TEST(Integral, Test1) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-    
-
 }
 
 TEST(Integral, Test2) {
@@ -39,11 +35,9 @@ TEST(Integral, Test2) {
     double integralStart = MPI_Wtime();
     double integral = integralFunction(function1, -1, 1.9, -1.3, 2, 2, 6.5, 10, 10, 100);
     double integralEnd = MPI_Wtime();
-    
     double parallStart = MPI_Wtime();
     double parall = getCalculatedIntegral(function1, -1, 1.9, -1.3, 2, 2, 6.5, 10, 10, 100);
     double parallEnd = MPI_Wtime();
-
     double value = 28.826634375;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -57,8 +51,6 @@ TEST(Integral, Test2) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-
-
 }
 
 TEST(Integral, Test3) {
@@ -67,11 +59,9 @@ TEST(Integral, Test3) {
     double integralStart = MPI_Wtime();
     double integral = integralFunction(function3, 0, 1.8, -1.2, 1.1, -1, 2.9, 10, 10, 1000);
     double integralEnd = MPI_Wtime();
-    
     double parallStart = MPI_Wtime();
     double parall = getCalculatedIntegral(function3, 0, 1.8, -1.2, 1.1, -1, 2.9, 10, 10, 1000);
     double parallEnd = MPI_Wtime();
-
     double value = 67.49028;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -85,8 +75,6 @@ TEST(Integral, Test3) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-
-
 }
 
 TEST(Integral, Test4) {
@@ -95,11 +83,9 @@ TEST(Integral, Test4) {
     double integralStart = MPI_Wtime();
     double integral = integralFunction(function3, 0.5, 1.7, -1, 2, -4, 1.9, 10, 10, 1000);
     double integralEnd = MPI_Wtime();
-    
     double parallStart = MPI_Wtime();
     double parall = getCalculatedIntegral(function3, 0.5, 1.7, -1, 2, -4, 1.9, 10, 10, 1000);
     double parallEnd = MPI_Wtime();
-
     double value = -144.963;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -113,8 +99,6 @@ TEST(Integral, Test4) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-
-
 }
 
 TEST(Integral, Test5) {
@@ -123,11 +107,9 @@ TEST(Integral, Test5) {
     double integralStart = MPI_Wtime();
     double integral = integralFunction(function1, 0.1, 1, -1, 2, 4.2, 6, 10, 10, 100000);
     double integralEnd = MPI_Wtime();
-    
     double parallStart = MPI_Wtime();
     double parall = getCalculatedIntegral(function1, 0.1, 1, -1, 2, 4.2, 6, 10, 10, 100000);
     double parallEnd = MPI_Wtime();
-
     double value = 6.81615;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -141,8 +123,6 @@ TEST(Integral, Test5) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-
-
 }
 
 TEST(Integral, Test6) {
@@ -151,11 +131,9 @@ TEST(Integral, Test6) {
     double integralStart = MPI_Wtime();
     double integral = integralFunction(function1, 0.1, 1, -1.1, 2, -1, 5, 10, 10, 1000000);
     double integralEnd = MPI_Wtime();
-    
     double parallStart = MPI_Wtime();
     double parall = getCalculatedIntegral(function1, 0.1, 1, -1.1, 2, -1, 5, 10, 10, 1000000);
     double parallEnd = MPI_Wtime();
-
     double value = 8.2863;
     if (rank == 0) {
         ASSERT_LE(std::abs(parall - value), 1e-3);
@@ -169,8 +147,6 @@ TEST(Integral, Test6) {
             "parall integral :   " << parallEnd - parallStart <<
             std::endl;
     }
-
-
 }
 
 
