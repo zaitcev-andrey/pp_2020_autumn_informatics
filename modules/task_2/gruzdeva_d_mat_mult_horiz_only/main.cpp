@@ -9,20 +9,29 @@ TEST(Parallel_Operations_MPI, MATRICES_10x10) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> a;
-    std::vector<int> b;
+    std::vector<double> a;
+    std::vector<double> b;
 
-    int size = 10;
+    int aR = 10, aC = 10, bC = 10;
 
     if (rank == 0) {
-        a = getRandomMatrix(size, size, time(0));
-        b = getRandomMatrix(size, size, time(0) + 1);
+        a = getRandomMatrix(aR, aC, time(0));
+        b = getRandomMatrix(aC, bC, time(0) + 1);
     }
 
-    std::vector<int> parallel_result = getParallelMultiplication(a, b, size);
+    double start, end;
+    if (rank == 0) {
+        start = MPI_Wtime();
+    }
+    std::vector<double> parallel_result = getParallelMultiplication(a, b, aR, aC, bC);
 
     if (rank == 0) {
-        std::vector<int> sequential_result = getSequentialMultiplication(a, b, size);
+        end = MPI_Wtime();
+        std::cout << "Time for parallel is " << end - start << std::endl;
+        start = MPI_Wtime();
+        std::vector<double> sequential_result = getSequentialMultiplication(a, b, aR, aC, bC);
+        end = MPI_Wtime();
+        std::cout << "Time for sequential is " << end - start << std::endl;
         ASSERT_EQ(sequential_result, parallel_result);
     }
 }
@@ -31,20 +40,29 @@ TEST(Parallel_Operations_MPI, MATRICES_25x25) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> a;
-    std::vector<int> b;
+    std::vector<double> a;
+    std::vector<double> b;
 
-    int size = 25;
+    int aR = 25, aC = 25, bC = 25;
 
     if (rank == 0) {
-        a = getRandomMatrix(size, size, time(0));
-        b = getRandomMatrix(size, size, time(0) + 1);
+        a = getRandomMatrix(aR, aC, time(0));
+        b = getRandomMatrix(aC, bC, time(0) + 1);
     }
 
-    std::vector<int> parallel_result = getParallelMultiplication(a, b, size);
+    double start, end;
+    if (rank == 0) {
+        start = MPI_Wtime();
+    }
+    std::vector<double> parallel_result = getParallelMultiplication(a, b, aR, aC, bC);
 
     if (rank == 0) {
-        std::vector<int> sequential_result = getSequentialMultiplication(a, b, size);
+        end = MPI_Wtime();
+        std::cout << "Time for parallel is " << end - start << std::endl;
+        start = MPI_Wtime();
+        std::vector<double> sequential_result = getSequentialMultiplication(a, b, aR, aC, bC);
+        end = MPI_Wtime();
+        std::cout << "Time for sequential is " << end - start << std::endl;
         ASSERT_EQ(sequential_result, parallel_result);
     }
 }
@@ -53,20 +71,29 @@ TEST(Parallel_Operations_MPI, MATRICES_75x75) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> a;
-    std::vector<int> b;
+    std::vector<double> a;
+    std::vector<double> b;
 
-    int size = 75;
+    int aR = 75, aC = 75, bC = 75;
 
     if (rank == 0) {
-        a = getRandomMatrix(size, size, time(0));
-        b = getRandomMatrix(size, size, time(0) + 1);
+        a = getRandomMatrix(aR, aC, time(0));
+        b = getRandomMatrix(aC, bC, time(0) + 1);
     }
 
-    std::vector<int> parallel_result = getParallelMultiplication(a, b, size);
+    double start, end;
+    if (rank == 0) {
+        start = MPI_Wtime();
+    }
+    std::vector<double> parallel_result = getParallelMultiplication(a, b, aR, aC, bC);
 
     if (rank == 0) {
-        std::vector<int> sequential_result = getSequentialMultiplication(a, b, size);
+        end = MPI_Wtime();
+        std::cout << "Time for parallel is " << end - start << std::endl;
+        start = MPI_Wtime();
+        std::vector<double> sequential_result = getSequentialMultiplication(a, b, aR, aC, bC);
+        end = MPI_Wtime();
+        std::cout << "Time for sequential is " << end - start << std::endl;
         ASSERT_EQ(sequential_result, parallel_result);
     }
 }
@@ -75,20 +102,29 @@ TEST(Parallel_Operations_MPI, MATRICES_100x100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> a;
-    std::vector<int> b;
+    std::vector<double> a;
+    std::vector<double> b;
 
-    int size = 100;
+    int aR = 100, aC = 100, bC = 100;
 
     if (rank == 0) {
-        a = getRandomMatrix(size, size, time(0));
-        b = getRandomMatrix(size, size, time(0) + 1);
+        a = getRandomMatrix(aR, aC, time(0));
+        b = getRandomMatrix(aC, bC, time(0) + 1);
     }
 
-    std::vector<int> parallel_result = getParallelMultiplication(a, b, size);
+    double start, end;
+    if (rank == 0) {
+        start = MPI_Wtime();
+    }
+    std::vector<double> parallel_result = getParallelMultiplication(a, b, aR, aC, bC);
 
     if (rank == 0) {
-        std::vector<int> sequential_result = getSequentialMultiplication(a, b, size);
+        end = MPI_Wtime();
+        std::cout << "Time for parallel is " << end - start << std::endl;
+        start = MPI_Wtime();
+        std::vector<double> sequential_result = getSequentialMultiplication(a, b, aR, aC, bC);
+        end = MPI_Wtime();
+        std::cout << "Time for sequential is " << end - start << std::endl;
         ASSERT_EQ(sequential_result, parallel_result);
     }
 }
@@ -98,20 +134,29 @@ TEST(Parallel_Operations_MPI, MATRICES_240x240) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    std::vector<int> a;
-    std::vector<int> b;
+    std::vector<double> a;
+    std::vector<double> b;
 
-    int size = 240;
+    int aR = 240, aC = 240, bC = 240;
 
     if (rank == 0) {
-        a = getRandomMatrix(size, size, time(0));
-        b = getRandomMatrix(size, size, time(0) + 1);
+        a = getRandomMatrix(aR, aC, time(0));
+        b = getRandomMatrix(aC, bC, time(0) + 1);
     }
 
-    std::vector<int> parallel_result = getParallelMultiplication(a, b, size);
+    double start, end;
+    if (rank == 0) {
+        start = MPI_Wtime();
+    }
+    std::vector<double> parallel_result = getParallelMultiplication(a, b, aR, aC, bC);
 
     if (rank == 0) {
-        std::vector<int> sequential_result = getSequentialMultiplication(a, b, size);
+        end = MPI_Wtime();
+        std::cout << "Time for parallel is " << end - start << std::endl;
+        start = MPI_Wtime();
+        std::vector<double> sequential_result = getSequentialMultiplication(a, b, aR, aC, bC);
+        end = MPI_Wtime();
+        std::cout << "Time for sequential is " << end - start << std::endl;
         ASSERT_EQ(sequential_result, parallel_result);
     }
 }
