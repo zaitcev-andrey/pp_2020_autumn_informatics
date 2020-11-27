@@ -1,5 +1,4 @@
 // Copyright 2020 Tarasov Nikita
-#include <iostream>
 #include <vector>
 #include <mpi.h>
 #include <random>
