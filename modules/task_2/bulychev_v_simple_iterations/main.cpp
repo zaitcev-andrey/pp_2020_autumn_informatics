@@ -33,7 +33,8 @@ TEST(Simple_Iterations, Simple_iterations_1) {
     std::vector<double> vec{ 9, 10, 20 };
     std::vector<double> x1 = Simple_iterations_Method(mat, vec, 0.0001);
     std::vector<double> x2 = { 1.0001, 2, 3.0001 };
-    for (int i = 0; i < x1.size(); i++) {
+    int s = x1.size();
+    for (int i = 0; i < s; i++) {
         ASSERT_NEAR(x1[i], x2[i], 0.0001);
     }
 }
@@ -43,7 +44,8 @@ TEST(Simple_Iterations, Simple_iterations_2) {
     std::vector<double> vec{ 12, 13, 14 };
     std::vector<double> x1 = Simple_iterations_Method(mat, vec, 0.0001);
     std::vector<double> x2 = { 1, 1, 1 };
-    for (int i = 0; i < x1.size(); i++) {
+    int s = x1.size();
+    for (int i = 0; i < s; i++) {
         ASSERT_NEAR(x1[i], x2[i], 0.0001);
     }
 }

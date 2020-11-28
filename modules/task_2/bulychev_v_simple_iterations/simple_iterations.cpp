@@ -39,7 +39,7 @@ std::vector<double> Simple_iterations_Method(std::vector<double> mat,
 
         bool flag = true;
         for (int i = 0; i < s - 1; i++) {
-            if (abs(x[i] - result[i]) > eps) {
+            if (std::abs(x[i] - result[i]) > eps) {
                 flag = false;
                 break;
             }
