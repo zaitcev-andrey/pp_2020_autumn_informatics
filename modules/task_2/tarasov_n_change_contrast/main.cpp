@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include "change_contrast.h"
+#include "../../../modules/task_2/tarasov_n_change_contrast/change_contrast.h"
 
 TEST(Change_contrast_MPI, test1) {
     int mpirank;
