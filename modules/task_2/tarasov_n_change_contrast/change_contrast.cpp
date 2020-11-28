@@ -113,6 +113,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     MPI_Scatterv(&pic_sbuf[0], &pic_scount[0], &pic_displs[0], MPI_INT, &rec_pic[0],
         pic_scount[mpirank], MPI_INT, mpiroot, MPI_COMM_WORLD);
 
+    int sum;
     int rec_lAB = 0;
 
     int rec_pic_size = static_cast<int>(rec_pic.size());
@@ -120,11 +121,10 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     for (int i = 0; i < rec_pic_size; i++)
         rec_lAB += rec_pic[i];
 
-    rec_lAB = rec_lAB / rec_pic_size;
-
-    MPI_Reduce(&rec_lAB, &lAB, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&rec_lAB, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (mpirank == mpiroot) {
+        lAB = sum / _size_img;
         double k = 1.0 + _correction / 100.0;
 
         for (int i = 0; i < CLR; i++) {
