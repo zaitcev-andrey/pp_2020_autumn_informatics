@@ -71,18 +71,21 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     if (_width * _high != static_cast<int>(pic.size())) throw "Error";
     if (_size_img < 1) throw "Error";
     if (_correction == 0) return pic;
+
     int mpisize, mpirank;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
     MPI_Comm_size(MPI_COMM_WORLD, &mpisize);
+
+    std::vector<int> result(_size_img);
 
     int dist = _size_img / mpisize;
     int rem = _size_img % mpisize;
     int mpiroot = 0;
 
     if (dist < 1) {
-        if (mpirank == mpiroot) changeContrast(pic, _width, _high , _correction);
-        return pic;
+        if (mpirank == mpiroot) result = changeContrast(pic, _width, _high , _correction);
+        return result;
     }
 
     int pic_scount_size = mpisize;
@@ -95,7 +98,8 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     std::vector<int>color_pallete(CLR);
     int lAB = 0;
 
-    if (rem != 0) pic_scount[0] = dist + rem;
+    if (rem != 0) 
+        pic_scount[0] = dist + rem;
     else
         pic_scount[0] = dist;
     for (int i = 1; i < pic_scount_size; i++)
@@ -104,9 +108,8 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     for (int i = 1; i < pic_displs_size; i++)
         pic_displs[i] = pic_displs[i - 1] + pic_scount[i - 1];
 
-    int scount_size;
-    MPI_Scatter(&pic_sbuf[0], 1, MPI_INT, &scount_size, 1, MPI_INT, mpiroot, MPI_COMM_WORLD);
-    std::vector<int> rec_pic(scount_size, 0);
+
+    std::vector<int> rec_pic(pic_scount[mpirank], 0);
     MPI_Scatterv(&pic_sbuf[0], &pic_scount[0], &pic_displs[0], MPI_INT, &rec_pic[0],
         pic_scount[mpirank], MPI_INT, mpiroot, MPI_COMM_WORLD);
 
@@ -143,7 +146,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
         unsigned char value = rec_pic[i];
         rec_pic[i] = static_cast<unsigned char>(color_pallete[value]);
     }
-    std::vector<int> result(_size_img);
+
     MPI_Gatherv(&rec_pic[0], pic_scount[mpirank], MPI_INT, &result[0], &pic_scount[0], &pic_displs[0],
         MPI_INT, mpiroot, MPI_COMM_WORLD);
 
