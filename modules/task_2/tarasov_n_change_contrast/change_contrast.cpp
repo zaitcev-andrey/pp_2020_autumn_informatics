@@ -98,7 +98,7 @@ std::vector<int> changeContrastParallel(const std::vector<int> &pic, int _width,
     std::vector<int>color_pallete(CLR);
     int lAB = 0;
 
-    if (rem != 0) 
+    if (rem != 0)
         pic_scount[0] = dist + rem;
     else
         pic_scount[0] = dist;
