@@ -10,18 +10,23 @@ TEST(Moore_Algotithm_MPI, Graph_4) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    int64_t graph[4 * 4];
+    size_t size = 6;
+    int64_t *graph = new int64_t[size * size];
+    size_t *seqential_result = nullptr;
     if (rank == 0) {
-        randomCompleteGraph(4, graph);
-        printGraph(4, graph);
-        printPredecessor(4, mooreAlgorithm(4, graph, 0));
+        randomCompleteGraph(size, graph);
+        printGraph(size, graph);
+        seqential_result = mooreAlgorithm(size, graph, 0);
+        printPredecessor(size, seqential_result);
     }
-    MPI_Bcast(graph, 4*4, MPI_UINT64_T, 0, MPI_COMM_WORLD);
-    size_t* result = mooreAlgorithmParallel(4, graph, 0);
+    MPI_Bcast(graph, size * size, MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    size_t *parallel_result = mooreAlgorithmParallel(size, graph, 0);
     if (rank == 0) {
-        printPredecessor(4, result);
+        printPredecessor(size, parallel_result);
+        delete[] seqential_result;
     }
-    
+    delete[] graph;
+    delete[] parallel_result;
 }
 
 int main(int argc, char *argv[]) {
