@@ -17,4 +17,6 @@ void printPredecessor(size_t size, size_t *predecessor);
 
 size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root);
 
+size_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root);
+
 #endif // MODULES_TASK_3_ZOREEV_M_MOORE_ALGORITHM_MOORE_ALGORITHM_H_

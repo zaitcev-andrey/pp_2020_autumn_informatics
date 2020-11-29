@@ -5,7 +5,7 @@ void randomCompleteGraph(size_t size, int64_t *graph) {
     generator.seed(static_cast<unsigned int>(time(0)));
     for (size_t i = 0; i < size; i++) {
         for (size_t j = 0; j < size; j++) {
-            graph[i * size + j] = generator() % size * 5 + 1;
+            graph[i * size + j] = generator() % 10 + 1;
         }
     }
     for (size_t i = 0; i < size; i++) {
@@ -41,7 +41,7 @@ size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
     int64_t *distance = new int64_t[size];
     size_t *predecessor = new size_t[size];
     for (size_t i = 0; i < size; i++) {
-        distance[i] = INT64_MAX;
+        distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
     }
     distance[root] = 0;
@@ -64,6 +64,64 @@ size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
         }
     }
     delete[] distance;
+
+    return predecessor;
+}
+
+size_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
+    int rank, process_count;
+    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    if (size < 2) {
+        throw std::runtime_error("WRONG SIZE");
+    }
+    int64_t *distance = new int64_t[size];
+    size_t *predecessor = new size_t[size];
+    int64_t *distance_buffer = new int64_t[size * process_count];
+    size_t *predecessor_buffer = new size_t[size * process_count];
+    for (size_t i = 0; i < size; i++) {
+        distance[i] = INT32_MAX;
+        predecessor[i] = SIZE_MAX;
+    }
+    distance[root] = 0;
+    predecessor[root] = root;
+
+    size_t part = size / static_cast<size_t>(process_count);
+    size_t start = rank * part, end = (rank + 1) * part;
+    if (rank == process_count - 1) {
+        end = size;
+    }
+    for (size_t i = 0; i < size - 1; i++) {
+        for (size_t j = start; j < end; j++) {
+            for (size_t k = 0; k < j; k++) {
+                if (distance[k] > distance[j] + graph[j * size + k]) {
+                    distance[k] = distance[j] + graph[j * size + k];
+                    predecessor[k] = j;
+                }
+            }
+            for (size_t k = j + 1; k < size; k++) {
+                if (distance[k] > distance[j] + graph[j * size + k]) {
+                    distance[k] = distance[j] + graph[j * size + k];
+                    predecessor[k] = j;
+                }
+            }
+        }
+
+        MPI_Allgather(distance, size, MPI_INT64_T, distance_buffer, size, MPI_INT64_T, MPI_COMM_WORLD);
+        MPI_Allgather(predecessor, size, MPI_UINT64_T, predecessor_buffer, size, MPI_UINT64_T, MPI_COMM_WORLD);
+        for (size_t k = 0; k < size; k++) {
+            for (size_t j = 0; j < process_count; j++) {
+                if (distance_buffer[j * size + k] < distance[k]) {
+                    distance[k] = distance_buffer[j * size + k];
+                    predecessor[k] = predecessor_buffer[j * size + k];
+                }
+            }
+        }
+    }
+    delete[] distance;
+    delete[] distance_buffer;
+    delete[] predecessor_buffer;
 
     return predecessor;
 }
