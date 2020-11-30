@@ -18,7 +18,7 @@ void testGraph(size_t size, uint64_t *seqential_result, uint64_t *parallel_resul
         double end_time = MPI_Wtime();
         std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    MPI_Bcast(graph, size * size, MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
     double begin_time = MPI_Wtime();
     parallel_result = mooreAlgorithmParallel(size, graph, 0);
     double end_time = MPI_Wtime();
@@ -44,7 +44,7 @@ TEST(Moore_Algotithm_MPI, SpeedAndQualtiyTestTemplate) {
         std::cout << "Seqential: " << end_time - begin_time << std::endl;
         printPredecessor(size, seqential_result);  // <- Disable at large size
     }
-    MPI_Bcast(graph, size * size, MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
     double begin_time = MPI_Wtime();
     uint64_t *parallel_result = mooreAlgorithmParallel(size, graph, 0);
     double end_time = MPI_Wtime();

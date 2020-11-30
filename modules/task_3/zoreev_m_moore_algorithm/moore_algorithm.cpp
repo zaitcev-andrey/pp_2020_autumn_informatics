@@ -108,10 +108,10 @@ uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
             }
         }
 
-        MPI_Allgather(distance, size, MPI_INT64_T, distance_buffer, size, MPI_INT64_T, MPI_COMM_WORLD);
-        MPI_Allgather(predecessor, size, MPI_UINT64_T, predecessor_buffer, size, MPI_UINT64_T, MPI_COMM_WORLD);
+        MPI_Allgather(distance, static_cast<int>(size), MPI_INT64_T, distance_buffer, static_cast<int>(size), MPI_INT64_T, MPI_COMM_WORLD);
+        MPI_Allgather(predecessor, static_cast<int>(size), MPI_UINT64_T, predecessor_buffer, static_cast<int>(size), MPI_UINT64_T, MPI_COMM_WORLD);
         for (size_t k = 0; k < size; k++) {
-            for (size_t j = 0; j < process_count; j++) {
+            for (size_t j = 0; j < static_cast<size_t>(process_count); j++) {
                 if (distance_buffer[j * size + k] < distance[k]) {
                     distance[k] = distance_buffer[j * size + k];
                     predecessor[k] = predecessor_buffer[j * size + k];
