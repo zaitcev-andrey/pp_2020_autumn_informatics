@@ -20,8 +20,7 @@ void printGraph(size_t size, int64_t *graph) {
             std::cout << std::setw(2) << graph[i * size + j] << ' ';
         }
         std::cout << std::setw(2) << 'x' << ' ';
-        for (size_t j = i + 1; j < size; j++)
-        {
+        for (size_t j = i + 1; j < size; j++) {
             std::cout << std::setw(2) << graph[i * size + j] << ' ';
         }
         std::cout << std::endl;

@@ -4,8 +4,6 @@
 #include <gtest/gtest.h>
 #include <mpi.h>
 
-#include <chrono>
-
 #include "../../../modules/task_3/zoreev_m_moore_algorithm/moore_algorithm.h"
 
 void testGraph(size_t size, uint64_t *seqential_result, uint64_t *parallel_result) {
@@ -13,25 +11,19 @@ void testGraph(size_t size, uint64_t *seqential_result, uint64_t *parallel_resul
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     int64_t *graph = new int64_t[size * size];
-    if (rank == 0)
-    {
+    if (rank == 0) {
         randomCompleteGraph(size, graph);
-        auto begin_time = std::chrono::steady_clock::now();
+        double begin_time = MPI_Wtime();
         seqential_result = mooreAlgorithm(size, graph, 0);
-        auto end_time = std::chrono::steady_clock::now();
-        std::cout << "Seqential: "
-                  << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time).count()
-                  << "ms" << std::endl;
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
     MPI_Bcast(graph, size * size, MPI_UINT64_T, 0, MPI_COMM_WORLD);
-    auto begin_time = std::chrono::steady_clock::now();
+    double begin_time = MPI_Wtime();
     parallel_result = mooreAlgorithmParallel(size, graph, 0);
-    auto end_time = std::chrono::steady_clock::now();
-    if (rank == 0)
-    {
-        std::cout << "Parallel: "
-                  << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time).count()
-                  << "ms" << std::endl;
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
     }
     delete[] graph;
 }
@@ -45,30 +37,26 @@ TEST(Moore_Algotithm_MPI, SpeedAndQualtiyTestTemplate) {
     uint64_t *seqential_result = nullptr;
     if (rank == 0) {
         randomCompleteGraph(size, graph);
-        printGraph(size, graph); // <- Disable at large size
-        auto begin_time = std::chrono::steady_clock::now();
+        printGraph(size, graph);  // <- Disable at large size
+        double begin_time = MPI_Wtime();
         seqential_result = mooreAlgorithm(size, graph, 0);
-        auto end_time = std::chrono::steady_clock::now();
-        std::cout << "Seqential: "
-                  << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time).count()
-                  << "ms" << std::endl;
-        printPredecessor(size, seqential_result); // <- Disable at large size
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
+        printPredecessor(size, seqential_result);  // <- Disable at large size
     }
     MPI_Bcast(graph, size * size, MPI_UINT64_T, 0, MPI_COMM_WORLD);
-    auto begin_time = std::chrono::steady_clock::now();
+    double begin_time = MPI_Wtime();
     uint64_t *parallel_result = mooreAlgorithmParallel(size, graph, 0);
-    auto end_time = std::chrono::steady_clock::now();
+    double end_time = MPI_Wtime();
     if (rank == 0) {
-        std::cout << "Parallel: "
-                  << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time).count()
-                  << "ms" << std::endl;
-        printPredecessor(size, parallel_result); // <- Disable at large size
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        printPredecessor(size, parallel_result);  // <- Disable at large size
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
         delete[] seqential_result;
     }
-    
+
     delete[] graph;
     delete[] parallel_result;
 }
