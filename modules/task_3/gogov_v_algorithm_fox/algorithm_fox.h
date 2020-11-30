@@ -5,7 +5,7 @@
 
 using Matrix = std::vector<double>;
 
-struct Grid {  // Решетка
+struct Grid {  // Структура Решетка
     int dimGrid;  // Порядок решетки
     int numRow;  // Номер строки
     int numCol;  // Номер стобца
@@ -22,6 +22,7 @@ Matrix createRandomMatrix(int size);
 
 void createGrid(Grid* grid);  // Создание решетки
 
+void MultiplyMatrixAndSum(const Matrix& matrixA, const Matrix& matrixB, double* matrixC, int size);
 Matrix MultiplyMatrixSequential(const Matrix& matrixA, const Matrix& matrixB, int size);
 Matrix MultiplyMatrixParallel(const Matrix& matrixA, const Matrix& matrixB, int size);
 
