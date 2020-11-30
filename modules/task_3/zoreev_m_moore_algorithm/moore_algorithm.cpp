@@ -68,7 +68,7 @@ uint64_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
     return predecessor;
 }
 
-uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
+uint64_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
     int rank, process_count;
     MPI_Comm_size(MPI_COMM_WORLD, &process_count);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -87,10 +87,10 @@ uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
     distance[root] = 0;
     predecessor[root] = root;
 
-    size_t part = static_cast<size_t>(size) / static_cast<size_t>(process_count);
+    size_t part = size / static_cast<size_t>(process_count);
     size_t start = rank * part, end = (rank + 1) * part;
     if (rank == process_count - 1) {
-        end = static_cast<size_t>(size);
+        end = size;
     }
     for (size_t i = 0; i < size - 1; i++) {
         for (size_t j = start; j < end; j++) {
