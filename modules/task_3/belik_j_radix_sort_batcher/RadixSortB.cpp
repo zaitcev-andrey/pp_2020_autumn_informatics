@@ -126,7 +126,7 @@ std::vector<int> OddMerge(const std::vector<int>& v1, const std::vector<int>& v2
 }
 std::vector<int> Merge(std::vector<int> vec, int evencount, int oddcount) {
     std::vector<int> res(vec.size());
-    size_t i = 0, j = 0, k = 0;
+    int i = 0, j = 0, k = 0;
     while ((i < evencount) && (j < oddcount)) {
         res[k++] = vec[i++];
         res[k++] = vec[evencount + j];
@@ -143,7 +143,7 @@ std::vector<int> Merge(std::vector<int> vec, int evencount, int oddcount) {
 std::vector<int> Transpos(std::vector<int> vec, int evencount, int oddcount) {
     if (evencount - oddcount == 2) {
         std::vector<int> res(vec.size());
-        size_t i = 0, j = 0, k = 0;
+        int i = 0, j = 0, k = 0;
         while ((i < evencount) && (j < oddcount)) {
             res[k++] = vec[i++];
             res[k++] = vec[evencount + j];
@@ -151,9 +151,9 @@ std::vector<int> Transpos(std::vector<int> vec, int evencount, int oddcount) {
         }
         while (i < evencount)
             res[k++] = vec[i++];
-        for (i = 1; i < res.size() - 1; i += 2) {
-            if (res[i] > res[i + 1])
-                std::swap(res[i], res[i + 1]);
+        for (size_t h = 1; h < res.size() - 1; h += 2) {
+            if (res[h] > res[h + 1])
+                std::swap(res[h], res[h + 1]);
         }
         res = Shuffle(res);
         return res;
