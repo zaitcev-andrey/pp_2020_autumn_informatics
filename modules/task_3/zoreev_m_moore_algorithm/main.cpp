@@ -71,8 +71,8 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph8) {
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
+        delete[] seqential_result;
     }
-    delete[] seqential_result;
     delete[] parallel_result;
 }
 
@@ -86,8 +86,8 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph16) {
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
+        delete[] seqential_result;
     }
-    delete[] seqential_result;
     delete[] parallel_result;
 }
 
@@ -101,8 +101,8 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph32) {
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
+        delete[] seqential_result;
     }
-    delete[] seqential_result;
     delete[] parallel_result;
 }
 
@@ -116,8 +116,8 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph64) {
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
+        delete[] seqential_result;
     }
-    delete[] seqential_result;
     delete[] parallel_result;
 }
 
@@ -131,8 +131,8 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph100) {
         for (size_t i = 0; i < size; i++) {
             ASSERT_EQ(seqential_result[i], parallel_result[i]);
         }
+        delete[] seqential_result;
     }
-    delete[] seqential_result;
     delete[] parallel_result;
 }
 
