@@ -81,13 +81,12 @@ std::vector<int> MergeBatcher(std::vector<int> vec, int n) {
 }
 std::vector<int> Shuffle(std::vector<int> vec) {
     std::vector<int> tmp(vec.size());
-    for (size_t i = 0; i < vec.size(); i++)
-    {
+    for (size_t i = 0; i < vec.size(); i++) {
         tmp[i / 2 + (i % 2) * (vec.size() / 2 + vec.size() % 2)] = vec[i];
     }
     return tmp;
 }
-std::vector<int> EvenMerge(std::vector<int>& v1, std::vector<int>& v2) {
+std::vector<int> EvenMerge(const std::vector<int>& v1, const std::vector<int>& v2) {
     if (v1.size() == 0)
         return v2;
     if (v2.size() == 0)
@@ -106,7 +105,7 @@ std::vector<int> EvenMerge(std::vector<int>& v1, std::vector<int>& v2) {
         res[k++] = v2[j++];
     return res;
 }
-std::vector<int> OddMerge(std::vector<int>& v1, std::vector<int>& v2) {
+std::vector<int> OddMerge(const std::vector<int>& v1, const std::vector<int>& v2) {
     if (v1.size() == 0)
         return v2;
     if (v2.size() == 0)
