@@ -104,10 +104,10 @@ TEST(Parallel_Multiply_Matrix_MPI, Size_100) {
     }
 }
 
-TEST(Parallel_Multiply_Matrix_MPI, Size_250) {
+TEST(Parallel_Multiply_Matrix_MPI, Size_200) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int size = 250;
+    int size = 200;
     bool flag = checkSize(&size);
     if (flag) {
         Matrix matrixA(0), matrixB(0);
@@ -137,10 +137,10 @@ TEST(Parallel_Multiply_Matrix_MPI, Size_250) {
     }
 }
 
-TEST(Parallel_Multiply_Matrix_MPI, Size_300) {
+TEST(Parallel_Multiply_Matrix_MPI, Size_250) {
     int procRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    int size = 300;
+    int size = 250;
     bool flag = checkSize(&size);
     if (flag) {
         Matrix matrixA(0), matrixB(0);
