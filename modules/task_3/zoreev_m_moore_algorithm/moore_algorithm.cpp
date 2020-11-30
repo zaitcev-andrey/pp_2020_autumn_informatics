@@ -1,3 +1,4 @@
+// Copyright 2020 Zoreev Mikhail
 #include "../../../modules/task_3/zoreev_m_moore_algorithm/moore_algorithm.h"
 
 void randomCompleteGraph(size_t size, int64_t *graph) {
@@ -27,7 +28,7 @@ void printGraph(size_t size, int64_t *graph) {
     }
 }
 
-void printPredecessor(size_t size, size_t *predecessor) {
+void printPredecessor(size_t size, uint64_t *predecessor) {
     for (size_t i = 0; i < size; i++) {
         std::cout << std::setw(2) << predecessor[i] << ' ';
     }
@@ -39,7 +40,7 @@ size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
         throw std::runtime_error("WRONG SIZE");
     }
     int64_t *distance = new int64_t[size];
-    size_t *predecessor = new size_t[size];
+    uint64_t *predecessor = new size_t[size];
     for (size_t i = 0; i < size; i++) {
         distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
@@ -50,13 +51,13 @@ size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
     for (size_t i = 0; i < size - 1; i++) {
         for (size_t j = 0; j < size; j++) {
             for (size_t k = 0; k < j; k++) {
-                if (distance[k] > distance[j] + graph[j * size + k]) {
+                if ((graph[j * size + k] != INT64_MIN) && (distance[k] > distance[j] + graph[j * size + k])) {
                     distance[k] = distance[j] + graph[j * size + k];
                     predecessor[k] = j;
                 }
             }
             for (size_t k = j + 1; k < size; k++) {
-                if (distance[k] > distance[j] + graph[j * size + k]) {
+                if ((graph[j * size + k] != INT64_MIN) && (distance[k] > distance[j] + graph[j * size + k])) {
                     distance[k] = distance[j] + graph[j * size + k];
                     predecessor[k] = j;
                 }
@@ -68,7 +69,7 @@ size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
     return predecessor;
 }
 
-size_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
+uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
     int rank, process_count;
     MPI_Comm_size(MPI_COMM_WORLD, &process_count);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -77,9 +78,9 @@ size_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
         throw std::runtime_error("WRONG SIZE");
     }
     int64_t *distance = new int64_t[size];
-    size_t *predecessor = new size_t[size];
+    uint64_t *predecessor = new size_t[size];
     int64_t *distance_buffer = new int64_t[size * process_count];
-    size_t *predecessor_buffer = new size_t[size * process_count];
+    uint64_t *predecessor_buffer = new size_t[size * process_count];
     for (size_t i = 0; i < size; i++) {
         distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
@@ -95,13 +96,13 @@ size_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
     for (size_t i = 0; i < size - 1; i++) {
         for (size_t j = start; j < end; j++) {
             for (size_t k = 0; k < j; k++) {
-                if (distance[k] > distance[j] + graph[j * size + k]) {
+                if ((graph[j * size + k] != INT64_MIN) && (distance[k] > distance[j] + graph[j * size + k])) {
                     distance[k] = distance[j] + graph[j * size + k];
                     predecessor[k] = j;
                 }
             }
             for (size_t k = j + 1; k < size; k++) {
-                if (distance[k] > distance[j] + graph[j * size + k]) {
+                if ((graph[j * size + k] != INT64_MIN) && (distance[k] > distance[j] + graph[j * size + k])) {
                     distance[k] = distance[j] + graph[j * size + k];
                     predecessor[k] = j;
                 }
