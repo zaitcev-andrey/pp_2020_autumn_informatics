@@ -6,134 +6,229 @@
 
 #include "../../../modules/task_3/zoreev_m_moore_algorithm/moore_algorithm.h"
 
-void testGraph(size_t size, uint64_t *seqential_result, uint64_t *parallel_result) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-    int64_t *graph = new int64_t[size * size];
-    if (rank == 0) {
-        randomCompleteGraph(size, graph);
-        double begin_time = MPI_Wtime();
-        seqential_result = mooreAlgorithm(size, graph, 0);
-        double end_time = MPI_Wtime();
-        std::cout << "Seqential: " << end_time - begin_time << std::endl;
-    }
-    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
-    double begin_time = MPI_Wtime();
-    parallel_result = mooreAlgorithmParallel(size, graph, 0);
-    double end_time = MPI_Wtime();
-    if (rank == 0) {
-        std::cout << "Parallel: " << end_time - begin_time << std::endl;
-    }
-    delete[] graph;
-}
-
 TEST(Moore_Algotithm_MPI, SpeedAndQualtiyTestTemplate) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     size_t size = 8;
     int64_t *graph = new int64_t[size * size];
-    uint64_t *seqential_result = nullptr;
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
         randomCompleteGraph(size, graph);
-        printGraph(size, graph);  // <- Disable at large size
+        printGraph(size, graph);  // <- Remove on speed test
         double begin_time = MPI_Wtime();
-        seqential_result = mooreAlgorithm(size, graph, 0);
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
         double end_time = MPI_Wtime();
         std::cout << "Seqential: " << end_time - begin_time << std::endl;
-        printPredecessor(size, seqential_result);  // <- Disable at large size
+        printPredecessor(size, seqential_preducessor);  // <- Remove on speed test
     }
     MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
     double begin_time = MPI_Wtime();
-    uint64_t *parallel_result = mooreAlgorithmParallel(size, graph, 0);
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
     double end_time = MPI_Wtime();
     if (rank == 0) {
         std::cout << "Parallel: " << end_time - begin_time << std::endl;
-        printPredecessor(size, parallel_result);  // <- Disable at large size
+        printPredecessor(size, parallel_preducessor);  // <- Remove on speed test
         for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
         }
-        delete[] seqential_result;
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
     }
 
     delete[] graph;
-    delete[] parallel_result;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
 TEST(Moore_Algotithm_MPI, TestCompleGraph8) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     size_t size = 8;
-    uint64_t *seqential_result = nullptr, *parallel_result = nullptr;
-    testGraph(size, seqential_result, parallel_result);
+    int64_t *graph = new int64_t[size * size];
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
-        }
-        delete[] seqential_result;
+        randomCompleteGraph(size, graph);
+        double begin_time = MPI_Wtime();
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    delete[] parallel_result;
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    double begin_time = MPI_Wtime();
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
+        }
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
+    }
+
+    delete[] graph;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
 TEST(Moore_Algotithm_MPI, TestCompleGraph16) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     size_t size = 16;
-    uint64_t *seqential_result = nullptr, *parallel_result = nullptr;
-    testGraph(size, seqential_result, parallel_result);
+    int64_t *graph = new int64_t[size * size];
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
-        }
-        delete[] seqential_result;
+        randomCompleteGraph(size, graph);
+        double begin_time = MPI_Wtime();
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    delete[] parallel_result;
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    double begin_time = MPI_Wtime();
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
+        }
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
+    }
+
+    delete[] graph;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
 TEST(Moore_Algotithm_MPI, TestCompleGraph32) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     size_t size = 32;
-    uint64_t *seqential_result = nullptr, *parallel_result = nullptr;
-    testGraph(size, seqential_result, parallel_result);
+    int64_t *graph = new int64_t[size * size];
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
-        }
-        delete[] seqential_result;
+        randomCompleteGraph(size, graph);
+        double begin_time = MPI_Wtime();
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    delete[] parallel_result;
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    double begin_time = MPI_Wtime();
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
+        }
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
+    }
+
+    delete[] graph;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
 TEST(Moore_Algotithm_MPI, TestCompleGraph64) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    size_t size = 8;
-    uint64_t *seqential_result = nullptr, *parallel_result = nullptr;
-    testGraph(size, seqential_result, parallel_result);
+
+    size_t size = 64;
+    int64_t *graph = new int64_t[size * size];
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
-        }
-        delete[] seqential_result;
+        randomCompleteGraph(size, graph);
+        double begin_time = MPI_Wtime();
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    delete[] parallel_result;
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    double begin_time = MPI_Wtime();
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
+        }
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
+    }
+
+    delete[] graph;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
-TEST(Moore_Algotithm_MPI, TestCompleGraph100) {
+TEST(Moore_Algotithm_MPI, TestCompleGraph101) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    size_t size = 8;
-    uint64_t *seqential_result = nullptr, *parallel_result = nullptr;
-    testGraph(size, seqential_result, parallel_result);
+
+    size_t size = 101;
+    int64_t *graph = new int64_t[size * size];
+    int64_t *seqential_distance = nullptr;
+    uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        for (size_t i = 0; i < size; i++) {
-            ASSERT_EQ(seqential_result[i], parallel_result[i]);
-        }
-        delete[] seqential_result;
+        randomCompleteGraph(size, graph);
+        double begin_time = MPI_Wtime();
+        seqential_distance = new int64_t[size];
+        seqential_preducessor = new uint64_t[size];
+        mooreAlgorithm(size, graph, seqential_distance, seqential_preducessor, 0);
+        double end_time = MPI_Wtime();
+        std::cout << "Seqential: " << end_time - begin_time << std::endl;
     }
-    delete[] parallel_result;
+    MPI_Bcast(graph, static_cast<int>(size * size), MPI_UINT64_T, 0, MPI_COMM_WORLD);
+    double begin_time = MPI_Wtime();
+    int64_t *parallel_distance = new int64_t[size];
+    uint64_t *parallel_preducessor = new uint64_t[size];
+    mooreAlgorithmParallel(size, graph, parallel_distance, parallel_preducessor, 0);
+    double end_time = MPI_Wtime();
+    if (rank == 0) {
+        std::cout << "Parallel: " << end_time - begin_time << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            ASSERT_EQ(seqential_distance[i], parallel_distance[i]);
+        }
+        delete[] seqential_distance;
+        delete[] seqential_preducessor;
+    }
+
+    delete[] graph;
+    delete[] parallel_distance;
+    delete[] parallel_preducessor;
 }
 
 int main(int argc, char *argv[]) {

@@ -34,12 +34,10 @@ void printPredecessor(size_t size, uint64_t *predecessor) {
     std::cout << std::endl;
 }
 
-uint64_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
+void mooreAlgorithm(size_t size, int64_t *graph, int64_t *distance, uint64_t *predecessor, size_t root) {
     if (size < 2) {
         throw std::runtime_error("WRONG SIZE");
     }
-    int64_t *distance = new int64_t[size];
-    uint64_t *predecessor = new uint64_t[size];
     for (size_t i = 0; i < size; i++) {
         distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
@@ -63,12 +61,9 @@ uint64_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
             }
         }
     }
-    delete[] distance;
-
-    return predecessor;
 }
 
-uint64_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
+void mooreAlgorithmParallel(size_t size, int64_t *graph, int64_t *distance, uint64_t *predecessor, size_t root) {
     int rank, process_count;
     MPI_Comm_size(MPI_COMM_WORLD, &process_count);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -76,8 +71,6 @@ uint64_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
     if (size < 2) {
         throw std::runtime_error("WRONG SIZE");
     }
-    int64_t *distance = new int64_t[size];
-    uint64_t *predecessor = new uint64_t[size];
     int64_t *distance_buffer = new int64_t[size * process_count];
     uint64_t *predecessor_buffer = new uint64_t[size * process_count];
     for (size_t i = 0; i < size; i++) {
@@ -121,9 +114,6 @@ uint64_t *mooreAlgorithmParallel(size_t size, int64_t *graph, size_t root) {
             }
         }
     }
-    delete[] distance;
     delete[] distance_buffer;
     delete[] predecessor_buffer;
-
-    return predecessor;
 }
