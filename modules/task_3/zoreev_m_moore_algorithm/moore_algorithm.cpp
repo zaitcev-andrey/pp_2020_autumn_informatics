@@ -34,12 +34,12 @@ void printPredecessor(size_t size, uint64_t *predecessor) {
     std::cout << std::endl;
 }
 
-size_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
+uint64_t *mooreAlgorithm(size_t size, int64_t *graph, size_t root) {
     if (size < 2) {
         throw std::runtime_error("WRONG SIZE");
     }
     int64_t *distance = new int64_t[size];
-    uint64_t *predecessor = new size_t[size];
+    uint64_t *predecessor = new uint64_t[size];
     for (size_t i = 0; i < size; i++) {
         distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
@@ -77,9 +77,9 @@ uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
         throw std::runtime_error("WRONG SIZE");
     }
     int64_t *distance = new int64_t[size];
-    uint64_t *predecessor = new size_t[size];
+    uint64_t *predecessor = new uint64_t[size];
     int64_t *distance_buffer = new int64_t[size * process_count];
-    uint64_t *predecessor_buffer = new size_t[size * process_count];
+    uint64_t *predecessor_buffer = new uint64_t[size * process_count];
     for (size_t i = 0; i < size; i++) {
         distance[i] = INT32_MAX;
         predecessor[i] = SIZE_MAX;
@@ -87,10 +87,10 @@ uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
     distance[root] = 0;
     predecessor[root] = root;
 
-    size_t part = size / static_cast<size_t>(process_count);
+    size_t part = static_cast<size_t>(size) / static_cast<size_t>(process_count);
     size_t start = rank * part, end = (rank + 1) * part;
     if (rank == process_count - 1) {
-        end = size;
+        end = static_cast<size_t>(size);
     }
     for (size_t i = 0; i < size - 1; i++) {
         for (size_t j = start; j < end; j++) {
@@ -108,8 +108,10 @@ uint64_t *mooreAlgorithmParallel(uint64_t size, int64_t *graph, size_t root) {
             }
         }
 
-        MPI_Allgather(distance, static_cast<int>(size), MPI_INT64_T, distance_buffer, static_cast<int>(size), MPI_INT64_T, MPI_COMM_WORLD);
-        MPI_Allgather(predecessor, static_cast<int>(size), MPI_UINT64_T, predecessor_buffer, static_cast<int>(size), MPI_UINT64_T, MPI_COMM_WORLD);
+        MPI_Allgather(distance, static_cast<int>(size), MPI_INT64_T, distance_buffer, static_cast<int>(size),
+                      MPI_INT64_T, MPI_COMM_WORLD);
+        MPI_Allgather(predecessor, static_cast<int>(size), MPI_UINT64_T, predecessor_buffer, static_cast<int>(size),
+                      MPI_UINT64_T, MPI_COMM_WORLD);
         for (size_t k = 0; k < size; k++) {
             for (size_t j = 0; j < static_cast<size_t>(process_count); j++) {
                 if (distance_buffer[j * size + k] < distance[k]) {
