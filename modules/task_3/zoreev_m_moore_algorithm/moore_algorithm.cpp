@@ -7,7 +7,7 @@ void randomGraphWithPath(size_t size, int64_t *graph) {
     for (size_t i = 0; i < size * size; i++) {
         graph[i] = INT64_MIN;
     }
-    for(size_t i = 0; i < size - 1; i++) {
+    for (size_t i = 0; i < size - 1; i++) {
         graph[i * size + i + 1] = generator() % 10 + 1;
         graph[(i + 1) * size + i] = generator() % 10 + 1;
     }
