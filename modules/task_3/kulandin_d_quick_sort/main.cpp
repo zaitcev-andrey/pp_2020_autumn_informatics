@@ -24,7 +24,7 @@ TEST(Parallel_Quick_sort, Test_1) {
         std::sort(copy, copy + N);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(std::vector<int>(copy, copy + N), std::vector<int>(mas, mas + N));
-        printf("Size of array = %d\n", N);
+        printf("Size of array = %zu\n", N);
         printf("Parallel time:              %.10f\n", timeParallel);
         printf("Sequential time:            %.10f\n", timeSequential);
     }
@@ -49,7 +49,7 @@ TEST(Parallel_Quick_sort, Test_2) {
         std::sort(copy, copy + N);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(std::vector<int>(copy, copy + N), std::vector<int>(mas, mas + N));
-        printf("Size of array = %d\n", N);
+        printf("Size of array = %zu\n", N);
         printf("Parallel time:              %.10f\n", timeParallel);
         printf("Sequential time:            %.10f\n", timeSequential);
     }
@@ -74,7 +74,7 @@ TEST(Parallel_Quick_sort, Test_3) {
         std::sort(copy, copy + N);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(std::vector<int>(copy, copy + N), std::vector<int>(mas, mas + N));
-        printf("Size of array = %d\n", N);
+        printf("Size of array = %zu\n", N);
         printf("Parallel time:              %.10f\n", timeParallel);
         printf("Sequential time:            %.10f\n", timeSequential);
     }
@@ -99,7 +99,7 @@ TEST(Parallel_Quick_sort, Test_4) {
         std::sort(copy, copy + N);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(std::vector<int>(copy, copy + N), std::vector<int>(mas, mas + N));
-        printf("Size of array = %d\n", N);
+        printf("Size of array = %zu\n", N);
         printf("Parallel time:              %.10f\n", timeParallel);
         printf("Sequential time:            %.10f\n", timeSequential);
     }
@@ -124,7 +124,7 @@ TEST(Parallel_Quick_sort, Test_5) {
         std::sort(copy, copy + N);
         timeSequential = MPI_Wtime() - timeSequential;
         ASSERT_EQ(std::vector<int>(copy, copy + N), std::vector<int>(mas, mas + N));
-        printf("Size of array = %d\n", N);
+        printf("Size of array = %zu\n", N);
         printf("Parallel time:              %.10f\n", timeParallel);
         printf("Sequential time:            %.10f\n", timeSequential);
     }
