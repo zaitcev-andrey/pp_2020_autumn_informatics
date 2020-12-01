@@ -11,21 +11,21 @@ std::mt19937 gen(time(0));
 
 int* randomVector(int sz) {
     int* ans = new int[sz];
-    for (size_t i = 0; i < sz; ++i) {
+    for (int i = 0; i < sz; ++i) {
         ans[i] = gen();
     }
     return ans;
 }
 
-int* copyVector(int* a, size_t sz) {
+int* copyVector(int* a, int sz) {
     int* ans = new int[sz];
-    for (size_t i = 0; i < sz; ++i) {
+    for (int i = 0; i < sz; ++i) {
         ans[i] = a[i];
     }
     return ans;
 }
 
-void division(int* a, int l, int r, size_t* t) {
+void division(int* a, int l, int r, int* t) {
     int mid = a[(l + r) / 2];
     while (l <= r) {
         while (a[l] < mid) l++;
@@ -38,22 +38,22 @@ void division(int* a, int l, int r, size_t* t) {
 
 void quickSort(int* a, int l, int r) {
     if (l >= r) return;
-    size_t t = 0;
+    int t = 0;
     division(a, l, r, &t);
     quickSort(a, l, t);
     quickSort(a, t + 1, r);
 }
 
-void parallelQuickSortImpl(int* a, size_t arrSize, size_t curRank, size_t maxRank, size_t power) {
+void parallelQuickSortImpl(int* a, int arrSize, int curRank, int maxRank, int power) {
     MPI_Status status;
 
-    size_t nextProc = curRank + (1 << power);
+    int nextProc = curRank + (1 << power);
     ++power;
     if (nextProc > maxRank) {
         quickSort(a, 0, arrSize - 1);
         return;
     }
-    size_t t = 0;
+    int t = 0;
     division(a, 0, arrSize - 1, &t);
     if (t + 1 < arrSize - t - 1) {
         MPI_Send(a, t + 1, MPI_INT, nextProc, t, MPI_COMM_WORLD);
@@ -66,11 +66,11 @@ void parallelQuickSortImpl(int* a, size_t arrSize, size_t curRank, size_t maxRan
     }
 }
 
-void parallelQuickSort(int* a, size_t length) {
+void parallelQuickSort(int* a, int length) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    size_t power = 0;
+    int power = 0;
 
     while ((1 << power) <= rank) {
         ++power;
@@ -84,7 +84,7 @@ void parallelQuickSort(int* a, size_t length) {
         MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         MPI_Get_count(&status, MPI_INT, &subSize);
 
-        size_t source = status.MPI_SOURCE;
+        int source = status.MPI_SOURCE;
         int* tmp = new int[subSize];
         MPI_Recv(tmp, subSize, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         parallelQuickSortImpl(tmp, subSize, rank, size - 1, power);

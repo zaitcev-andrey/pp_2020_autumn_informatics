@@ -8,7 +8,7 @@
 TEST(Parallel_Quick_sort, Test_1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 5;
+    const int N = 5;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
@@ -33,7 +33,7 @@ TEST(Parallel_Quick_sort, Test_1) {
 TEST(Parallel_Quick_sort, Test_2) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 1337;
+    const int N = 1337;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
@@ -58,7 +58,7 @@ TEST(Parallel_Quick_sort, Test_2) {
 TEST(Parallel_Quick_sort, Test_3) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 123456;
+    const int N = 123456;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
@@ -83,7 +83,7 @@ TEST(Parallel_Quick_sort, Test_3) {
 TEST(Parallel_Quick_sort, Test_4) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 1864893;
+    const int N = 1864893;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
@@ -108,7 +108,7 @@ TEST(Parallel_Quick_sort, Test_4) {
 TEST(Parallel_Quick_sort, Test_5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 3424507;
+    const int N = 3424507;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
