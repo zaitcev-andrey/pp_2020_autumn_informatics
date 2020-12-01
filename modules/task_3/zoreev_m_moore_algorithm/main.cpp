@@ -157,7 +157,7 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph32) {
     delete[] parallel_preducessor;
 }
 
-TEST(Moore_Algotithm_MPI, TestCompleGraph64) {
+TEST(Moore_Algotithm_MPI, TestGraphWithPath64) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -166,7 +166,7 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph64) {
     int64_t *seqential_distance = nullptr;
     uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        randomCompleteGraph(size, graph);
+        randomGraphWithPath(size, graph);
         double begin_time = MPI_Wtime();
         seqential_distance = new int64_t[size];
         seqential_preducessor = new uint64_t[size];
@@ -194,7 +194,7 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph64) {
     delete[] parallel_preducessor;
 }
 
-TEST(Moore_Algotithm_MPI, TestCompleGraph101) {
+TEST(Moore_Algotithm_MPI, TestGraphWithPath101) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -203,7 +203,7 @@ TEST(Moore_Algotithm_MPI, TestCompleGraph101) {
     int64_t *seqential_distance = nullptr;
     uint64_t *seqential_preducessor = nullptr;
     if (rank == 0) {
-        randomCompleteGraph(size, graph);
+        randomGraphWithPath(size, graph);
         double begin_time = MPI_Wtime();
         seqential_distance = new int64_t[size];
         seqential_preducessor = new uint64_t[size];

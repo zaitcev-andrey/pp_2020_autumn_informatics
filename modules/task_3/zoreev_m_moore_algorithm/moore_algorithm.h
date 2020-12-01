@@ -10,6 +10,8 @@
 #include <random>
 #include <stdexcept>
 
+void randomGraphWithPath(size_t size, int64_t *graph);
+
 void randomCompleteGraph(size_t size, int64_t *graph);
 
 void printGraph(size_t size, int64_t *graph);

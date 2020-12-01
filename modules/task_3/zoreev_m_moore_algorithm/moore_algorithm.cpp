@@ -1,6 +1,21 @@
 // Copyright 2020 Zoreev Mikhail
 #include "../../../modules/task_3/zoreev_m_moore_algorithm/moore_algorithm.h"
 
+void randomGraphWithPath(size_t size, int64_t *graph) {
+    std::mt19937 generator;
+    generator.seed(static_cast<unsigned int>(time(0)));
+    for (size_t i = 0; i < size * size; i++) {
+        graph[i] = INT64_MIN;
+    }
+    for(size_t i = 0; i < size - 1; i++) {
+        graph[i * size + i + 1] = generator() % 10 + 1;
+        graph[(i + 1) * size + i] = generator() % 10 + 1;
+    }
+    for (size_t i = 0; i < size * size / 4; i++) {
+        graph[(generator() % size) * size + generator() % size] = generator() % 10;
+    }
+}
+
 void randomCompleteGraph(size_t size, int64_t *graph) {
     std::mt19937 generator;
     generator.seed(static_cast<unsigned int>(time(0)));
@@ -16,12 +31,12 @@ void randomCompleteGraph(size_t size, int64_t *graph) {
 
 void printGraph(size_t size, int64_t *graph) {
     for (size_t i = 0; i < size; i++) {
-        for (size_t j = 0; j < i; j++) {
-            std::cout << std::setw(2) << graph[i * size + j] << ' ';
-        }
-        std::cout << std::setw(2) << 'x' << ' ';
-        for (size_t j = i + 1; j < size; j++) {
-            std::cout << std::setw(2) << graph[i * size + j] << ' ';
+        for (size_t j = 0; j < size; j++) {
+            if (graph[i * size + j] != INT64_MIN) {
+                std::cout << std::setw(2) << graph[i * size + j] << ' ';
+            } else {
+                std::cout << std::setw(2) << 'x' << ' ';
+            }
         }
         std::cout << std::endl;
     }
