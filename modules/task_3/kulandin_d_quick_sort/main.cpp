@@ -108,7 +108,7 @@ TEST(Parallel_Quick_sort, Test_4) {
 TEST(Parallel_Quick_sort, Test_5) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const size_t N = 100000000;
+    const size_t N = 3424507;
     int* mas = new int[N];
     if (rank == 0) {
         mas = randomVector(N);
