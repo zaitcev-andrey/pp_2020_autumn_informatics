@@ -150,10 +150,10 @@ TEST(Parallel_Gift_Warpping_Algorithm_MPI, Test_Random_Vector_Size_10000) {
     }
 }
 
-TEST(Parallel_Gift_Warpping_Algorithm_MPI, Test_Random_Vector_Size_100000) {
+TEST(Parallel_Gift_Warpping_Algorithm_MPI, Test_Random_Vector_Size_1234) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    const int count_size_string = 100000;
+    const int count_size_string = 1234;
     std::vector<Point> points_1(count_size_string);
     std::vector<Point> points_2(count_size_string);
     std::vector<int> points_1_x;

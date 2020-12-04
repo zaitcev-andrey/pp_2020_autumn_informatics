@@ -6,7 +6,7 @@ std::vector<Point> createRandomPoints(size_t size) {
     std::vector<Point> result(size);
     std::random_device rd;
     std::mt19937 mersenne(rd());
-    std::uniform_real_distribution<> urd(-10000.0, 10000.0);
+    std::uniform_real_distribution<> urd(-100000.0, 100000.0);
     for (size_t i = 0; i < size; i++) {
         result[i].x = static_cast<int>(urd(mersenne));
         result[i].y = static_cast<int>(urd(mersenne));
