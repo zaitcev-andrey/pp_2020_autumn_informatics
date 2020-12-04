@@ -33,8 +33,7 @@ std::vector<double> Get_max_parallel(std::vector<double> matrix, int stolb, int 
                 part_m[k * offset + j] = matrix[k * stolb + j];
             }
         }
-    }
-    else {
+    } else {
         MPI_Recv(part_m.data(), offset * stroka, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &Status);
     }
     std::vector<double> max(ProcRank == 0 ? stolb : offset);
@@ -45,8 +44,7 @@ std::vector<double> Get_max_parallel(std::vector<double> matrix, int stolb, int 
         for (int i = 1; i < ProcNum; i++) {
             MPI_Recv(max.data() + i * offset, offset, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &Status);
         }
-    }
-    else {
+    } else {
         MPI_Send(max.data(), offset, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }
 
