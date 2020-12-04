@@ -17,7 +17,7 @@ std::vector<Point> createRandomPoints(size_t size) {
 bool pointCheck(const Point& back, const Point& current, const Point& challenger) {
     double x;
 
-if ((challenger.x - current.x) == 0) {
+    if ((challenger.x - current.x) == 0) {
         if (challenger.x == back.x) {
             if ((challenger.y - current.y) > 0) {
                 if (challenger.y > back.y) {
@@ -134,6 +134,9 @@ std::vector<Point> buildConvexHullParallel(const std::vector<Point>& mas) {
         startT = MPI_Wtime();
     }
     int elements_count = static_cast<int>(mas.size());
+    if ((elements_count == 1) || (elements_count == 2)) {
+        return mas;
+    }
     int elements_part_count = elements_count / procCount;
     int remainder = elements_count % procCount;
     if ((elements_part_count == 1) || (static_cast<size_t>(procCount) > mas.size())) {
@@ -190,6 +193,9 @@ std::vector<Point> buildConvexHullParallel(const std::vector<Point>& mas) {
 }
 
 std::vector<Point> buildConvexHull(const std::vector<Point>& mas) {
+    if ((mas.size() == 1) || (mas.size() == 2)) {
+        return mas;
+    }
     std::vector<Point> part_vector(mas);
     Point left_point = part_vector[searchMinPoint(part_vector)];
     std::vector<Point> convex_hull;
@@ -204,7 +210,7 @@ std::vector<Point> buildConvexHull(const std::vector<Point>& mas) {
             if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)) {
                 continue;
             }
-            if (pointCheck(convex_hull.back(), next, part_vector[i]) || (part_vector[i] == next)) {
+            if ((part_vector[i] == next) || pointCheck(convex_hull.back(), next, part_vector[i])) {
                 next = part_vector[i];
             }
         }
