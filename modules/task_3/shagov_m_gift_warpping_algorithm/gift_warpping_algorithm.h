@@ -9,7 +9,7 @@
 
 struct Point {
     int x, y;
-    Point(){}
+    Point() = default;
     Point(int X, int Y) {
         x = X;
         y = Y;
