@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 
+double* matr(double* array, int str);
 void str_del_temp(double* array, int stlb, double temp, int j);
 void str_umn_temp(double* array, int stlb, double temp, int j);
 void str_minus_str(double* array1, double* array2, int stlb, int j);
