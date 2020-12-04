@@ -133,7 +133,7 @@ std::vector<Point> buildConvexHullParallel(const std::vector<Point>& mas) {
     if (rank == 0) {
         startT = MPI_Wtime();
     }
-    int elements_count = mas.size();
+    int elements_count = static_cast<int>(mas.size());
     int elements_part_count = elements_count / procCount;
     int remainder = elements_count % procCount;
     if ((elements_part_count == 1) || (static_cast<size_t>(procCount) > mas.size())) {
@@ -200,7 +200,7 @@ std::vector<Point> buildConvexHull(const std::vector<Point>& mas) {
         if (next == convex_hull.back()) {
             next = part_vector[1];
         }
-        for (int i = 0; i < part_vector.size(); i++) {
+        for (int i = 0; i < static_cast<int>(part_vector.size()); i++) {
             if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)) {
                 continue;
             }
