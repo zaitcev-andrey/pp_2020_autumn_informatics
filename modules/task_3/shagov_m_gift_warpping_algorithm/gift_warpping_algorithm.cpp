@@ -1,10 +1,12 @@
+// Copyright 2020 Shagov Maksim
+#include <vector>
 #include "../../../modules/task_3/shagov_m_gift_warpping_algorithm/gift_warpping_algorithm.h"
 
 std::vector<Point> createRandomPoints(size_t size) {
     std::vector<Point> result(size);
     std::random_device rd;
     std::mt19937 mersenne(rd());
-    std::uniform_real_distribution<> urd(-10000.0 , 10000.0);
+    std::uniform_real_distribution<> urd(-10000.0, 10000.0);
     for (size_t i = 0; i < size; i++) {
         result[i].x = static_cast<int>(urd(mersenne));
         result[i].y = static_cast<int>(urd(mersenne));
@@ -66,7 +68,8 @@ if ((challenger.x - current.x) == 0) {
                 }
             }
         } else {
-            double tan1 = (static_cast<double>(challenger.y - current.y)) / (static_cast<double>(challenger.x - current.x));
+            double tan1 = (static_cast<double>(challenger.y - current.y)) / 
+            (static_cast<double>(challenger.x - current.x));
             double tan2 = tan1 + 1.0;
             if ((back.x - current.x) != 0) {
                 tan2 = (back.y - current.y) / (back.x - current.x);
@@ -78,7 +81,8 @@ if ((challenger.x - current.x) == 0) {
                     return challenger.y < back.y;
                 }
             } else {
-                x = static_cast<double>(back.y - challenger.y) / tan1 + static_cast<double>(challenger.x);
+                x = static_cast<double>(back.y - challenger.y) / 
+                tan1 + static_cast<double>(challenger.x);
             }
         }
     }
@@ -160,10 +164,9 @@ std::vector<Point> buildConvexHullParallel(const std::vector<Point>& mas) {
             next = part_vector[1];
         }
         for (int i = 0; i < part_vector.size(); i++) {
-            if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)){
+            if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)) {
                 continue;
             }
-            
             if (pointCheck(convex_hull.back(), next, part_vector[i]) || (part_vector[i] == next)) {
                 next = part_vector[i];
             }
@@ -198,10 +201,9 @@ std::vector<Point> buildConvexHull(const std::vector<Point>& mas) {
             next = part_vector[1];
         }
         for (int i = 0; i < part_vector.size(); i++) {
-            if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)){
+            if ((part_vector[i] == convex_hull.back()) || (convex_hull.back() == next)) {
                 continue;
             }
-            
             if (pointCheck(convex_hull.back(), next, part_vector[i]) || (part_vector[i] == next)) {
                 next = part_vector[i];
             }
