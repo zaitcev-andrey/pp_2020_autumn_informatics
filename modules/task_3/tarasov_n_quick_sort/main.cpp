@@ -14,7 +14,7 @@ TEST(Quick_sort_MPI, test1) {
 
 TEST(Quick_sort_MPI, test2) {
     int size = 0;
-    std::vector<int> a(size); 
+    std::vector<int> a(size);
     int mpirank;
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
     if (mpirank == 0) {
@@ -24,13 +24,13 @@ TEST(Quick_sort_MPI, test2) {
 
 TEST(Quick_sort_MPI, test3) {
     int size = 1;
-    std::vector<int> a(size); 
+    std::vector<int> a(size);
     int mpirank;
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
     if (mpirank == 0) {
         a = random_array(size);
-    	std::vector<int> ans = a;
-    	quick_sort(&ans, 0, size - 1);
+        std::vector<int> ans = a;
+        quick_sort(&ans, 0, size - 1);
         ASSERT_EQ(a, ans);
     }
 }

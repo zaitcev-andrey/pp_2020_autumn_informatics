@@ -4,6 +4,7 @@
 #include <ctime>
 #include <random>
 #include <vector>
+#include <limits>
 #include "../../../modules/task_3/tarasov_n_quick_sort/quick_sort.h"
 
 std::vector<int> random_array(int _size) {
@@ -58,7 +59,6 @@ void quick_sort(std::vector<int> *vec, int left, int right) {
 }
 
 void quick_sort_mpi(std::vector<int> *vec) {
-
     if (vec->size() < 1) {
         throw "ErrorLentgh";
     }
@@ -98,7 +98,7 @@ void quick_sort_mpi(std::vector<int> *vec) {
 
     std::vector<int> rec_buf(scount[mpirank]);
 
-    MPI_Scatterv(&(*vec)[0], &scount[0], &displs[0], MPI_INT, 
+    MPI_Scatterv(&(*vec)[0], &scount[0], &displs[0], MPI_INT,
         &rec_buf[0], scount[mpirank], MPI_INT, mpiroot, MPI_COMM_WORLD);
 
     int left = displs[mpirank];
@@ -108,7 +108,7 @@ void quick_sort_mpi(std::vector<int> *vec) {
 
     int j = 0;
     int i = 0;
-   
+
     while (i < size) {
         int min_buf;
         int global_counter = 0;
@@ -117,14 +117,12 @@ void quick_sort_mpi(std::vector<int> *vec) {
         if (rec_buf[j] == min_buf) {
             rec_buf[j] = std::numeric_limits<int>::max();
             if (j < static_cast<int>(rec_buf.size()) - 1) j++;
-            
+
             global_counter++;
         }
         MPI_Reduce(&global_counter, &counter, 1, MPI_INT, MPI_SUM, mpiroot, MPI_COMM_WORLD);
         if (mpirank == mpiroot) {
-
             int tmp = i + counter;
-
             for (i; i < tmp; i++) {
                 (*vec)[i] = min_buf;
             }
