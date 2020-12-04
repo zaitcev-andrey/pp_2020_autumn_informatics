@@ -68,7 +68,7 @@ if ((challenger.x - current.x) == 0) {
                 }
             }
         } else {
-            double tan1 = (static_cast<double>(challenger.y - current.y)) / 
+            double tan1 = (static_cast<double>(challenger.y - current.y)) /
             (static_cast<double>(challenger.x - current.x));
             double tan2 = tan1 + 1.0;
             if ((back.x - current.x) != 0) {
@@ -81,7 +81,7 @@ if ((challenger.x - current.x) == 0) {
                     return challenger.y < back.y;
                 }
             } else {
-                x = static_cast<double>(back.y - challenger.y) / 
+                x = static_cast<double>(back.y - challenger.y) /
                 tan1 + static_cast<double>(challenger.x);
             }
         }
