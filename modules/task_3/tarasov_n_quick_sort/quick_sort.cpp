@@ -22,28 +22,28 @@ void print_array(std::vector<int> vec) {
     std::cout << std::endl;
 }
 
-void quick_sort(std::vector<int> &vec, int left, int right) {
-    if (static_cast<int>(vec.size()) < 1) {
+void quick_sort(std::vector<int> *vec, int left, int right) {
+    if (static_cast<int>(vec->size()) < 1) {
         throw "Error";
     }
-    if (static_cast<int>(vec.size()) == 1) {
+    if (static_cast<int>(vec->size()) == 1) {
         return;
     }
 
     int l = left, r = right;
-    int pivot = vec[(left + right) / 2];
+    int pivot = (*vec)[(left + right) / 2];
     int temp;
     do {
-        while (vec[l] < pivot) {
+        while ((*vec)[l] < pivot) {
             l++;
         }
-        while (vec[r] > pivot) {
+        while ((*vec)[r] > pivot) {
             r--;
         }
         if (l <= r) {
-            temp = vec[l];
-            vec[l] = vec[r];
-            vec[r] = temp;
+            temp = (*vec)[l];
+            (*vec)[l] = (*vec)[r];
+            (*vec)[r] = temp;
             l++;
             r--;
         }
@@ -57,12 +57,12 @@ void quick_sort(std::vector<int> &vec, int left, int right) {
     }
 }
 
-void quick_sort_mpi(std::vector<int> &vec) {
+void quick_sort_mpi(std::vector<int> *vec) {
 
-    if (vec.size() < 1) {
+    if (vec->size() < 1) {
         throw "ErrorLentgh";
     }
-    if (vec.size() == 1) {
+    if (vec->size() == 1) {
         return;
     }
 
@@ -72,7 +72,7 @@ void quick_sort_mpi(std::vector<int> &vec) {
     MPI_Comm_size(MPI_COMM_WORLD, &mpisize);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
 
-    int size = static_cast<int>(vec.size());
+    int size = static_cast<int>(vec->size());
     int delta = size / mpisize;
     int rem = size % mpisize;
 
@@ -98,13 +98,13 @@ void quick_sort_mpi(std::vector<int> &vec) {
 
     std::vector<int> rec_buf(scount[mpirank]);
 
-    MPI_Scatterv(&vec[0], &scount[0], &displs[0], MPI_INT, 
+    MPI_Scatterv(&(*vec)[0], &scount[0], &displs[0], MPI_INT, 
         &rec_buf[0], scount[mpirank], MPI_INT, mpiroot, MPI_COMM_WORLD);
 
     int left = displs[mpirank];
     int right = displs[mpirank] + scount[mpirank] - 1;
 
-    quick_sort(rec_buf, 0, scount[mpirank] - 1);
+    quick_sort(&rec_buf, 0, scount[mpirank] - 1);
 
     int j = 0;
     int i = 0;
@@ -126,7 +126,7 @@ void quick_sort_mpi(std::vector<int> &vec) {
             int tmp = i + counter;
 
             for (i; i < tmp; i++) {
-                vec[i] = min_buf;
+                (*vec)[i] = min_buf;
             }
         }
         MPI_Bcast(&i, 1, MPI_INT, mpiroot, MPI_COMM_WORLD);

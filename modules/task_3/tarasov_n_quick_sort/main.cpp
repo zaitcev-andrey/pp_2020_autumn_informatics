@@ -18,7 +18,7 @@ TEST(Quick_sort_MPI, test2) {
     int mpirank;
     MPI_Comm_rank(MPI_COMM_WORLD, &mpirank);
     if (mpirank == 0) {
-        ASSERT_ANY_THROW(quick_sort(a, 0 , 0));
+        ASSERT_ANY_THROW(quick_sort(&a, 0 , 0));
     }
 }
 
@@ -30,7 +30,7 @@ TEST(Quick_sort_MPI, test3) {
     if (mpirank == 0) {
         a = random_array(size);
     	std::vector<int> ans = a;
-    	quick_sort(ans, 0, size - 1);
+    	quick_sort(&ans, 0, size - 1);
         ASSERT_EQ(a, ans);
     }
 }
@@ -63,7 +63,7 @@ TEST(Quick_sort_MPI, test4) {
         ans_seq[9] = 78;
     }
     std::vector<int> ans = a;
-    quick_sort_mpi(ans);
+    quick_sort_mpi(&ans);
     if (mpirank == 0) {
         ASSERT_EQ(ans_seq, ans);
     }
@@ -97,7 +97,7 @@ TEST(Quick_sort_MPI, test5) {
         ans_seq[9] = 78;
     }
     std::vector <int> ans = a;
-    quick_sort(ans, 0, size - 1);
+    quick_sort(&ans, 0, size - 1);
     if (mpirank == 0) {
         ASSERT_EQ(ans_seq, ans);
     }
@@ -112,10 +112,10 @@ TEST(Quick_sort_MPI, test6) {
         a = random_array(size);
     }
     std::vector <int> ans = a;
-    quick_sort_mpi(ans);
+    quick_sort_mpi(&ans);
     std::vector <int> ans_seq = a;
     if (mpirank == 0) {
-        quick_sort(ans_seq, 0, size - 1);
+        quick_sort(&ans_seq, 0, size - 1);
         ASSERT_EQ(ans_seq, ans);
     }
 }
@@ -129,10 +129,10 @@ TEST(Quick_sort_MPI, test7) {
         a = random_array(size);
     }
     std::vector <int> ans = a;
-    quick_sort_mpi(ans);
+    quick_sort_mpi(&ans);
     std::vector <int> ans_seq = a;
     if (mpirank == 0) {
-        quick_sort(ans_seq, 0, size - 1);
+        quick_sort(&ans_seq, 0, size - 1);
         ASSERT_EQ(ans_seq, ans);
     }
 }
