@@ -1,8 +1,0 @@
-// Copyright 2020 Gysarova Daria
-#ifndef MODULES_TASK_2_GUSAROVA_D_HYPERCUBE_HYPERCUBE_H_
-#define MODULES_TASK_2_GUSAROVA_D_HYPERCUBE_HYPERCUBE_H_
-
-#include <mpi.h>
-int Dim(int size);
-MPI_Comm HyperCube();
-#endif  // MODULES_TASK_2_GUSAROVA_D_HYPERCUBE_HYPERCUBE_H_
