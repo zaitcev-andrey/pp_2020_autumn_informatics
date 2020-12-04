@@ -184,6 +184,9 @@ std::vector<Point> buildConvexHullParallel(const std::vector<Point>& mas) {
         }
         MPI_Bcast(&next, 2, MPI_INT, 0, MPI_COMM_WORLD);
         convex_hull.push_back(next);
+        if (convex_hull.size() == mas.size()) {
+            break;
+        }
     } while (convex_hull.back() != left_point);
     if (rank == 0) {
         double endT = MPI_Wtime();
@@ -215,6 +218,9 @@ std::vector<Point> buildConvexHull(const std::vector<Point>& mas) {
             }
         }
         convex_hull.push_back(next);
+        if (convex_hull.size() == mas.size()) {
+            break;
+        }
     } while (convex_hull.back() != left_point);
 
     return convex_hull;
