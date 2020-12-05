@@ -51,6 +51,30 @@ bool Check(double* array, int str, double* ans, double epsilon) {
     return true;
 }
 
+double* matr(double* array, int str) {
+    int stlb = str + 1;
+    double k = 2.0;
+    for (int i = 0; i < str; i++) {
+        for (int j = 0; j < stlb - 1; j++) {
+            if (i == j) continue;
+            array[i * stlb + j] = k;
+            k += 1.0;
+        }
+    }
+    for (int i = 0; i < str; i++) {
+        array[i * stlb + i] = static_cast<double>(i) + 1.0;
+    }
+    double sum = 0.0;
+    for (int i = 0; i < str; i++) {
+        for (int j = 0; j < stlb - 1; j++) {
+            sum += array[i * stlb + j];
+        }
+        array[i * stlb + str] = sum;
+        sum = 0;
+    }
+    return array;
+}
+
 double*posled(double* array, int str) {
     int step = 0;
     int stlb = str + 1;
@@ -151,13 +175,7 @@ double* zhordan_gauss(double* array, int str) {
     } else {
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         int delta = str / size;
-        int ost = str - delta * (size - 1);
-        if (delta == str) {
-            ost = 0;
-        }
-        while ((delta*size + ost) != str) {
-            ost--;
-        }
+        int ost = str - delta * size;
         double* local_array1;
         double* local_array2 = new double[stlb];
         double* local_array22 = new double[stlb];
@@ -219,68 +237,68 @@ double* zhordan_gauss(double* array, int str) {
         }
         MPI_Barrier(MPI_COMM_WORLD);
         int smesh;
-        if (ost == 0) {
-            smesh = step - delta + ost;
-        } else {
             smesh = 0;
-        }
         int o = 0;
         while (step <str) {
-            for (int i = 1; i < size; i++) {
-                if (rank == i) {
-                    str_del_temp(local_array1, stlb, local_array1[step+stlb*smesh], smesh);
-                    int p = 0;
-                    for (int j = stlb * o; j < stlb*(o + 1); j++) {
-                        local_array2[p] = local_array1[j];
-                        p++;
-                    }
-                    for (int j = 0; j < size; j++) {
-                        if (j != i) {
-                            MPI_Send(&local_array2[0], stlb, MPI_DOUBLE, j, 2, MPI_COMM_WORLD);
-                        }
-                    }
-                    for (int k = 0; k < delta; k++) {
-                        if (k != o) {
-                            str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
-                            str_minus_str(local_array1, local_array2, stlb, k);
-                            for (int j = 0; j < stlb; j++) {
-                                local_array2[j] = local_array22[j];
-                            }
-                        }
-                    }
-                    if (ost != 0) {
-                        smesh++;
-                    }
-                    o++;
-                } else {
-                    MPI_Recv(&local_array2[0], stlb, MPI_DOUBLE, i, 2, MPI_COMM_WORLD, &status);
-                    if (rank == 0) {
-                        for (int j = 0; j < stlb; j++) {
-                            local_array22[j] = local_array2[j];
-                        }
-                        for (int k = 0; k < delta + ost; k++) {
-                            for (int j = 0; j < stlb; j++) {
-                                local_array2[j] = local_array22[j];
-                            }
-                            str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
-                            str_minus_str(local_array1, local_array2, stlb, k);
-                        }
-                    } else {
-                        for (int k = 1; k < delta; k++) {
-                            for (int j = 0; j < stlb; j++) {
-                                local_array22[j] = local_array2[j];
-                            }
-                            if (k != step) {
-                                for (int j = 0; j < stlb; j++) {
-                                    local_array2[j] = local_array22[j];
-                                }
-                                str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
-                                str_minus_str(local_array1, local_array2, stlb, k);
-                            }
-                        }
-                    }
-                }
-                step++;
+           for (int i = 1; i < size; i++) {
+               int z = 0;
+               while (z < delta) {
+                   if (rank == i) {
+                       str_del_temp(local_array1, stlb, local_array1[step + stlb * smesh], smesh);
+                       int p = 0;
+                       for (int j = stlb * o; j < stlb*(o + 1); j++) {
+                           local_array2[p] = local_array1[j];
+                           p++;
+                       }
+                       for (int j = 0; j < stlb; j++) {
+                           local_array22[j] = local_array2[j];
+                           p++;
+                       }
+                       for (int j = 0; j < size; j++) {
+                           if (j != i) {
+                               MPI_Send(&local_array2[0], stlb, MPI_DOUBLE, j, 2, MPI_COMM_WORLD);
+                           }
+                       }
+                       for (int k = 0; k < delta; k++) {
+                           if (k != o) {
+                               str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
+                               str_minus_str(local_array1, local_array2, stlb, k);
+                               for (int j = 0; j < stlb; j++) {
+                                   local_array2[j] = local_array22[j];
+                               }
+                           }
+                       }
+                       smesh++;
+                       o++;
+                   }
+               if (rank != i) {
+                   MPI_Recv(&local_array2[0], stlb, MPI_DOUBLE, i, 2, MPI_COMM_WORLD, &status);
+                   for (int j = 0; j < stlb; j++) {
+                       local_array22[j] = local_array2[j];
+                   }
+                   if (rank == 0) {
+                       for (int k = 0; k < delta + ost; k++) {
+                           for (int j = 0; j < stlb; j++) {
+                               local_array2[j] = local_array22[j];
+                           }
+                           str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
+                           str_minus_str(local_array1, local_array2, stlb, k);
+                       }
+                   } else {
+                       for (int k = 0; k < delta; k++) {
+                           if (k != step) {
+                               for (int j = 0; j < stlb; j++) {
+                                   local_array2[j] = local_array22[j];
+                               }
+                               str_umn_temp(local_array2, stlb, local_array1[step + stlb * k], 0);
+                               str_minus_str(local_array1, local_array2, stlb, k);
+                           }
+                       }
+                   }
+               }
+               step++;
+               z++;
+               }
             }
             MPI_Barrier(MPI_COMM_WORLD);
         }
@@ -302,8 +320,8 @@ double* zhordan_gauss(double* array, int str) {
                 for (int i = 1; i < size; i++) {
                     MPI_Recv(&res[delta*i + ost], delta, MPI_DOUBLE, i, i, MPI_COMM_WORLD, &status);
                 }
-                for (int h = 0; h < (delta+ost); h++) {
-                    res[h] = local_array1[str+stlb* h];
+                for (int h = 0; h < (delta + ost); h++) {
+                    res[h] = local_array1[str + stlb * h];
                 }
             }
         }
