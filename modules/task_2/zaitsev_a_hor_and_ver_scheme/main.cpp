@@ -16,10 +16,16 @@ TEST(Parallel_matrix_product, 17x17) {
     matrix_B = createRandomMatrix(size, time(0));
     matrix_B = transposition(matrix_B, size);
   }
+  double start1 = MPI_Wtime();
   std::vector<double> parallel_result = matrix_product_parallel(matrix_A, matrix_B, size);
+  double finish1 = MPI_Wtime();
   if (process_rank == 0) {
+	double start2 = MPI_Wtime();
     std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
+	double finish2 = MPI_Wtime();
     ASSERT_EQ(parallel_result, real_result);
+	std::cout << finish1 - start1 << std::endl;
+	std::cout << finish2 - start2 << std::endl;
   }
 }
 
@@ -34,10 +40,16 @@ TEST(Parallel_matrix_product, 35x35) {
     matrix_B = createRandomMatrix(size, time(0));
     matrix_B = transposition(matrix_B, size);
   }
+  double start1 = MPI_Wtime();
   std::vector<double> parallel_result = matrix_product_parallel(matrix_A, matrix_B, size);
+  double finish1 = MPI_Wtime();
   if (process_rank == 0) {
-    std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
-    ASSERT_EQ(parallel_result, real_result);
+	  double start2 = MPI_Wtime();
+	  std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
+	  double finish2 = MPI_Wtime();
+	  ASSERT_EQ(parallel_result, real_result);
+	  std::cout << finish1 - start1 << std::endl;
+	  std::cout << finish2 - start2 << std::endl;
   }
 }
 TEST(Parallel_matrix_product, 16x16) {
@@ -51,10 +63,16 @@ TEST(Parallel_matrix_product, 16x16) {
     matrix_B = createRandomMatrix(size, time(0));
     matrix_B = transposition(matrix_B, size);
   }
+  double start1 = MPI_Wtime();
   std::vector<double> parallel_result = matrix_product_parallel(matrix_A, matrix_B, size);
+  double finish1 = MPI_Wtime();
   if (process_rank == 0) {
-    std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
-    ASSERT_EQ(parallel_result, real_result);
+	  double start2 = MPI_Wtime();
+	  std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
+	  double finish2 = MPI_Wtime();
+	  ASSERT_EQ(parallel_result, real_result);
+	  std::cout << finish1 - start1 << std::endl;
+	  std::cout << finish2 - start2 << std::endl;
   }
 }
 TEST(Parallel_matrix_product, 6x6) {
@@ -68,10 +86,16 @@ TEST(Parallel_matrix_product, 6x6) {
     matrix_B = createRandomMatrix(size, time(0));
     matrix_B = transposition(matrix_B, size);
   }
+  double start1 = MPI_Wtime();
   std::vector<double> parallel_result = matrix_product_parallel(matrix_A, matrix_B, size);
+  double finish1 = MPI_Wtime();
   if (process_rank == 0) {
-    std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
-    ASSERT_EQ(parallel_result, real_result);
+	  double start2 = MPI_Wtime();
+	  std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
+	  double finish2 = MPI_Wtime();
+	  ASSERT_EQ(parallel_result, real_result);
+	  std::cout << finish1 - start1 << std::endl;
+	  std::cout << finish2 - start2 << std::endl;
   }
 }
 TEST(Parallel_matrix_product, 10x10) {
@@ -85,10 +109,16 @@ TEST(Parallel_matrix_product, 10x10) {
     matrix_B = createRandomMatrix(size, time(0));
     matrix_B = transposition(matrix_B, size);
   }
+  double start1 = MPI_Wtime();
   std::vector<double> parallel_result = matrix_product_parallel(matrix_A, matrix_B, size);
+  double finish1 = MPI_Wtime();
   if (process_rank == 0) {
-    std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
-    ASSERT_EQ(parallel_result, real_result);
+	  double start2 = MPI_Wtime();
+	  std::vector<double> real_result = matrix_product_sequential(matrix_A, matrix_B, size);
+	  double finish2 = MPI_Wtime();
+	  ASSERT_EQ(parallel_result, real_result);
+	  std::cout << finish1 - start1 << std::endl;
+	  std::cout << finish2 - start2 << std::endl;
   }
 }
 
