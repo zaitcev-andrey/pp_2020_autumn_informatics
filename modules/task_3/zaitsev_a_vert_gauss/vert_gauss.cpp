@@ -47,7 +47,7 @@ std::vector<double> createGaussianKernel(int radius, int sigma) {
   }
 
   // normalizing the kernel
-  for (int i = 0; i < diametr * diametr; i++)
+  for (int i = 0; i < static_cast<int>(diametr * diametr); i++)
     kernel[i] /= norm;
   return kernel;
 }
