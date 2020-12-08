@@ -31,7 +31,7 @@ std::vector<double> transposition(const std::vector<double>& matrix, int rows, i
 }
 
 std::vector<double> createGaussianKernel(int radius, int sigma) {
-  const unsigned int diametr = 2 * radius + 1;
+  int diametr = 2 * radius + 1;
   // coef of normalization of kernel
   double norm = 0;
   // creating gauss kernel
@@ -47,7 +47,7 @@ std::vector<double> createGaussianKernel(int radius, int sigma) {
   }
 
   // normalizing the kernel
-  for (int i = 0; i < static_cast<int>(diametr * diametr); i++)
+  for (int i = 0; i < diametr * diametr; i++)
     kernel[i] /= norm;
   return kernel;
 }
